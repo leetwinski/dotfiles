@@ -1,0 +1,12 @@
+/elpa
+*~
+/.cache
+/.mc-lists.el
+/eglot*
+/multisession
+/projects
+/eshell
+/share
+/recentf
+/transient
+/tree-sitter
