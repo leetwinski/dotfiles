@@ -1,13 +1,12 @@
 (use-package eglot-java
-  :ensure t
-  :hook
-  (java-mode . eglot-java-mode))
+  :ensure t)
 
-(use-package java-mode
-  :mode "\\.java\\'"
-  :hook
-  (java-mode . (lambda ()
-                 (eglot-ensure t)
-                 (eldoc-mode +1))))
+(add-hook 'java-mode-hook (lambda ()
+                            (eglot-ensure)
+                            (eglot-java-mode 1)
+                            (eldoc-mode +1)))
+
+(use-package groovy-mode
+  :ensure t)
 
 (provide 'prog-java)

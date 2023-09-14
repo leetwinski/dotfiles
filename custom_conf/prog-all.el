@@ -28,6 +28,7 @@
   :hook
   (after-save . (lambda ()
                   (ignore-errors (eglot-format-buffer))))
+  :custom (eglot-connect-timeout 180)
   :init
   
   :config
