@@ -16,7 +16,9 @@
   (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-wilmersdorf t)
-  (load-theme 'doom-sourcerer t)
+  ;; (load-theme 'doom-sourcerer t)
+  ;; (load-theme 'doom-henna t)
+  (load-theme 'doom-gruvbox t)
   (set-face-foreground 'vertical-border "black")
   (set-face-background 'vertical-border nil)
   ;; Enable flashing mode-line on errors
