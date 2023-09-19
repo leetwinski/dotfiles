@@ -212,4 +212,6 @@
 
 (global-set-key (kbd "C-c DEL") 'delete-all-space)
 
+(setf bookmark-save-flag 1)
+
 (provide 'base)

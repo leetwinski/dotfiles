@@ -3,6 +3,16 @@
   :bind-keymap
   ("<f12>" . project-prefix-map))
 
+(cl-defmethod project-root ((project string))
+  project)
+
+(defun local/project-try-explicit (dir)
+  "Find a super-directory of DIR containing a root file."
+  (locate-dominating-file dir ".root"))
+
+(add-hook 'project-find-functions
+	  #'local/project-try-explicit)
+
 (use-package eglot
   :init
   (defvar eglot-keymap (make-sparse-keymap))
