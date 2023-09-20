@@ -211,6 +211,7 @@
 (setq tramp-auto-save-directory autosave-dir)
 
 (global-set-key (kbd "C-c DEL") 'delete-all-space)
+(global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 
 (setf bookmark-save-flag 1)
 

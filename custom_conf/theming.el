@@ -17,8 +17,10 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-wilmersdorf t)
   ;; (load-theme 'doom-sourcerer t)
-  ;; (load-theme 'doom-henna t)
-  (load-theme 'doom-gruvbox t)
+
+  ;; (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-miramare t)
+
   (set-face-foreground 'vertical-border "black")
   (set-face-background 'vertical-border nil)
   ;; Enable flashing mode-line on errors
@@ -39,6 +41,16 @@
 (use-package nerd-icons-ibuffer
   :ensure t
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+
+(defun set-background-for-terminal (&optional frame)
+  (or frame (setq frame (selected-frame)))
+  "unsets the background color in terminal mode"
+  (unless (display-graphic-p frame)
+    (set-face-background 'default "unspecified-bg" frame)
+    (set-face-background 'region "color-235" frame)))
+
+(add-hook 'after-make-frame-functions 'set-background-for-terminal)
+(add-hook 'window-setup-hook 'set-background-for-terminal)
 
 ;; (use-package all-the-icons
 ;;   :ensure t)
