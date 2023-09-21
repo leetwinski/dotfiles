@@ -33,7 +33,7 @@
 (use-package expand-region
   :ensure t
   :bind
-  ("C-c @ @" . er/expand-region)
+  ("C-c SPC" . er/expand-region)
   ("C-c @ f" . er/mark-defun)
   ("C-c @ ;" . er/mark-comment)
   ("C-c @ ." . er/mark-sentence)
@@ -134,7 +134,7 @@
   :config
   (defvar mc-map (make-sparse-keymap))
   :bind-keymap
-  ("C-c #" . mc-map)
+  ("C-c *" . mc-map)
   :bind
   (:map search-map
         ("`" . mc/mark-more-like-this-extended))
