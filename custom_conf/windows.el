@@ -27,4 +27,6 @@
 
 (use-package golden-ratio :ensure t)
 
+(winner-mode t)
+
 (provide 'windows)

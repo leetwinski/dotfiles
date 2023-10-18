@@ -17,10 +17,8 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-wilmersdorf t)
   ;; (load-theme 'doom-sourcerer t)
-
   ;; (load-theme 'doom-gruvbox t)
   (load-theme 'doom-miramare t)
-
   (set-face-foreground 'vertical-border "black")
   (set-face-background 'vertical-border nil)
   ;; Enable flashing mode-line on errors
@@ -29,7 +27,14 @@
   ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
   ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  )
+
+;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 13")
+
+;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
+;;                            :size 17
+;;                            :weight 'semilight))
 
 (use-package doom-modeline
   :ensure t
@@ -46,11 +51,53 @@
   (or frame (setq frame (selected-frame)))
   "unsets the background color in terminal mode"
   (unless (display-graphic-p frame)
-    (set-face-background 'default "unspecified-bg" frame)
-    (set-face-background 'region "color-235" frame)))
+    ;; (set-face-background 'default "unspecified-bg" frame)
+    (set-face-background 'region "gray23" frame)))
+
+;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 130)
+;; (set-frame-font "FiraCode Nerd Font Mono Light" nil t)
 
 (add-hook 'after-make-frame-functions 'set-background-for-terminal)
-(add-hook 'window-setup-hook 'set-background-for-terminal)
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133)))
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133))
+
+;; (add-hook 'window-setup-hook 'set-background-for-terminal)
+
+(use-package ligature
+  :ensure t
+  :config
+  ;; Enable the www ligature in every possible major mode
+  (ligature-set-ligatures t '("www"))
+
+  ;; Enable ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
+
+(custom-set-faces
+ ;; other faces
+ ;; '(magit-diff-added ((((type tty)) (:foreground "green"))))
+ ;; '(magit-diff-added-highlight ((((type tty)) (:foreground "LimeGreen"))))
+ ;; '(magit-diff-context-highlight ((((type tty)) (:foreground "default"))))
+ ;; '(magit-diff-file-heading ((((type tty)) nil)))
+ ;; '(magit-diff-removed ((((type tty)) (:foreground "red"))))
+ '(magit-diff-removed-highlight ((((type tty))
+                                  (:background "gray29"))))
+ ;; '(magit-section-highlight ((((type tty)) nil)))
+ )
 
 ;; (use-package all-the-icons
 ;;   :ensure t)
@@ -65,4 +112,3 @@
 ;;   :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
 
 (provide 'theming)
-

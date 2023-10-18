@@ -1,7 +1,8 @@
 (use-package project
   :ensure t
   :bind-keymap
-  ("<f12>" . project-prefix-map))
+  ("<f12>" . project-prefix-map)
+  ("C-c p" . project-prefix-map))
 
 (cl-defmethod project-root ((project string))
   project)
@@ -119,20 +120,21 @@
   (prog-mode . (lambda () (hs-minor-mode 1)))
 
   :bind-keymap
-  ("C-c C-/" . hs-map)
-
+  ("C-c =" . hs-map)
   :bind
+  ("C-c C-/" . hs-toggle-hiding)
+  ("C-c C-_" . hs-toggle-hiding)
+  ("C-c M--" . hs-hide-all)
+  ("C-c M-=" . hs-show-all)
   (:map hs-map
-        ("C-h" . hs-hide-block)
-        ("C-s" . hs-show-block)
-        ("C-M-h" . hs-hide-all)
-        ("C-M-s" . hs-show-all)
-        ("C-l" . hs-hide-level)
-        ("C-c" . hs-toggle-hiding)
-        ("C-a" . hs-show-all)
-        ("C-t" . hs-hide-all)
-        ("C-d" . hs-hide-block)
-        ("C-e" . hs-toggle-hiding)))
+        ("-" . hs-hide-block)
+        ("+" . hs-show-block)
+        ("M--" . hs-hide-all)
+        ("M-=" . hs-show-all)
+        ("l" . hs-hide-level)
+        ("=" . hs-toggle-hiding)
+        ("a" . hs-show-all)
+        ("n" . hs-hide-all)))
 
 (use-package pretty-mode
   :ensure t
@@ -146,7 +148,6 @@
   :ensure t
   :init
   (global-tree-sitter-mode t)
-  (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html))
-  )
+  (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html)))
 
 (provide 'prog-all)

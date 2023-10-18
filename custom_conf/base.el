@@ -33,21 +33,21 @@
 (use-package expand-region
   :ensure t
   :bind
-  ("C-c SPC" . er/expand-region)
-  ("C-c @ f" . er/mark-defun)
-  ("C-c @ ;" . er/mark-comment)
-  ("C-c @ ." . er/mark-sentence)
-  ("C-c @ m" . er/mark-email)
-  ("C-c @ u" . er/mark-url)
-  ("C-c @ p" . er/mark-paragraph)
-  ("C-c @ w" . er/mark-word)
-  ("C-c @ '" . er/mark-inside-quotes)
-  ("C-c @ \"" . er/mark-outside-quotes)
-  ("C-c @ [" . er/mark-inside-pairs)
-  ("C-c @ {" . er/mark-outside-pairs)
-  ("C-c @ s" . er/mark-symbol)
-  ("C-c @ S" . er/mark-symbol-with-prefix)
-  ("C-c @ (" . er/mark-method-call))
+  ("C-c . ." . er/expand-region)
+  ("C-c . f" . er/mark-defun)
+  ("C-c . ;" . er/mark-comment)
+  ("C-c . |" . er/mark-sentence)
+  ("C-c . m" . er/mark-email)
+  ("C-c . u" . er/mark-url)
+  ("C-c . p" . er/mark-paragraph)
+  ("C-c . w" . er/mark-word)
+  ("C-c . '" . er/mark-inside-quotes)
+  ("C-c . \"" . er/mark-outside-quotes)
+  ("C-c . [" . er/mark-inside-pairs)
+  ("C-c . {" . er/mark-outside-pairs)
+  ("C-c . s" . er/mark-symbol)
+  ("C-c . S" . er/mark-symbol-with-prefix)
+  ("C-c . (" . er/mark-method-call))
 
 (use-package page-break-lines
   :ensure t
@@ -134,7 +134,7 @@
   :config
   (defvar mc-map (make-sparse-keymap))
   :bind-keymap
-  ("C-c *" . mc-map)
+  ("C-c |" . mc-map)
   :bind
   (:map search-map
         ("`" . mc/mark-more-like-this-extended))
@@ -214,5 +214,13 @@
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 
 (setf bookmark-save-flag 1)
+
+(use-package drag-stuff
+  :ensure t
+  :config
+  ;; (drag-stuff-define-keys)
+  ;; (drag-stuff-global-mode t)
+)
+
 
 (provide 'base)
