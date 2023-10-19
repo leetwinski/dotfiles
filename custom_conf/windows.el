@@ -1,15 +1,17 @@
 (use-package popper
   :ensure t ; or :straight t
-  :bind (("C-`"   . popper-toggle-latest)
+  :bind (("C-c `"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
+         ("C-c M-`" . popper-toggle-type))
   :custom
   (popper-window-height 14)
   (popper-reference-buffers '("\\*Messages\\*"
                               "Output\\*$"
                               "\\*xref\\*"
                               "\\*Async Shell Command\\*"
-                              "\\*eldoc\\*"
+                              "\\*eldoc"
+                              eshell-mode
+                              vterm-mode
                               help-mode
                               compilation-mode))
   :init

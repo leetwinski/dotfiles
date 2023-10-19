@@ -32,22 +32,27 @@
 
 (use-package expand-region
   :ensure t
+  :init
+  (defvar expand-region-keymap (make-sparse-keymap))
+  :bind-keymap
+  ("C-c ." . expand-region-keymap)
   :bind
-  ("C-c . ." . er/expand-region)
-  ("C-c . f" . er/mark-defun)
-  ("C-c . ;" . er/mark-comment)
-  ("C-c . |" . er/mark-sentence)
-  ("C-c . m" . er/mark-email)
-  ("C-c . u" . er/mark-url)
-  ("C-c . p" . er/mark-paragraph)
-  ("C-c . w" . er/mark-word)
-  ("C-c . '" . er/mark-inside-quotes)
-  ("C-c . \"" . er/mark-outside-quotes)
-  ("C-c . [" . er/mark-inside-pairs)
-  ("C-c . {" . er/mark-outside-pairs)
-  ("C-c . s" . er/mark-symbol)
-  ("C-c . S" . er/mark-symbol-with-prefix)
-  ("C-c . (" . er/mark-method-call))
+  (:map expand-region-keymap
+        ("." . er/expand-region)
+        ("f" . er/mark-defun)
+        (";" . er/mark-comment)
+        ("|" . er/mark-sentence)
+        ("m" . er/mark-email)
+        ("u" . er/mark-url)
+        ("p" . er/mark-paragraph)
+        ("w" . er/mark-word)
+        ("'" . er/mark-inside-quotes)
+        ("\"" . er/mark-outside-quotes)
+        ("[" . er/mark-inside-pairs)
+        ("{" . er/mark-outside-pairs)
+        ("s" . er/mark-symbol)
+        ("S" . er/mark-symbol-with-prefix)
+        ("(" . er/mark-method-call)))
 
 (use-package page-break-lines
   :ensure t
@@ -137,7 +142,8 @@
   ("C-c |" . mc-map)
   :bind
   (:map search-map
-        ("`" . mc/mark-more-like-this-extended))
+        ("`" . mc/mark-more-like-this-extended)
+        ("|" . mc/mark-more-like-this-extended))
   (:map mc-map
         ("l l" . mc/edit-lines)
         ("l e" . mc/edit-ends-of-lines)
@@ -151,7 +157,9 @@
         ("s f" . mc/mark-all-symbols-like-this-in-defun)
         ("s n" . mc/mark-next-symbol-like-this)
         ("s p" . mc/mark-previous-symbol-like-this)
+        ("SPC" . mc/mark-more-like-this-extended)
         ("*" . mc/mark-all-dwim)
+        ("|" . mc/mark-all-dwim)
         (". ." . mc/mark-all-like-this-dwim)
         (". ," . mc/mark-all-like-this)
         (". f" . mc/mark-all-like-this-in-defun)
@@ -163,7 +171,7 @@
 
 (use-package ibuffer
   :ensure t
-  :bind ("C-x C-b" . ibuffer))
+  :bind ("C-x M-b" . ibuffer))
 
 (defun colorize-output ()
   ;; Disable font-locking in this buffer to improve performance
@@ -222,5 +230,10 @@
   ;; (drag-stuff-global-mode t)
 )
 
+(use-package phi-search
+  :ensure t
+  :bind
+  ("C-s" . phi-search)
+  ("C-r" . phi-search-backward))
 
 (provide 'base)

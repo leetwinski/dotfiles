@@ -150,4 +150,19 @@
   (global-tree-sitter-mode t)
   (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html)))
 
+(use-package string-inflection
+  :ensure t
+  :init
+  (defvar string-inflection-keymap (make-sparse-keymap))
+  :bind-keymap
+  ("C-c ," . string-inflection-keymap)
+  :bind
+  (:map string-inflection-keymap
+        ("," . string-inflection-all-cycle)
+        ("-" . string-inflection-lisp)
+        ("_" . string-inflection-underscore)
+        ("^" . string-inflection-upcase)
+        ("+" . string-inflection-camelcase)
+        ("=" . string-inflection-lower-camelcase)))
+
 (provide 'prog-all)
