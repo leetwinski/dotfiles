@@ -220,6 +220,7 @@
 
 (global-set-key (kbd "C-c DEL") 'delete-all-space)
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
+(global-set-key (kbd "C-M-]") 'up-list)
 
 (setf bookmark-save-flag 1)
 
@@ -235,5 +236,11 @@
   :bind
   ("C-s" . phi-search)
   ("C-r" . phi-search-backward))
+
+;; shadowing file paths, e.g. when ~ is inserted
+(setq file-name-shadow-properties '(invisible t intangible t))
+(setq file-name-shadow-tty-properties '(invisible t intangible t))
+(file-name-shadow-mode +1)
+;; -----------
 
 (provide 'base)

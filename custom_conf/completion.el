@@ -195,7 +195,7 @@
 
 (use-package vertico-prescient
   :ensure t
-  :init
+  :config
   (vertico-prescient-mode t))
 ;; end completion
 

@@ -10,6 +10,7 @@
                               "\\*xref\\*"
                               "\\*Async Shell Command\\*"
                               "\\*eldoc"
+                              "\\*Flymake diagnostics"
                               eshell-mode
                               vterm-mode
                               help-mode
