@@ -244,8 +244,8 @@
 (file-name-shadow-mode +1)
 ;; -----------
 
-(use-package xclip :ensure t
-  :config
-  (xclip-mode +1))
+(use-package clipetty
+  :ensure t
+  :hook (after-init . global-clipetty-mode))
 
 (provide 'base)
