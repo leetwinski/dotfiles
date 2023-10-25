@@ -31,9 +31,23 @@
 (use-package golden-ratio
   :ensure t
   :bind
-  ("C-c %" . golden-ratio)
-  ("C-c M-%" . golden-ratio-mode))
+  ("C-c r %" . golden-ratio)
+  ("C-c r M-%" . golden-ratio-mode))
 
 (winner-mode t)
+
+(use-package cycle-resize
+  :ensure t
+  :config
+  (setq cycle-resize-steps '(66 50 33 50))
+  :bind
+  ("C-c r n" . cycle-resize-window-vertically)
+  ("C-c r f" . cycle-resize-window-horizontally)
+  ("C-c r SPC" . cycle-resize-window-horizontally))
+
+(use-package windresize
+  :ensure t
+  :bind
+  ("C-c r r" . windresize))
 
 (provide 'windows)
