@@ -235,7 +235,8 @@
   :ensure t
   :bind
   ("C-s" . phi-search)
-  ("C-r" . phi-search-backward))
+  ("C-r" . phi-search-backward)
+  ("M-%" . phi-replace-query))
 
 ;; shadowing file paths, e.g. when ~ is inserted
 (setq file-name-shadow-properties '(invisible t intangible t))
