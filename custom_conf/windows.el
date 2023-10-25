@@ -28,7 +28,11 @@
   (windmove-display-default-keybindings)
   (windmove-delete-default-keybindings))
 
-(use-package golden-ratio :ensure t)
+(use-package golden-ratio
+  :ensure t
+  :bind
+  ("C-c %" . golden-ratio)
+  ("C-c M-%" . golden-ratio-mode))
 
 (winner-mode t)
 
