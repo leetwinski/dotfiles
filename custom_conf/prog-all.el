@@ -1,8 +1,26 @@
+
+(defun project-tmux-maybe-new-window (dir)
+  "Open project in new tmux window, or raise if exists."
+  (interactive (list (project-prompt-project-dir)))
+  (let* ((pname (concat (file-name-nondirectory (directory-file-name dir))))
+         (project-win (string-trim
+                       (shell-command-to-string
+                        (format "tmux list-windows -F '#I #W' | grep -m 1 '\\[p\\]%s$' | awk '{print $1}'"
+                                pname)))))
+    (if (string-empty-p project-win)
+        (shell-command (format "tmux new-window -n '[p]%s' emacsclient -nw -c '%s'"
+                               pname
+                               dir))
+      (shell-command (format "tmux select-window -t '%s'" project-win)))))
+
 (use-package project
   :ensure t
   :bind-keymap
   ("<f12>" . project-prefix-map)
-  ("C-c p" . project-prefix-map))
+  ("C-c p" . project-prefix-map)
+  :bind
+  (:map project-prefix-map
+        ("_" . project-tmux-maybe-new-window)))
 
 (cl-defmethod project-root ((project string))
   project)
@@ -12,7 +30,15 @@
   (locate-dominating-file dir ".root"))
 
 (add-hook 'project-find-functions
-	  #'local/project-try-explicit)
+	      #'local/project-try-explicit)
+
+(use-package ibuffer-project
+  :ensure t
+  :hook
+  (ibuffer . (lambda ()
+               (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+               (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                 (ibuffer-do-sort-by-project-file-relative)))))
 
 (use-package eglot
   :init
@@ -51,6 +77,7 @@
   )
 
 (use-package flymake
+  :ensure t
   :init
   (defvar flymake-keymap (make-sparse-keymap))
 
