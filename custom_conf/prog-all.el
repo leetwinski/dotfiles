@@ -1,4 +1,3 @@
-
 (defun project-tmux-maybe-new-window (dir)
   "Open project in new tmux window, or raise if exists."
   (interactive (list (project-prompt-project-dir)))
@@ -15,11 +14,14 @@
 
 (use-package project
   :ensure t
-  :bind-keymap
-  ("<f12>" . project-prefix-map)
-  ("C-c p" . project-prefix-map)
+  :custom
+  (project-switch-commands '((project-find-file "File")
+                             (project-find-dir "Dir")
+                             (project-find-regexp "Regexp")
+                             (project-magit-or-vc-dir "VC")
+                             (project-eshell "Eshell")))
   :bind
-  (:map project-prefix-map
+  (:map project-other-frame-map
         ("_" . project-tmux-maybe-new-window)))
 
 (cl-defmethod project-root ((project string))

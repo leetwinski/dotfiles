@@ -119,7 +119,7 @@
   :ensure t
   :bind
   (:map search-map
-        ("a g" . consult-ag)))
+        ("s" . consult-ag)))
 
 (use-package company
   :ensure t
