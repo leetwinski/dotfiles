@@ -194,4 +194,10 @@
         ("+" . string-inflection-camelcase)
         ("=" . string-inflection-lower-camelcase)))
 
+(use-package surround
+  :ensure t
+  :defer t
+  :bind-keymap
+  ("C-c s" . surround-keymap))
+
 (provide 'prog-all)
