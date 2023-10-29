@@ -13,6 +13,7 @@
 
 (use-package cider
   :ensure t
+  :defer t
   :bind)
 
 (use-package sotclojure
