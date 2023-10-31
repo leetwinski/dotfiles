@@ -222,7 +222,7 @@
 (global-set-key (kbd "C-c DEL l") 'kill-whole-line)
 
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
-(global-set-key (kbd "C-M-]") 'up-list)
+(global-set-key (kbd "C-M-y") 'up-list)
 
 (setf bookmark-save-flag 1)
 

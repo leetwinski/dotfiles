@@ -1,6 +1,6 @@
 (use-package popper
   :ensure t ; or :straight t
-  :bind (("C-c `"   . popper-toggle-latest)
+  :bind (("C-c C-SPC"   . popper-toggle-latest)
          ("M-`"   . popper-cycle)
          ("C-c M-`" . popper-toggle-type))
   :custom
