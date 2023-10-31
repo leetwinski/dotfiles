@@ -218,7 +218,9 @@
 (setq tramp-backup-directory-alist backup-directory-alist)
 (setq tramp-auto-save-directory autosave-dir)
 
-(global-set-key (kbd "C-c DEL") 'delete-all-space)
+(global-set-key (kbd "C-c DEL DEL") 'delete-all-space)
+(global-set-key (kbd "C-c DEL l") 'kill-whole-line)
+
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 (global-set-key (kbd "C-M-]") 'up-list)
 

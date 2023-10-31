@@ -42,7 +42,7 @@
          ("D" . consult-locate)
          ("g" . consult-grep)
          ("G" . consult-git-grep)
-         ("r" . consult-ripgrep)
+         ("s" . consult-ripgrep)
          ("l" . consult-line)
          ("L" . consult-line-multi)
          ("k" . consult-keep-lines)
@@ -105,8 +105,7 @@
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-  (setq consult-project-function #'consult--default-project-function)
-)
+  (setq consult-project-function #'consult--default-project-function))
 
 (use-package consult-dir
   :ensure t
@@ -119,7 +118,7 @@
   :ensure t
   :bind
   (:map search-map
-        ("s" . consult-ag)))
+        ("a" . consult-ag)))
 
 (use-package company
   :ensure t

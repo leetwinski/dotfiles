@@ -200,4 +200,17 @@
   :bind-keymap
   ("C-c s" . surround-keymap))
 
+;; (use-package puni
+;;   :ensure t
+;;   :defer t
+;;   :hook
+;;   (prog-mode . (lambda ()
+;;                  ;; exclude puni for lisp modes. use paredit instead
+;;                  (unless (seq-some #'derived-mode-p
+;;                                    '(lisp-mode
+;;                                      common-lisp-mode
+;;                                      emacs-lisp-mode
+;;                                      clojure-mode))
+;;                    (puni-mode +1)))))
+
 (provide 'prog-all)
