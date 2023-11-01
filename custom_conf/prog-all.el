@@ -165,10 +165,6 @@
         ("a" . hs-show-all)
         ("n" . hs-hide-all)))
 
-(use-package pretty-mode
-  :ensure t
-  :hook (prog-mode . turn-on-pretty-mode))
-
 (use-package electric
   :ensure t
   :hook (prog-mode . electric-pair-mode))
