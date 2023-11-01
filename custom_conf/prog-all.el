@@ -113,6 +113,7 @@
   (prog-mode . rainbow-delimiters-mode))
 
 (add-hook 'prog-mode-hook #'subword-mode)
+(add-hook 'prog-mode-hook #'prettify-symbols-mode)
 
 (use-package ws-butler
   :ensure t
