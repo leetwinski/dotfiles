@@ -250,4 +250,6 @@
   :ensure t
   :hook (after-init . global-clipetty-mode))
 
+(xterm-mouse-mode t)
+
 (provide 'base)
