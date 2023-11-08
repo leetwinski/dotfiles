@@ -94,6 +94,9 @@
  ;; '(magit-diff-context-highlight ((((type tty)) (:foreground "default"))))
  ;; '(magit-diff-file-heading ((((type tty)) nil)))
  ;; '(magit-diff-removed ((((type tty)) (:foreground "red"))))
+ '(mode-line-inactive ((((type tty))
+                        (:background "color-236"))))
+
  '(magit-diff-removed-highlight ((((type tty))
                                   (:background "gray29"))))
  ;; '(magit-section-highlight ((((type tty)) nil)))
