@@ -173,6 +173,44 @@
   :ensure t
   :bind ("C-x M-b" . ibuffer))
 
+(use-package bufferlo
+  :ensure t
+  :config
+  (bufferlo-mode 1)
+
+  (defvar my-consult--source-local-buffer
+    `(:name "Local Buffers"
+            :narrow   ?l
+            :category buffer
+            :face     consult-buffer
+            :history  buffer-name-history
+            :state    ,#'consult--buffer-state
+            :default  t
+            :items ,(lambda () (consult--buffer-query
+                           :predicate #'bufferlo-local-buffer-p
+                           :sort 'visibility
+                           :as #'buffer-name)))
+    "Local buffer candidate source for `consult-buffer'.")
+
+  (defvar my-consult--source-buffer
+    `(:name "Other Buffers"
+            :narrow   ?b
+            :category buffer
+            :face     consult-buffer
+            :history  buffer-name-history
+            :state    ,#'consult--buffer-state
+            :items ,(lambda () (consult--buffer-query
+                           :predicate #'bufferlo-non-local-buffer-p
+                           :sort 'visibility
+                           :as #'buffer-name)))
+    "Non-local buffer candidate source for `consult-buffer'.")
+
+  (setq consult-buffer-sources '(consult--source-hidden-buffer
+                                 my-consult--source-local-buffer
+                                 my-consult--source-buffer
+                                 ;; ... other sources ...
+                                 )))
+
 (defun colorize-output ()
   ;; Disable font-locking in this buffer to improve performance
   (font-lock-mode -1)
