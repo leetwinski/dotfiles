@@ -15,14 +15,8 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-wilmersdorf t)
-  ;; (load-theme 'doom-sourcerer t)
-  ;; (load-theme 'doom-gruvbox t)
-  ;; (load-theme 'doom-miramare t)
 
-  ;; (load-theme 'doom-wilmersdorf t)
-  (load-theme 'doom-opera t)
-  ;; (set-face-foreground 'vertical-border "black")
+  (load-theme 'doom-miramare t)
   (set-face-background 'vertical-border nil)
   ;; Enable flashing mode-line on errors
   ;; (doom-themes-visual-bell-config)
@@ -50,17 +44,23 @@
   :ensure t
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
-(defun set-background-for-terminal (&optional frame)
+(defun set-faces-for-terminal (&optional frame)
   (or frame (setq frame (selected-frame)))
-  "unsets the background color in terminal mode"
+  "sets misc faces in terminal mode"
   (unless (display-graphic-p frame)
+    (set-face-attribute 'phi-search-selection-face nil
+                        :foreground "white"
+                        :bold t
+                        :box t
+                        :background "color-58")
+    (set-face-attribute 'phi-search-match-face nil
+                        :foreground "white"
+                        :bold nil
+                        :background "color-59")
     (set-face-background 'default "unspecified-bg" frame)
     (set-face-background 'region "gray23" frame)))
 
-;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 130)
-;; (set-frame-font "FiraCode Nerd Font Mono Light" nil t)
-
-(add-hook 'after-make-frame-functions 'set-background-for-terminal)
+(add-hook 'after-make-frame-functions 'set-faces-for-terminal)
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -68,8 +68,6 @@
                 (select-frame frame)
                 (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133)))
   (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133))
-
-;; (add-hook 'window-setup-hook 'set-background-for-terminal)
 
 (use-package ligature
   :ensure t

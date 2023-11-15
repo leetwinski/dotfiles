@@ -125,11 +125,12 @@
   :ensure t
   :config
   (global-company-mode t)
-
   :init
   ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)
-  ;; (add-to-list 'completion-at-point-functions 'company-complete)
   :bind ("C-M-i" . company-complete)
+  ;; :hook (prog-mode . (lambda () (add-to-list
+  ;;                           'completion-at-point-functions
+  ;;                           #'company-complete)))
   )
 
 (use-package company-quickhelp
