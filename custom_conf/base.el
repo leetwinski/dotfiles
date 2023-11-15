@@ -276,7 +276,15 @@
   :bind
   ("C-s" . phi-search)
   ("C-r" . phi-search-backward)
-  ("M-%" . phi-replace-query))
+  ("M-%" . phi-replace-query)
+  :config
+  (set-face-attribute 'phi-search-selection-face nil
+                      :foreground "color-161"
+                      :background "color-24")
+
+  (set-face-attribute 'phi-search-match-face nil
+                      :foreground "white"
+                      :background "color-24"))
 
 ;; shadowing file paths, e.g. when ~ is inserted
 (setq file-name-shadow-properties '(invisible t intangible t))

@@ -18,8 +18,11 @@
   ;; (load-theme 'doom-wilmersdorf t)
   ;; (load-theme 'doom-sourcerer t)
   ;; (load-theme 'doom-gruvbox t)
-  (load-theme 'doom-miramare t)
-  (set-face-foreground 'vertical-border "black")
+  ;; (load-theme 'doom-miramare t)
+
+  ;; (load-theme 'doom-wilmersdorf t)
+  (load-theme 'doom-opera t)
+  ;; (set-face-foreground 'vertical-border "black")
   (set-face-background 'vertical-border nil)
   ;; Enable flashing mode-line on errors
   ;; (doom-themes-visual-bell-config)
@@ -51,7 +54,7 @@
   (or frame (setq frame (selected-frame)))
   "unsets the background color in terminal mode"
   (unless (display-graphic-p frame)
-    ;; (set-face-background 'default "unspecified-bg" frame)
+    (set-face-background 'default "unspecified-bg" frame)
     (set-face-background 'region "gray23" frame)))
 
 ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 130)

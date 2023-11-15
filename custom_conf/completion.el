@@ -83,7 +83,8 @@
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
-
+  (set-face-attribute 'consult-preview-match nil
+                      :foreground "color-161")
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
