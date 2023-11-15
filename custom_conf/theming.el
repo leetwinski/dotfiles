@@ -48,15 +48,6 @@
   (or frame (setq frame (selected-frame)))
   "sets misc faces in terminal mode"
   (unless (display-graphic-p frame)
-    (set-face-attribute 'phi-search-selection-face nil
-                        :foreground "white"
-                        :bold t
-                        :box t
-                        :background "color-58")
-    (set-face-attribute 'phi-search-match-face nil
-                        :foreground "white"
-                        :bold nil
-                        :background "color-59")
     (set-face-background 'default "unspecified-bg" frame)
     (set-face-background 'region "gray23" frame)))
 

@@ -84,7 +84,9 @@
   ;; after lazily loading the package.
   :config
   (set-face-attribute 'consult-preview-match nil
-                      :foreground "color-161")
+                      :background "yellow"
+                      :foreground "black"
+                      :bold t)
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
