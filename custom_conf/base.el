@@ -294,5 +294,6 @@
   :hook (after-init . global-clipetty-mode))
 
 (xterm-mouse-mode t)
+(bind-key (kbd "C-c [")  #'vterm-copy-mode)
 
 (provide 'base)

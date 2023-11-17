@@ -49,7 +49,9 @@
   "sets misc faces in terminal mode"
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)
-    (set-face-background 'region "gray23" frame)))
+    (set-face-background 'vterm-color-black "brightblack" frame)
+    (set-face-background 'region "gray23" frame))
+  )
 
 (add-hook 'after-make-frame-functions 'set-faces-for-terminal)
 
