@@ -1,3 +1,4 @@
+
 (use-package tabnine
   :ensure t
   :commands (tabnine-start-process)
@@ -12,11 +13,15 @@
   (add-to-list 'completion-at-point-functions #'tabnine-completion-at-point)
   (tabnine-start-process)
   :bind
+  ("C-c t" . tabnine-mode)
+  ("C-c C-M-i" . tabnine-complete)
+  :bind
   (:map tabnine-completion-map
 	    ("C-<tab>" . tabnine-accept-completion)
 	    ("C-TAB" . tabnine-accept-completion)
 	    ("M-f" . tabnine-accept-completion-by-word)
 	    ("M-<return>" . tabnine-accept-completion-by-line)
+	    ("M-RET" . tabnine-accept-completion-by-line)
 	    ("C-g" . tabnine-clear-overlay)
 	    ("M-[" . tabnine-previous-completion)
 	    ("M-]" . tabnine-next-completion)))

@@ -57,6 +57,7 @@
         ("g i" . eglot-find-implementation)
         ("g t" . eglot-find-typeDefinition)
         ("a a" . eglot-code-actions)
+        ("!" . eglot-code-actions)
         ("a q" . eglot-code-action-quickfix)
         ("a i" . eglot-code-action-organize-imports)
         ("a -" . eglot-code-action-inline)
