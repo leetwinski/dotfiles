@@ -27,10 +27,7 @@
 
 (defun slime-mrepl-hook ()
   (slime-hook)
-  (bind-key "M-RET" 'sly-mrepl-return 'sly-mrepl-mode-map)
-  )
-
-
+  (bind-key "M-RET" 'sly-mrepl-return 'sly-mrepl-mode-map))
 
 (use-package sly
   :ensure t

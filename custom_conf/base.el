@@ -20,6 +20,7 @@
             (scroll-bar-mode -1)
             (fringe-mode nil)
             (setq-default indent-tabs-mode nil)
+            (setq-default truncate-lines t)
             (setf ring-bell-function #'ignore)
             (put 'upcase-region 'disabled nil)
             (put 'downcase-region 'disabled nil)))
