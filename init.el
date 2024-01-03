@@ -4,10 +4,6 @@
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("gnu" . "http://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (add-to-list 'load-path "~/.emacs.d/custom_conf/")
 
@@ -30,6 +26,7 @@
                      prog-kotlin
                      prog-zig
                      prog-go
+                     prog-c
                      prog-data-formats
                      prog-nix
                      prog-ocaml
@@ -39,19 +36,17 @@
                      org-stuff
                      ai))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("02d422e5b99f54bd4516d4157060b874d14552fe613ea7047c4a5cfa1288cf4f" "89d9dc6f4e9a024737fb8840259c5dd0a140fd440f5ed17b596be43a05d62e67" "f87f74ecd2ff6dc433fb4af4e76d19342ea4c50e4cd6c265b712083609c9b567" default))
- '(package-selected-packages
-   '(bufferlo puni surround ibuffer-project flymake cycle-resize windresize clipetty tuareg string-inflection phi-search drag-stuff ligature org-babel org-roam elfeed consult-notmuch notmuch telega groovy-mode eglot toml-mode csv-mode vundo flyspell-correct consult-flyspell golden-ratio doom-themes diredfl treemacs-nerd-icons kotlin-mode docker dockerfile-mode docker-file-mode racket-mode project-treemacs treemacs-magit nerd-icons-ibuffer nerd-icons-dired eglot-java java-mode julia-snail julia-mode company-quickhelp emmet-mode xterm-color dired-filter dired-efap cargo-mode wgrep consult-ag expand-region consult-dir page-break-lines starhugger tabnine popper tree-sitter-langs tree-sitter consult-yasnippet yasnippet-snippets yasnippets sly common-lisp-mode clj-refactor sotclojure cider ws-butler doom-modeline embark-consult rainbow-delimiters raindow-delimiters company-mode consult-company consult-project-extra avy exec-path-from-shell typescript-mode magit paredit vertico-prescient prescient marginalia vertico consult no-clown-fiesta-theme leaf)))
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(magit-diff-removed-highlight ((((type tty)) (:background "gray29"))))
  '(mode-line-inactive ((((type tty)) (:background "color-236")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(license-snippets java-snippets go-snippets common-lisp-snippets clojure-snippets starhugger tabnine org-roam zig-mode yasnippet-snippets xterm-color ws-butler windresize wgrep web-mode vundo vertico-prescient typescript-mode tuareg treemacs-nerd-icons treemacs-magit tree-sitter-langs toml-mode telega surround string-inflection sotclojure sly rust-mode rainbow-delimiters racket-mode project-treemacs popper phi-search page-break-lines nix-mode nerd-icons-ibuffer nerd-icons-dired markdown-mode marginalia ligature kotlin-mode julia-snail json-mode ibuffer-project guru-mode groovy-mode golden-ratio go-mode flyspell-correct expand-region exec-path-from-shell emmet-mode embark-consult emacsql elfeed eglot-java drag-stuff doom-themes doom-modeline dockerfile-mode docker diredfl dired-filter dired-efap cycle-resize csv-mode consult-yasnippet consult-project-extra consult-notmuch consult-flyspell consult-eglot consult-dir consult-company consult-ag company-quickhelp clj-refactor clipetty cargo-mode bufferlo)))

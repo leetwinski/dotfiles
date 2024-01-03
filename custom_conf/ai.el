@@ -34,6 +34,6 @@
   (starhugger-model-api-endpoint-url
    "https://api-inference.huggingface.co/models/bigcode/starcoderplus")
   :bind
-  ("C-c C-*" . starhugger-trigger-suggestion))
+  ("C-c C-M-i" . starhugger-trigger-suggestion))
 
 (provide 'ai)
