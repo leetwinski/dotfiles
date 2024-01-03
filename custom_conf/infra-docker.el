@@ -1,5 +1,6 @@
 (use-package docker
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package dockerfile-mode
   :ensure t

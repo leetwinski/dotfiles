@@ -119,16 +119,18 @@
 
 (use-package consult-ag
   :ensure t
+  :defer t
   :bind
   (:map search-map
         ("a" . consult-ag)))
 
 (use-package company
   :ensure t
-  :config
-  (global-company-mode t)
+  ;; :config
   :init
-  ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)
+  (global-company-mode t)
+  (define-key company-mode-map [remap completion-at-point] #'company-complete)
+  :init
   :bind ("C-M-i" . company-complete)
   ;; :hook (prog-mode . (lambda () (add-to-list
   ;;                           'completion-at-point-functions
@@ -137,6 +139,7 @@
 
 (use-package company-quickhelp
   :ensure t
+  :defer t
   :after (company)
   :config
   (company-quickhelp-mode t)
@@ -198,6 +201,7 @@
 
 (use-package vertico-prescient
   :ensure t
+  :after (vertico prescient)
   :config
   (vertico-prescient-mode t))
 ;; end completion

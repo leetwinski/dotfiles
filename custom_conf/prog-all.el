@@ -36,6 +36,8 @@
 
 (use-package ibuffer-project
   :ensure t
+  :defer t
+  :after (ibuffer project)
   :hook
   (ibuffer . (lambda ()
                (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
@@ -121,29 +123,26 @@
   :init
   (ws-butler-global-mode t))
 
-(use-package tree-sitter
-  :ensure t)
-
-(use-package tree-sitter-langs
-  :ensure t
-  :config
-  (defun copy-tree-sitter-langs ()
-    (interactive)
-    (let ((dest "~/.emacs.d/tree-sitter"))
-      (delete-directory dest t)
-      (make-directory "~/.emacs.d/tree-sitter")
-      (when-let (dir (car (directory-files "~/.emacs.d/elpa" t ".*tree-sitter-langs.*")))
-        (cl-loop  with src = (expand-file-name "bin" dir)
-                  for f in (directory-files src nil ".*\\.so$")
-                  for src-file = (expand-file-name f src)
-                  for dest-file = (expand-file-name (concat "libtree-sitter-" f) dest)
-                  do (princ (format "copying %s to %s\n" src-file dest-file))
-                  do (copy-file src-file dest-file)))))
-  :defer t)
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (defun copy-tree-sitter-langs ()
+;;     (interactive)
+;;     (let ((dest "~/.emacs.d/tree-sitter"))
+;;       (delete-directory dest t)
+;;       (make-directory "~/.emacs.d/tree-sitter")
+;;       (when-let (dir (car (directory-files "~/.emacs.d/elpa" t ".*tree-sitter-langs.*")))
+;;         (cl-loop  with src = (expand-file-name "bin" dir)
+;;                   for f in (directory-files src nil ".*\\.so$")
+;;                   for src-file = (expand-file-name f src)
+;;                   for dest-file = (expand-file-name (concat "libtree-sitter-" f) dest)
+;;                   do (princ (format "copying %s to %s\n" src-file dest-file))
+;;                   do (copy-file src-file dest-file))))))
 
 (use-package hideshow
   :ensure t
-
+  :defer t
   :init
   (defvar hs-map (make-sparse-keymap))
 
@@ -173,12 +172,14 @@
 
 (use-package tree-sitter
   :ensure t
+  :defer t
   :init
   (global-tree-sitter-mode t)
   (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html)))
 
 (use-package string-inflection
   :ensure t
+  :defer t
   :init
   (defvar string-inflection-keymap (make-sparse-keymap))
   :bind-keymap

@@ -1,4 +1,6 @@
 (use-package eglot-java
+  :defer t
+  :after (java-mode)
   :ensure t)
 
 (add-hook 'java-mode-hook (lambda ()
@@ -7,6 +9,7 @@
                             (eldoc-mode +1)))
 
 (use-package groovy-mode
+  :defer t
   :ensure t)
 
 (provide 'prog-java)

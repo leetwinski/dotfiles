@@ -6,6 +6,7 @@
 
 (use-package julia-snail
   :ensure t
+  :defer t
   :hook (julia-mode . (lambda ()
                         (eldoc-mode +1)
                         (julia-snail-mode t))))

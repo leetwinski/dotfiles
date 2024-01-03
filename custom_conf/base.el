@@ -1,4 +1,6 @@
 (setf inhibit-startup-screen t)
+(setf initial-major-mode 'org-mode)
+(setf initial-scratch-message nil)
 
 ;; Minimize garbage collection during startup
 (setf gc-cons-threshold most-positive-fixnum)
@@ -11,7 +13,6 @@
             (setq-default tab-width 4)
             (menu-bar-mode -99)
             (tool-bar-mode -1)
-            (setf inhibit-startup-screen t)
             (defalias 'yes-or-no-p 'y-or-n-p)
             (setf word-wrap nil)
             (blink-cursor-mode 0)
@@ -29,6 +30,7 @@
 
 (use-package ffap
   :ensure t
+  :defer t
   :init (ffap-bindings))
 
 (use-package expand-region
@@ -68,10 +70,12 @@
 
 (use-package guru-mode
   :ensure t
-  :config
-  (guru-global-mode t))
+  :defer t
+  :config (guru-global-mode t)
+  :hook (after-init . (lambda () (guru-global-mode t))))
 
 (use-package vundo :ensure t
+  :defer t
   :config
   (setq vundo-glyph-alist vundo-ascii-symbols)
 
@@ -81,8 +85,11 @@
 
 (use-package recentf
   :ensure t
+  :defer t
+  ;; :hook (after-init . (lambda () (recentf-mode 1)))
   :init
-  (recentf-mode 1))
+  (recentf-mode 1)
+  )
 
 (use-package avy
   :ensure t
@@ -137,6 +144,7 @@
 
 (use-package multiple-cursors
   :ensure t
+  :defer t
   :config
   (defvar mc-map (make-sparse-keymap))
   :bind-keymap
@@ -172,10 +180,12 @@
 
 (use-package ibuffer
   :ensure t
+  :defer t
   :bind ("C-x M-b" . ibuffer))
 
 (use-package bufferlo
   :ensure t
+  :defer t
   :config
   (bufferlo-mode 1)
 
@@ -267,6 +277,7 @@
 
 (use-package drag-stuff
   :ensure t
+  :defer t
   :config
   ;; (drag-stuff-define-keys)
   ;; (drag-stuff-global-mode t)

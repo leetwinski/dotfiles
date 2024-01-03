@@ -35,9 +35,12 @@
 
 (use-package doom-modeline
   :ensure t
+  :defer t
+  :commands (doom-modeline-mode)
   :hook (after-init . doom-modeline-mode))
 
 (use-package nerd-icons
+  :defer t
   :ensure t)
 
 (use-package nerd-icons-ibuffer
