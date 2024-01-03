@@ -1,5 +1,6 @@
 (use-package nix-mode
   :ensure t
+  :defer t
   :hook
   (nix-mode . (lambda ()
                 (eglot-ensure)

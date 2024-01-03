@@ -1,4 +1,5 @@
 (use-package tuareg
+  :defer t
   :ensure t)
 
 (add-hook 'tuareg-mode-hook (lambda ()

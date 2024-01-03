@@ -1,10 +1,10 @@
 (use-package popper
-  :ensure t ; or :straight t
-  :bind (("C-c C-SPC"   . popper-toggle-latest)
-         ("M-`"   . popper-cycle)
+  :ensure t
+  :bind (("C-c C-SPC" . popper-toggle-latest)
+         ("M-`" . popper-cycle)
          ("C-c M-`" . popper-toggle-type))
   :custom
-  (popper-window-height 14)
+  (popper-window-height 16)
   (popper-reference-buffers '("\\*Messages\\*"
                               "Output\\*$"
                               "\\*xref\\*"

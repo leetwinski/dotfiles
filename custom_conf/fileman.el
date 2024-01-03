@@ -16,15 +16,19 @@
         ("E" . dired-efap)))
 
 (use-package dired-filter
-  :ensure t)
+  :ensure t
+  :defer t
+  :after (dired)
+  :hook (dired-mode . (lambda () (dired-filter-mode t))))
 
 (use-package treemacs
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package project-treemacs
   :ensure t
   :demand t
-  :after treemacs
+  :after (treemacs)
   :config
   (project-treemacs-mode)
   :bind
@@ -33,10 +37,13 @@
 
 (use-package treemacs-magit
   :ensure t
+  :defer t
   :after (treemacs magit))
 
 (use-package treemacs-nerd-icons
   :ensure t
+  :defer t
+  :after (treemacs)
   :config
   (treemacs-load-theme "nerd-icons"))
 

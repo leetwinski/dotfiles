@@ -83,7 +83,10 @@
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
-
+  (set-face-attribute 'consult-preview-match nil
+                      :background "yellow"
+                      :foreground "black"
+                      :bold t)
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
@@ -116,23 +119,27 @@
 
 (use-package consult-ag
   :ensure t
+  :defer t
   :bind
   (:map search-map
         ("a" . consult-ag)))
 
 (use-package company
   :ensure t
-  :config
-  (global-company-mode t)
-
+  ;; :config
   :init
-  ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)
-  ;; (add-to-list 'completion-at-point-functions 'company-complete)
+  (global-company-mode t)
+  (define-key company-mode-map [remap completion-at-point] #'company-complete)
+  :init
   :bind ("C-M-i" . company-complete)
+  ;; :hook (prog-mode . (lambda () (add-to-list
+  ;;                           'completion-at-point-functions
+  ;;                           #'company-complete)))
   )
 
 (use-package company-quickhelp
   :ensure t
+  :defer t
   :after (company)
   :config
   (company-quickhelp-mode t)
@@ -194,6 +201,7 @@
 
 (use-package vertico-prescient
   :ensure t
+  :after (vertico prescient)
   :config
   (vertico-prescient-mode t))
 ;; end completion
