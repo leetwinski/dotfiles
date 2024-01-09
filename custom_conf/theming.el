@@ -27,6 +27,11 @@
   (doom-themes-org-config)
   )
 
+;; (when (display-graphic-p)
+;;   (invert-face 'default))
+
+(set-variable 'frame-background-mode 'dark)
+
 ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 13")
 
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"

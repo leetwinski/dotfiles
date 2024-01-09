@@ -186,9 +186,9 @@
 (use-package bufferlo
   :ensure t
   :defer t
-  :config
+  :init
   (bufferlo-mode 1)
-
+  :config
   (defvar my-consult--source-local-buffer
     `(:name "Local Buffers"
             :narrow   ?l
