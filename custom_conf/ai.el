@@ -1,4 +1,3 @@
-
 (use-package tabnine
   :ensure t
   :commands (tabnine-start-process)
@@ -13,14 +12,12 @@
   (add-to-list 'completion-at-point-functions #'tabnine-completion-at-point)
   (tabnine-start-process)
   :bind
-  ("C-c t" . tabnine-mode)
+  ("C-c 9" . tabnine-mode)
   ("C-c C-M-i" . tabnine-complete)
   :bind
   (:map tabnine-completion-map
-	    ("C-<tab>" . tabnine-accept-completion)
 	    ("C-TAB" . tabnine-accept-completion)
 	    ("M-f" . tabnine-accept-completion-by-word)
-	    ("M-<return>" . tabnine-accept-completion-by-line)
 	    ("M-RET" . tabnine-accept-completion-by-line)
 	    ("C-g" . tabnine-clear-overlay)
 	    ("M-[" . tabnine-previous-completion)
@@ -34,6 +31,7 @@
   (starhugger-model-api-endpoint-url
    "https://api-inference.huggingface.co/models/bigcode/starcoderplus")
   :bind
-  ("C-c C-M-i" . starhugger-trigger-suggestion))
+  ;; ("C-c C-M-i" . starhugger-trigger-suggestion)
+  )
 
 (provide 'ai)
