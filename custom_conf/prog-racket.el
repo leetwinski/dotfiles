@@ -2,6 +2,8 @@
   :ensure t
   :defer t
   :mode "\\.rkt\\'"
+  :config
+  (unbind-key "C-M-y" racket-mode-map)
   :hook
   (racket-repl-mode . (lambda ()
                         (paredit-mode 1)
