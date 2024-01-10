@@ -199,6 +199,22 @@
   :bind-keymap
   ("C-c s" . surround-keymap))
 
+(defun insert-semi-at-eol ()
+  (interactive)
+  (call-interactively 'move-end-of-line)
+  (insert ";\n")
+  (call-interactively 'indent-for-tab-command))
+
+(defun insert-empty-line-and-go ()
+  (interactive)
+  (call-interactively 'move-end-of-line)
+  (call-interactively 'default-indent-new-line)
+  (call-interactively 'indent-for-tab-command))
+
+(define-key prog-mode-map (kbd "C-c ;") 'insert-semi-at-eol)
+(define-key prog-mode-map (kbd "C-c RET") 'insert-empty-line-and-go)
+
+
 ;; (use-package puni
 ;;   :ensure t
 ;;   :defer t

@@ -48,5 +48,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(zig-mode yasnippet-snippets xterm-color ws-butler windresize wgrep web-mode vundo vertico-prescient typescript-mode tuareg treemacs-nerd-icons treemacs-magit tree-sitter toml-mode telega tabnine surround string-inflection starhugger sotclojure sly rust-mode rainbow-delimiters racket-mode project-treemacs popper poly-org phi-search page-break-lines org-roam nix-mode nerd-icons-ibuffer nerd-icons-dired markdown-mode marginalia ligature license-snippets kotlin-mode julia-snail json-mode js2-mode java-snippets ibuffer-project guru-mode groovy-mode golden-ratio go-snippets go-mode flyspell-correct expand-region exec-path-from-shell emmet-mode embark-consult elfeed eglot-java drag-stuff doom-themes doom-modeline dockerfile-mode docker diredfl dired-filter dired-efap cycle-resize csv-mode consult-yasnippet consult-project-extra consult-notmuch consult-flyspell consult-eglot consult-dir consult-company consult-ag company-quickhelp common-lisp-snippets clojure-snippets clj-refactor clipetty cargo-mode bufferlo)))
+ )
