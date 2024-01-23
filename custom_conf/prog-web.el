@@ -17,4 +17,14 @@
   (html-mode . emmet-mode)
   (css-mode . emmet-mode))
 
+(use-package restclient
+  :ensure t
+  :defer t)
+
+(use-package restclient-jq
+  :ensure t
+  :after restclient
+  :hook (restclient-mode . (lambda () (require 'restclient-jq)))
+  :defer t)
+
 (provide 'prog-web)

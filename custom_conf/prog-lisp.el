@@ -29,6 +29,11 @@
   (slime-hook)
   (bind-key "M-RET" 'sly-mrepl-return 'sly-mrepl-mode-map))
 
+(use-package sly-asdf
+  :ensure t
+  :defer t
+  :after sly)
+
 (use-package sly
   :ensure t
   :defer t
@@ -39,11 +44,12 @@
   (sly-mode . slime-hook)
   (sly-mrepl-mode . slime-mrepl-hook)
   :init
+  (add-to-list 'sly-contribs 'sly-asdf 'append)
   (add-hook 'sly-mode-hook #'slime-hook)
   (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
   (setf sly-lisp-implementations
-        '((sbcl    ("sbcl" "--dynamic-space-size" "2000"))
-          (roswell ("ros" "dynamic-space-size=2000" "-Q" "-l" "~/.sbclrc" "run"))))
+        '((sbcl    ("sbcl" "--dynamic-space-size" "4096"))
+          (roswell ("ros" "dynamic-space-size=4096" "-Q" "-l" "~/.sbclrc" "run"))))
   (setf sly-default-lisp 'roswell)
   (setf inferior-lisp-program "ros -L sbcl -Q -l ~/.sbclrc run"))
 
