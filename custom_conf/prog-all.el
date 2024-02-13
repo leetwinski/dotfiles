@@ -75,10 +75,10 @@
   
   :config
   ;; (set-face-attribute 'eglot-highlight-symbol-face nil :underline t)
-  ;; (add-to-list 'eglot-server-programs
-  ;;              `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
-  ;;                                                      ("vscode-json-languageserver" "--stdio")
-  ;;                                                      ("json-languageserver" "--stdio")))))
+  (add-to-list 'eglot-server-programs
+               `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
+                                                       ("vscode-json-languageserver" "--stdio")
+                                                       ("json-languageserver" "--stdio")))))
   )
 
 (use-package flymake

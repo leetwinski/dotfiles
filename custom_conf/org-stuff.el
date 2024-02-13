@@ -9,6 +9,10 @@
   :defer t
   :hook (org-mode . (lambda () (poly-org-mode t))))
 
+(use-package ob-restclient
+  :ensure t
+  :defer t)
+
 (add-hook 'org-mode-hook (lambda ()
                            (yas-minor-mode t)
                            ;; org-babel settings
@@ -20,6 +24,7 @@
                               (shell . t)
                               (js . t)
                               (C . t)
+                              (restclient . t)
                               (julia . t)))))
 
 (provide 'org-stuff)

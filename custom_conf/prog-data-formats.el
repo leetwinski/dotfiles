@@ -1,6 +1,21 @@
-(use-package json-mode
+;; (use-package json-mode
+;;   :ensure t
+;;   :defer t)
+
+(use-package so-long
+  :ensure t)
+
+(use-package jsonian
   :ensure t
-  :defer t)
+  ;; :defer t
+  :after so-long
+  :hook (jsonian-mode . (lambda ()
+                          (eldoc-mode 1)
+                          (eglot-ensure)
+                          ;; (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
+                          ))
+  :custom
+  (jsonian-no-so-long-mode))
 
 (use-package csv-mode
   :ensure t
@@ -9,5 +24,11 @@
 (use-package toml-mode
   :ensure t
   :defer t)
+
+(use-package yaml-mode
+  :ensure t
+  :hook (yaml-mode . (lambda ()
+                       (eldoc-mode 1)
+                       (eglot-ensure))))
 
 (provide 'prog-data-formats)
