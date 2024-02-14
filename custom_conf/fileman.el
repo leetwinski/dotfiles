@@ -23,7 +23,8 @@
 
 (use-package treemacs
   :ensure t
-  :defer t)
+  ;; :defer t
+  )
 
 (use-package project-treemacs
   :ensure t
@@ -42,7 +43,7 @@
 
 (use-package treemacs-nerd-icons
   :ensure t
-  :defer t
+  ;; :defer t
   :after (treemacs)
   :config
   (treemacs-load-theme "nerd-icons"))
