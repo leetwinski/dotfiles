@@ -214,6 +214,9 @@
 (define-key prog-mode-map (kbd "C-c ;") 'insert-semi-at-eol)
 (define-key prog-mode-map (kbd "C-c RET") 'insert-empty-line-and-go)
 
+(use-package rfc-mode
+  :ensure t)
+
 
 ;; (use-package puni
 ;;   :ensure t

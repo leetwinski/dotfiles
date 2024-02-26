@@ -104,6 +104,11 @@
  ;; '(magit-section-highlight ((((type tty)) nil)))
  )
 
+(use-package breadcrumb
+  :ensure t
+  :config
+  (breadcrumb-mode t))
+
 ;; (use-package all-the-icons
 ;;   :ensure t)
 
