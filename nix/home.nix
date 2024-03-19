@@ -25,6 +25,7 @@ in
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+    unzip
     openssh
     git
     thefuck
@@ -112,6 +113,7 @@ in
     # '')
   ] ++ (with unstable; [
     vscode-langservers-extracted
+    nodePackages_latest.typescript-language-server
     yaml-language-server
     nodePackages_latest.bash-language-server
     jdt-language-server
