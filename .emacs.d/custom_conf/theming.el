@@ -44,13 +44,13 @@
   :commands (doom-modeline-mode)
   :hook (after-init . doom-modeline-mode))
 
-(use-package nerd-icons
-  :defer t
-  :ensure t)
+;; (use-package nerd-icons
+;;   :defer t
+;;   :ensure t)
 
-(use-package nerd-icons-ibuffer
-  :ensure t
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+;; (use-package nerd-icons-ibuffer
+;;   :ensure t
+;;   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
 (defun set-faces-for-terminal (&optional frame)
   (or frame (setq frame (selected-frame)))

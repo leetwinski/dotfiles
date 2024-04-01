@@ -34,15 +34,15 @@
 (add-hook 'project-find-functions
 	      #'local/project-try-explicit)
 
-(use-package ibuffer-project
-  :ensure t
-  :defer t
-  :after (ibuffer project)
-  :hook
-  (ibuffer . (lambda ()
-               (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-               (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                 (ibuffer-do-sort-by-project-file-relative)))))
+;; (use-package ibuffer-project
+;;   :ensure t
+;;   :defer t
+;;   :after (ibuffer project)
+;;   :hook
+;;   (ibuffer . (lambda ()
+;;                (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+;;                (unless (eq ibuffer-sorting-mode 'project-file-relative)
+;;                  (ibuffer-do-sort-by-project-file-relative)))))
 
 (use-package eglot
   :init

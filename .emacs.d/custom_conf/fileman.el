@@ -41,17 +41,17 @@
   :defer t
   :after (treemacs magit))
 
-(use-package treemacs-nerd-icons
-  :ensure t
-  ;; :defer t
-  :after (treemacs)
-  :config
-  (treemacs-load-theme "nerd-icons"))
+;; (use-package treemacs-nerd-icons
+;;   :ensure t
+;;   ;; :defer t
+;;   :after (treemacs)
+;;   :config
+;;   (treemacs-load-theme "nerd-icons"))
 
-(use-package nerd-icons-dired
-  :ensure t
-  :hook
-  (dired-mode . nerd-icons-dired-mode))
+;; (use-package nerd-icons-dired
+;;   :ensure t
+;;   :hook
+;;   (dired-mode . nerd-icons-dired-mode))
 
 (use-package diredfl
   :ensure t

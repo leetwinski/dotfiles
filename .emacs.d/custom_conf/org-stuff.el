@@ -4,10 +4,10 @@
   :config
   (org-roam-db-autosync-mode +1))
 
-(use-package poly-org
-  :ensure t
-  :defer t
-  :hook (org-mode . (lambda () (poly-org-mode t))))
+;; (use-package poly-org
+;;   :ensure t
+;;   :defer t
+;;   :hook (org-mode . (lambda () (poly-org-mode t))))
 
 (use-package ob-restclient
   :ensure t

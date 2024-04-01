@@ -1,4 +1,4 @@
- { config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
   unstable = import <unstable> { };
   nixos = import <nixos> { };
@@ -25,10 +25,9 @@ in
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+    gnutar
     unzip
     openssh
-    git
-    thefuck
     babashka
     rlwrap
     fira-code-nerdfont
@@ -42,7 +41,6 @@ in
     platinum-searcher
     fzf
     curl
-    ripgrep
     tmux
     zig
     ocaml
@@ -51,9 +49,8 @@ in
     cmake
     kotlin
     julia-bin
+    vivaldi
     purescript
-    # spago
-    cookiecutter
     erlang_26
     lfe
     rebar3
@@ -90,15 +87,17 @@ in
     libtool
     libvterm
     bzip2
-    moreutils
-    jq
-    jetbrains.idea-community
+    parallel
+    # jetbrains.idea-community
     rustup
-
-    eza
+    bat
     nnn
     btop
     neofetch
+
+    keychain
+
+    tdlib
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -127,7 +126,7 @@ in
     erlang-ls
     metals
     luajitPackages.lua-lsp
-  ]);
+  ]) ++ [nixos.thefuck];
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -160,16 +159,42 @@ in
   #
   #  /etc/profiles/per-user/leet/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    # EDITOR = "emacs";
-  };
+  # home.sessionVariables = {
+  #   EDITOR = "emacsclient -nw";
+  # };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.eza = {
+    enable = true;
+    package = unstable.eza;
+    icons = true;
+    git = true;
+    enableBashIntegration = true;
+  };
+
+  programs.jq = {
+    enable = true;
+    package = unstable.jq;
+  };
+
+  programs.atuin = {
+    enable = true;
+    package = unstable.atuin;
+    enableBashIntegration = true;
+  };
+
+  programs.ripgrep = {
+    enable = true;
+    package = unstable.ripgrep;
+    arguments = ["--follow"];
+  };
+
   programs.emacs = {
     enable = true;
     package = unstable.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    # defaultEditor = true;
   };
 
   programs.git = {
@@ -193,8 +218,33 @@ in
     enable = true;
     enableCompletion = true;
 
+    profileExtra = ''
+    SSH_ENV="$HOME/.ssh/agent-environment"
+
+    function start_agent {
+      echo "Initialising new SSH agent..."
+      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+      echo succeeded
+      chmod 600 "$SSH_ENV"
+      . "$SSH_ENV" > /dev/null
+    }
+
+    # Source SSH settings, if applicable
+
+    if [ -f "$SSH_ENV" ]; then
+      . "$SSH_ENV" > /dev/null
+      #ps $SSH_AGENT_PID doesn't work under cywgin
+      ps -ef | grep $SSH_AGENT_PID | grep ssh-agent$ > /dev/null || {
+          start_agent;
+      }
+    else
+      start_agent;
+    fi
+    '';
+
     bashrcExtra = ''
-    source ~/.bashrc.base
+
+    export EDITOR="emacsclient -nw"
 
     alias ew="emacsclient -c"
 
@@ -227,6 +277,10 @@ in
     eval "$(thefuck --alias)"
     eval "$(starship init bash)"
 
+    if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+      exec tmux
+    fi
+
     '';
 
     # set some aliases, feel free to add more or remove some
@@ -246,4 +300,8 @@ in
   systemd.user.startServices = true;
 
   services.emacs.enable = true;
+
+  home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
+    # PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.3
+  '';
 }

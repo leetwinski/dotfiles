@@ -317,4 +317,8 @@
 (xterm-mouse-mode t)
 (bind-key (kbd "C-c [")  #'vterm-copy-mode)
 
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(setq tramp-auto-save-directory "~/tmp/tramp/")
+(setq tramp-chunksize 2000)
+
 (provide 'base)
