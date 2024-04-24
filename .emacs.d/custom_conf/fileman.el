@@ -41,17 +41,21 @@
   :defer t
   :after (treemacs magit))
 
-;; (use-package treemacs-nerd-icons
-;;   :ensure t
-;;   ;; :defer t
-;;   :after (treemacs)
-;;   :config
-;;   (treemacs-load-theme "nerd-icons"))
+(use-package treemacs-nerd-icons
+  :ensure t
+  ;; :defer t
+  :after (treemacs)
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
-;; (use-package nerd-icons-dired
-;;   :ensure t
-;;   :hook
-;;   (dired-mode . nerd-icons-dired-mode))
+(use-package nerd-icons-dired
+  :ensure t
+  :hook
+  (dired-mode . (lambda ()
+                  ;; avoid turning enabling nerd-icons-dired for tramp buffers
+                  ;; as it seems to slow down the display
+                  (unless (file-remote-p default-directory)
+                    (nerd-icons-dired-mode 1)))))
 
 (use-package diredfl
   :ensure t

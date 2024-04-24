@@ -34,7 +34,6 @@
    (read-shell-command "Shell command on buffer: ")))
 
 (bind-key (kbd "C-c #") #'shell-command-on-buffer)
-
 (bind-key (kbd "C-c d") #'duplicate-dwim)
 
 (use-package ffap
@@ -42,29 +41,29 @@
   :defer t
   :init (ffap-bindings))
 
-(use-package expand-region
-  :ensure t
-  :init
-  (defvar expand-region-keymap (make-sparse-keymap))
-  :bind-keymap
-  ("C-c ." . expand-region-keymap)
-  :bind
-  (:map expand-region-keymap
-        ("." . er/expand-region)
-        ("f" . er/mark-defun)
-        (";" . er/mark-comment)
-        ("|" . er/mark-sentence)
-        ("m" . er/mark-email)
-        ("u" . er/mark-url)
-        ("p" . er/mark-paragraph)
-        ("w" . er/mark-word)
-        ("'" . er/mark-inside-quotes)
-        ("\"" . er/mark-outside-quotes)
-        ("[" . er/mark-inside-pairs)
-        ("{" . er/mark-outside-pairs)
-        ("s" . er/mark-symbol)
-        ("S" . er/mark-symbol-with-prefix)
-        ("(" . er/mark-method-call)))
+;; (use-package expand-region
+;;   :ensure t
+;;   :init
+;;   (defvar expand-region-keymap (make-sparse-keymap))
+;;   :bind-keymap
+;;   ("C-c ." . expand-region-keymap)
+;;   :bind
+;;   (:map expand-region-keymap
+;;         ("." . er/expand-region)
+;;         ("f" . er/mark-defun)
+;;         (";" . er/mark-comment)
+;;         ("|" . er/mark-sentence)
+;;         ("m" . er/mark-email)
+;;         ("u" . er/mark-url)
+;;         ("p" . er/mark-paragraph)
+;;         ("w" . er/mark-word)
+;;         ("'" . er/mark-inside-quotes)
+;;         ("\"" . er/mark-outside-quotes)
+;;         ("[" . er/mark-inside-pairs)
+;;         ("{" . er/mark-outside-pairs)
+;;         ("s" . er/mark-symbol)
+;;         ("S" . er/mark-symbol-with-prefix)
+;;         ("(" . er/mark-method-call)))
 
 (use-package page-break-lines
   :ensure t
@@ -145,11 +144,7 @@
         ("r m" . avy-move-region)
         ("r c" . avy-copy-region)
         ("r k" . avy-kill-region)
-        ("r w" . avy-kill-ring-save-region)
-
-        ;; zap
-        ("z p" . avy-zap-up-to-char-dwim)
-        ("z n" . avy-zap-to-char-dwim)))
+        ("r w" . avy-kill-ring-save-region)))
 
 (use-package multiple-cursors
   :ensure t
@@ -279,6 +274,13 @@
 (global-set-key (kbd "C-c DEL DEL") 'delete-all-space)
 (global-set-key (kbd "C-c DEL l") 'kill-whole-line)
 
+(use-package easy-kill
+  :ensure t
+  :defer t
+  :init
+  (global-set-key [remap kill-ring-save] 'easy-kill)
+  (global-set-key [remap mark-sexp] 'easy-mark))
+
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 (global-set-key (kbd "C-M-y") 'up-list)
 
@@ -317,8 +319,16 @@
 (xterm-mouse-mode t)
 (bind-key (kbd "C-c [")  #'vterm-copy-mode)
 
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-(setq tramp-auto-save-directory "~/tmp/tramp/")
-(setq tramp-chunksize 2000)
+(use-package tramp
+  :config
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq tramp-auto-save-directory "~/tmp/tramp/")
+  (setq tramp-chunksize 2000))
+
+
+(when (string= (getenv "IS_WSL") "1")
+  (setf browse-url-generic-program "wsl-open"))
+
+(bind-key (kbd "M-g w") #'browse-url-generic)
 
 (provide 'base)
