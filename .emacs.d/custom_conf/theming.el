@@ -107,7 +107,8 @@
 (use-package breadcrumb
   :ensure t
   :config
-  (breadcrumb-mode t))
+  (breadcrumb-mode t)
+  (set-face-attribute 'breadcrumb-face nil :foreground "grey70"))
 
 ;; (use-package all-the-icons
 ;;   :ensure t)
