@@ -28,6 +28,7 @@ in
     gnutar
     unzip
     openssh
+    # git
     babashka
     rlwrap
     fira-code-nerdfont
@@ -51,13 +52,13 @@ in
     julia-bin
     vivaldi
     purescript
+    # spago
     erlang_26
     lfe
     rebar3
     gnumake
     janet
     jpm
-    nodejs_21
     nodePackages_latest.ts-node
     typescript
     bun
@@ -98,6 +99,8 @@ in
     keychain
 
     tdlib
+
+    wsl-open
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -126,7 +129,7 @@ in
     erlang-ls
     metals
     luajitPackages.lua-lsp
-  ]) ++ [nixos.thefuck];
+  ]) ++ [nixos.nodejs_21] ;
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -166,6 +169,11 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.thefuck = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
   programs.eza = {
     enable = true;
     package = unstable.eza;
@@ -188,14 +196,19 @@ in
   programs.ripgrep = {
     enable = true;
     package = unstable.ripgrep;
-    arguments = ["--follow"];
+    arguments = ["--follow" "--hidden"];
   };
 
   programs.emacs = {
     enable = true;
-    package = unstable.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    package = nixos.emacs29; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
     # defaultEditor = true;
   };
+
+  # programs.notmuch = {
+  #   enable = true;
+  #   config.user.name = "Victor Litvintsev";
+  # };
 
   programs.git = {
     enable = true;
@@ -205,6 +218,7 @@ in
 
   programs.starship = {
     enable = true;
+    enableBashIntegration = true;
     # custom settings
     settings = {
       add_newline = true;
@@ -223,7 +237,7 @@ in
 
     function start_agent {
       echo "Initialising new SSH agent..."
-      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+      ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
       echo succeeded
       chmod 600 "$SSH_ENV"
       . "$SSH_ENV" > /dev/null
@@ -243,7 +257,7 @@ in
     '';
 
     bashrcExtra = ''
-
+    
     export EDITOR="emacsclient -nw"
 
     alias ew="emacsclient -c"
@@ -274,11 +288,13 @@ in
         fi
     }
 
-    eval "$(thefuck --alias)"
-    eval "$(starship init bash)"
-
     if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
       exec tmux
+    fi
+
+    if [[ -n "$(uname -r | grep -o WSL2)" ]]; then
+      export IS_WSL=1
+      export BROWSER=wsl-open
     fi
 
     '';
