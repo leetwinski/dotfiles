@@ -5,6 +5,8 @@
   :bind
   (:map dired-mode-map
         ("K" . dired-kill-subdir))
+  (:map search-map
+        ("M-/" . find-name-dired))
   :hook
   (dired-mode . (lambda () (toggle-truncate-lines 1))))
 

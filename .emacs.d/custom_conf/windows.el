@@ -23,10 +23,11 @@
   :ensure t
   :config
   (windmove-mode t)
-  (windmove-default-keybindings)
-  (windmove-swap-states-default-keybindings)
-  (windmove-display-default-keybindings)
-  (windmove-delete-default-keybindings))
+  ;; (windmove-default-keybindings)
+  ;; (windmove-swap-states-default-keybindings)
+  ;; (windmove-display-default-keybindings)
+  ;; (windmove-delete-default-keybindings)
+  )
 
 (use-package golden-ratio
   :ensure t

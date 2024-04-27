@@ -41,29 +41,31 @@
   :defer t
   :init (ffap-bindings))
 
-;; (use-package expand-region
-;;   :ensure t
-;;   :init
-;;   (defvar expand-region-keymap (make-sparse-keymap))
-;;   :bind-keymap
-;;   ("C-c ." . expand-region-keymap)
-;;   :bind
-;;   (:map expand-region-keymap
-;;         ("." . er/expand-region)
-;;         ("f" . er/mark-defun)
-;;         (";" . er/mark-comment)
-;;         ("|" . er/mark-sentence)
-;;         ("m" . er/mark-email)
-;;         ("u" . er/mark-url)
-;;         ("p" . er/mark-paragraph)
-;;         ("w" . er/mark-word)
-;;         ("'" . er/mark-inside-quotes)
-;;         ("\"" . er/mark-outside-quotes)
-;;         ("[" . er/mark-inside-pairs)
-;;         ("{" . er/mark-outside-pairs)
-;;         ("s" . er/mark-symbol)
-;;         ("S" . er/mark-symbol-with-prefix)
-;;         ("(" . er/mark-method-call)))
+(use-package expand-region
+  :ensure t
+  ;; :defer t
+  ;; :init
+  ;; (defvar expand-region-keymap (make-sparse-keymap))
+  ;; :bind-keymap
+  ;; ("C-c ." . expand-region-keymap)
+  ;; :bind
+  ;; (:map expand-region-keymap
+  ;;       ("." . er/expand-region)
+  ;;       ("f" . er/mark-defun)
+  ;;       (";" . er/mark-comment)
+  ;;       ("|" . er/mark-sentence)
+  ;;       ("m" . er/mark-email)
+  ;;       ("u" . er/mark-url)
+  ;;       ("p" . er/mark-paragraph)
+  ;;       ("w" . er/mark-word)
+  ;;       ("'" . er/mark-inside-quotes)
+  ;;       ("\"" . er/mark-outside-quotes)
+  ;;       ("[" . er/mark-inside-pairs)
+  ;;       ("{" . er/mark-outside-pairs)
+  ;;       ("s" . er/mark-symbol)
+  ;;       ("S" . er/mark-symbol-with-prefix)
+  ;;       ("(" . er/mark-method-call))
+  )
 
 (use-package page-break-lines
   :ensure t
@@ -279,20 +281,63 @@
   :defer t
   :init
   (global-set-key [remap kill-ring-save] 'easy-kill)
-  (global-set-key [remap mark-sexp] 'easy-mark))
+  (global-set-key [remap mark-sexp] 'easy-mark-sexp)
+  (global-set-key [remap mark-word] 'easy-mark-word))
+
+(use-package easy-kill-extras
+  :ensure t
+  :defer t
+  :after easy-kill
+  :init
+  (require 'extra-things)
+  (define-key easy-kill-base-map (kbd "o") 'easy-kill-er-expand)
+  (define-key easy-kill-base-map (kbd "i") 'easy-kill-er-unexpand)
+  (global-set-key [remap zap-to-char] 'easy-mark-to-char)
+  (add-to-list 'easy-kill-alist '(?^ backward-line-edge ""))
+  (add-to-list 'easy-kill-alist '(?$ forward-line-edge ""))
+  ;; (add-to-list 'easy-kill-alist '(?b buffer ""))
+  ;; (add-to-list 'easy-kill-alist '(?< buffer-before-point ""))
+  ;; (add-to-list 'easy-kill-alist '(?> buffer-after-point ""))
+  ;; (add-to-list 'easy-kill-alist '(?f string-to-char-forward ""))
+  ;; (add-to-list 'easy-kill-alist '(?F string-up-to-char-forward ""))
+  ;; (add-to-list 'easy-kill-alist '(?t string-to-char-backward ""))
+  ;; (add-to-list 'easy-kill-alist '(?T string-up-to-char-backward ""))
+  (add-to-list 'easy-kill-alist '(?W  WORD " ") t)
+  (add-to-list 'easy-kill-alist '(?\' squoted-string "") t)
+  (add-to-list 'easy-kill-alist '(?\" dquoted-string "") t)
+  (add-to-list 'easy-kill-alist '(?\` bquoted-string "") t)
+  (add-to-list 'easy-kill-alist '(?q  quoted-string "") t)
+  (add-to-list 'easy-kill-alist '(?Q  quoted-string-universal "") t)
+  (add-to-list 'easy-kill-alist '(?\) parentheses-pair-content "\n") t)
+  (add-to-list 'easy-kill-alist '(?\( parentheses-pair "\n") t)
+  (add-to-list 'easy-kill-alist '(?\] brackets-pair-content "\n") t)
+  (add-to-list 'easy-kill-alist '(?\[ brackets-pair "\n") t)
+  (add-to-list 'easy-kill-alist '(?}  curlies-pair-content "\n") t)
+  (add-to-list 'easy-kill-alist '(?{  curlies-pair "\n") t)
+  (add-to-list 'easy-kill-alist '(?>  angles-pair-content "\n") t)
+  (add-to-list 'easy-kill-alist '(?<  angles-pair "\n") t))
 
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 (global-set-key (kbd "C-M-y") 'up-list)
 
+
 (setf bookmark-save-flag 1)
+
+(defun disable-drag-stuff ()
+  (interactive)
+  (turn-off-drag-stuff-mode)
+  (message "drag-stuff mode disabled"))
 
 (use-package drag-stuff
   :ensure t
   :defer t
+  :bind
+  ("C-c <up>" . drag-stuff-mode)
+  (:map drag-stuff-mode-map
+        ("C-g" . disable-drag-stuff))
   :config
-  ;; (drag-stuff-define-keys)
-  ;; (drag-stuff-global-mode t)
-)
+  (setf drag-stuff-modifier nil)
+  (drag-stuff-define-keys))
 
 (use-package phi-search
   :ensure t

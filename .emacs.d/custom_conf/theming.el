@@ -58,8 +58,9 @@
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)
     (set-face-background 'vterm-color-black "brightblack" frame)
-    (set-face-background 'region "gray23" frame))
-  )
+    ;; (set-face-background 'region "gray23" frame)
+    (set-face-background 'region "color-53" frame)
+    ))
 
 (add-hook 'after-make-frame-functions 'set-faces-for-terminal)
 
@@ -98,6 +99,9 @@
  ;; '(magit-diff-removed ((((type tty)) (:foreground "red"))))
  '(mode-line-inactive ((((type tty))
                         (:background "color-236"))))
+
+ '(mode-line-active ((((type tty))
+                        (:background "color-23"))))
 
  '(magit-diff-removed-highlight ((((type tty))
                                   (:background "gray29"))))
