@@ -4,9 +4,11 @@
 (use-package dired
   :bind
   (:map dired-mode-map
-        ("K" . dired-kill-subdir))
+        ("K" . dired-kill-subdir)
+        ("C-c C-p" . wdired-change-to-wdired-mode))
   (:map search-map
-        ("M-/" . find-name-dired))
+        ("M-/" . find-grep-dired)
+        ("/" . find-name-dired))
   :hook
   (dired-mode . (lambda () (toggle-truncate-lines 1))))
 

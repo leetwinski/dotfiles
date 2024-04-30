@@ -1,7 +1,7 @@
 (defun clj-hook ()
   "My clojure hook."
   (eldoc-mode)
-  (subword-mode)
+  ;; (subword-mode)
   (paredit-mode)
   (rainbow-delimiters-mode-enable)
   (clj-refactor-mode 1)

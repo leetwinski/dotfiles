@@ -78,8 +78,7 @@
   (add-to-list 'eglot-server-programs
                `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
                                                        ("vscode-json-languageserver" "--stdio")
-                                                       ("json-languageserver" "--stdio")))))
-  )
+                                                       ("json-languageserver" "--stdio"))))))
 
 (use-package flymake
   :ensure t
@@ -115,7 +114,7 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(add-hook 'prog-mode-hook #'subword-mode)
+;; (add-hook 'prog-mode-hook #'subword-mode)
 (add-hook 'prog-mode-hook #'prettify-symbols-mode)
 
 (use-package ws-butler
@@ -144,27 +143,28 @@
   :ensure t
   :defer t
   :init
-  (defvar hs-map (make-sparse-keymap))
+  ;; (defvar hs-map (make-sparse-keymap))
 
   :hook
   (prog-mode . (lambda () (hs-minor-mode 1)))
 
-  :bind-keymap
-  ("C-c =" . hs-map)
-  :bind
-  ("C-c C-/" . hs-toggle-hiding)
-  ("C-c C-_" . hs-toggle-hiding)
-  ("C-c M--" . hs-hide-all)
-  ("C-c M-=" . hs-show-all)
-  (:map hs-map
-        ("-" . hs-hide-block)
-        ("+" . hs-show-block)
-        ("M--" . hs-hide-all)
-        ("M-=" . hs-show-all)
-        ("l" . hs-hide-level)
-        ("=" . hs-toggle-hiding)
-        ("a" . hs-show-all)
-        ("n" . hs-hide-all)))
+  ;; :bind-keymap
+  ;; ;; ("C-c =" . hs-map)
+  ;; :bind
+  ;; ("C-c C-/" . hs-toggle-hiding)
+  ;; ("C-c C-_" . hs-toggle-hiding)
+  ;; ("C-c M--" . hs-hide-all)
+  ;; ("C-c M-=" . hs-show-all)
+  ;; (:map hs-map
+  ;;       ("-" . hs-hide-block)
+  ;;       ("+" . hs-show-block)
+  ;;       ("M--" . hs-hide-all)
+  ;;       ("M-=" . hs-show-all)
+  ;;       ("l" . hs-hide-level)
+  ;;       ("=" . hs-toggle-hiding)
+  ;;       ("a" . hs-show-all)
+  ;;       ("n" . hs-hide-all))
+  )
 
 (use-package electric
   :ensure t
@@ -183,7 +183,7 @@
   :init
   (defvar string-inflection-keymap (make-sparse-keymap))
   :bind-keymap
-  ("C-c ," . string-inflection-keymap)
+  ("C-x ," . string-inflection-keymap)
   :bind
   (:map string-inflection-keymap
         ("," . string-inflection-all-cycle)
@@ -197,7 +197,7 @@
   :ensure t
   :defer t
   :bind-keymap
-  ("C-c s" . surround-keymap))
+  ("M-]" . surround-keymap))
 
 (defun insert-semi-at-eol ()
   (interactive)

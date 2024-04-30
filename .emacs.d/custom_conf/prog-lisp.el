@@ -19,7 +19,7 @@
 
 (defun slime-hook ()
   "My slime hook."
-  (subword-mode t)
+  ;; (subword-mode t)
   (eldoc-mode t)
   (paredit-mode t)
   ;; (rainbow-delimiters-mode-enable)

@@ -22,6 +22,7 @@
             (fringe-mode nil)
             (setq-default indent-tabs-mode nil)
             (setq-default truncate-lines t)
+            (global-subword-mode t)
             (setf ring-bell-function #'ignore)
             (put 'upcase-region 'disabled nil)
             (put 'downcase-region 'disabled nil)))
@@ -33,8 +34,8 @@
    (point-min) (point-max)
    (read-shell-command "Shell command on buffer: ")))
 
-(bind-key (kbd "C-c #") #'shell-command-on-buffer)
-(bind-key (kbd "C-c d") #'duplicate-dwim)
+(bind-key (kbd "C-x x !") #'shell-command-on-buffer)
+(bind-key (kbd "C-x <down>") #'duplicate-dwim)
 
 (use-package ffap
   :ensure t
@@ -90,8 +91,7 @@
   (setq vundo-glyph-alist vundo-ascii-symbols)
 
   :bind
-  ("C-c /" . vundo)
-  ("C-c _" . vundo))
+  ("C-x /" . vundo))
 
 (use-package recentf
   :ensure t
@@ -106,11 +106,11 @@
   :init
   (defvar avy-custom-keymap (make-sparse-keymap))
 
-  :custom (avy-keys '(?1 ?2 ?3 ?4 ?q ?w ?e ?r ?a ?s ?d ?f))
+  :custom (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
   
   :bind-keymap
-  ("C-c a" . avy-custom-keymap)
-
+  ("M-g j" . avy-custom-keymap)
+  ("M-g SPC" . avy-goto-char-timer)
   :bind
   (:map isearch-mode-map
         ("C-c C-\\ s" . avy-isearch)
@@ -122,8 +122,8 @@
         ("a" . avy-resume)
         
         ;; char
-        ("c c" . avy-goto-char)
-        ("c 2" . avy-goto-char-2)
+        ("j" . avy-goto-char-timer)
+        ;; ("c 2" . avy-goto-char-2)
         
         ;; word
         ("w w" . avy-goto-word-or-subword-1)
@@ -154,11 +154,12 @@
   :config
   (defvar mc-map (make-sparse-keymap))
   :bind-keymap
-  ("C-c |" . mc-map)
+  ("M-s `" . mc-map)
   :bind
   (:map search-map
-        ("`" . mc/mark-more-like-this-extended)
-        ("|" . mc/mark-more-like-this-extended))
+        ("SPC" . mc/mark-more-like-this-extended)
+        ;; ("|" . mc/mark-more-like-tasdhis-extended)
+        )
   (:map mc-map
         ("l l" . mc/edit-lines)
         ("l e" . mc/edit-ends-of-lines)
@@ -173,8 +174,7 @@
         ("s n" . mc/mark-next-symbol-like-this)
         ("s p" . mc/mark-previous-symbol-like-this)
         ("SPC" . mc/mark-more-like-this-extended)
-        ("*" . mc/mark-all-dwim)
-        ("|" . mc/mark-all-dwim)
+        ("`" . mc/mark-all-dwim)
         (". ." . mc/mark-all-like-this-dwim)
         (". ," . mc/mark-all-like-this)
         (". f" . mc/mark-all-like-this-in-defun)
@@ -332,24 +332,38 @@
   :ensure t
   :defer t
   :bind
-  ("C-c <up>" . drag-stuff-mode)
+  ("C-x <up>" . drag-stuff-mode)
   (:map drag-stuff-mode-map
         ("C-g" . disable-drag-stuff))
   :config
   (setf drag-stuff-modifier nil)
   (drag-stuff-define-keys))
 
-(use-package phi-search
+
+(use-package drag-stuff
   :ensure t
+  :defer t
   :bind
-  ("C-s" . phi-search)
-  ("C-r" . phi-search-backward)
-  ("M-%" . phi-replace-query)
-  :config (set-face-attribute 'phi-search-selection-face nil
-                              :foreground "black"
-                              :background "yellow"
-                              :box t
-                              :bold t))
+  ("C-x <up>" . drag-stuff-mode)
+  (:map drag-stuff-mode-map
+        ("C-g" . disable-drag-stuff))
+  :config
+  (setf drag-stuff-modifier nil)
+  (drag-stuff-define-keys))
+
+
+
+;; (use-package phi-search
+;;   :ensure t
+;;   :bind
+;;   ("C-s" . phi-search)
+;;   ("C-r" . phi-search-backward)
+;;   ("M-%" . phi-replace-query)
+;;   :config (set-face-attribute 'phi-search-selection-face nil
+;;                               :foreground "black"
+;;                               :background "yellow"
+;;                               :box t
+;;                               :bold t))
 
 ;; shadowing file paths, e.g. when ~ is inserted
 (setq file-name-shadow-properties '(invisible t intangible t))

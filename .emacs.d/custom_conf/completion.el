@@ -158,8 +158,9 @@
   :config
   (set-face-attribute 'embark-keybinding nil :inherit font-lock-keyword-face)
   :bind
-  ("C-c e ." . embark-dwim)
-  ("C-c e e" . embark-act)
+  ("C-x x ." . embark-act)
+  ("C-x x SPC" . embark-dwim)
+  ("C-x x e" . embark-export)
   ("C-h B" . embark-bindings))
 
 (use-package embark-consult
@@ -198,6 +199,9 @@
 
 (use-package wgrep
   :ensure t)
+
+(define-key search-map (kbd "*") 'multi-occur)
+(define-key search-map (kbd "O") 'multi-occur-in-matching-buffers)
 
 (use-package vertico-prescient
   :ensure t

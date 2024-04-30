@@ -68,8 +68,8 @@
     (add-hook 'after-make-frame-functions
               (lambda (frame)
                 (select-frame frame)
-                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133)))
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 133))
+                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 154)))
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 154))
 
 (use-package ligature
   :ensure t
@@ -108,11 +108,16 @@
  ;; '(magit-section-highlight ((((type tty)) nil)))
  )
 
+(use-package colorful-mode
+  :ensure t
+  :config
+  (global-colorful-mode 1))
+
 (use-package breadcrumb
   :ensure t
   :config
   (breadcrumb-mode t)
-  (set-face-attribute 'breadcrumb-face nil :foreground "grey70"))
+  (set-face-attribute 'breadcrumb-face nil :foreground "gray70"))
 
 ;; (use-package all-the-icons
 ;;   :ensure t)
