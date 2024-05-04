@@ -1,6 +1,6 @@
 (use-package popper
   :ensure t
-  :bind (("C-c C-SPC" . popper-toggle-latest)
+  :bind (("C-c C-SPC" . popper-toggle)
          ("M-`" . popper-cycle)
          ("C-c M-`" . popper-toggle-type))
   :custom
@@ -11,6 +11,7 @@
                               "\\*Async Shell Command\\*"
                               "\\*eldoc"
                               "\\*Flymake diagnostics"
+                              "\\*sqls\\*"
                               eshell-mode
                               vterm-mode
                               help-mode

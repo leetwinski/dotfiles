@@ -78,7 +78,92 @@
   (add-to-list 'eglot-server-programs
                `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
                                                        ("vscode-json-languageserver" "--stdio")
-                                                       ("json-languageserver" "--stdio"))))))
+                                                       ("json-languageserver" "--stdio")))))
+  (add-to-list 'display-buffer-alist
+               '("\\*sqls\\*"
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (reusable-frames . visible)
+                 (window-height . 0.3)))
+
+  (defclass eglot-sqls (eglot-lsp-server) () :documentation "SQL's Language Server")
+
+  (defun get-sqls-config-path (_)
+    (let ((path (if-let (p (project-current))
+                    (list "sqls" "--config"
+                          (format "%s.sqls/config.yaml" (project-root p)))
+                  (list "sqls"))))
+      ;; `(eglot-sqls ,path)
+      (cons 'eglot-sqls path)
+      ))
+
+  (add-to-list 'eglot-server-programs '(sql-mode . get-sqls-config-path))
+
+  (cl-defmethod eglot-execute-command
+    ((server eglot-sqls) (command (eql executeQuery)) arguments)
+    "For executeQuery."
+    ;; (ignore-errors
+    (let* ((beg (eglot--pos-to-lsp-position (if (use-region-p) (region-beginning) (point-min))))
+           (end (eglot--pos-to-lsp-position (if (use-region-p) (region-end) (point-max))))
+           (res (jsonrpc-request server :workspace/executeCommand
+                                 `(:command ,(format "%s" command) :arguments ,arguments
+                                            :timeout 0.5 :range (:start ,beg :end ,end))))
+           (buffer (generate-new-buffer "*sqls*")))
+      (with-current-buffer buffer
+        (eglot--apply-text-edits `[
+                                   (:range
+                                    (:start
+                                     (:line 0 :character 0)
+                                     :end
+                                     (:line 0 :character 0))
+                                    :newText ,res)
+                                   ]
+                                 )
+        (org-mode))
+      (pop-to-buffer buffer)))
+    
+  (cl-defmethod eglot-execute-command
+    ((server eglot-sqls) (_cmd (eql switchDatabase)) arguments)
+    "For switchDatabase."
+
+    (let* ((res (jsonrpc-request server :workspace/executeCommand
+                                 `(:command "showDatabases" :arguments ,arguments :timeout 0.5)))
+           (menu-items (split-string res "\n"))
+           (menu `("Eglot code actions:" ("dummy" ,@menu-items)))
+           (db (if (listp last-nonmenu-event)
+                   (x-popup-menu last-nonmenu-event menu)
+                 (completing-read "[eglot] Pick an database: "
+                                  menu-items nil t
+                                  nil nil (car menu-items))
+                 ))
+           )
+      (jsonrpc-request server :workspace/executeCommand
+                       `(:command "switchDatabase" :arguments [,db] :timeout 0.5))))
+
+  (cl-defmethod eglot-execute-command
+    ((server eglot-sqls) (_cmd (eql switchConnections)) arguments)
+    (let* ((res (jsonrpc-request server :workspace/executeCommand
+                                 `(:command "showConnections" :arguments ,arguments :timeout 0.5)))
+           (menu-items (split-string res "\n"))
+           (menu `("Eglot code actuins:" ("dummy" ,@menu-items)))
+           (conn (if (listp last-nonmenu-event)
+                     (x-popup-menu last-nonmenu-event menu)
+                   (completing-read "[eglot] Pick a connection: "
+                                    menu-items nil t
+                                    nil nil (car menu-items))))
+           (idx (car (split-string conn " "))))
+      (jsonrpc-request server :workspace/executeCommand
+                       `(:command "switchConnections" :arguments [,idx] :timeout 0.5))))
+
+  (cl-defmethod eglot-execute-command
+    ((server eglot-sqls) (_cmd (eql showTables)) arguments)
+    (print (jsonrpc-request server :workspace/executeCommand
+                            `(:command "showTables" :arguments ,arguments :timeout 0.5))))
+
+  (cl-defmethod eglot-execute-command
+    ((server eglot-sqls) (_cmd (eql showSchemas)) arguments)
+    (print (jsonrpc-request server :workspace/executeCommand
+                            `(:command "showSchemas" :arguments ,arguments :timeout 0.5)))))
+
 
 (use-package flymake
   :ensure t
@@ -197,7 +282,7 @@
   :ensure t
   :defer t
   :bind-keymap
-  ("M-]" . surround-keymap))
+  ("M-s ]" . surround-keymap))
 
 (defun insert-semi-at-eol ()
   (interactive)

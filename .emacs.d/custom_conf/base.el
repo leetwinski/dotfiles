@@ -109,9 +109,9 @@
   :custom (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
   
   :bind-keymap
-  ("M-g j" . avy-custom-keymap)
-  ("M-g SPC" . avy-goto-char-timer)
+  ("M-s q" . avy-custom-keymap)
   :bind
+  ("M-g SPC" . avy-goto-char-timer)
   (:map isearch-mode-map
         ("C-c C-\\ s" . avy-isearch)
         ("C-c C-a s" . avy-isearch))
@@ -122,9 +122,8 @@
         ("a" . avy-resume)
         
         ;; char
-        ("j" . avy-goto-char-timer)
-        ;; ("c 2" . avy-goto-char-2)
-        
+        ("q" . avy-goto-char-timer)
+
         ;; word
         ("w w" . avy-goto-word-or-subword-1)
         ("w 1" . avy-goto-word-1)
