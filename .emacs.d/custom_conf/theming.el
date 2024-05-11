@@ -68,8 +68,8 @@
     (add-hook 'after-make-frame-functions
               (lambda (frame)
                 (select-frame frame)
-                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 154)))
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 154))
+                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)))
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154))
 
 (use-package ligature
   :ensure t

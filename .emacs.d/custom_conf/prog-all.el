@@ -44,6 +44,14 @@
 ;;                (unless (eq ibuffer-sorting-mode 'project-file-relative)
 ;;                  (ibuffer-do-sort-by-project-file-relative)))))
 
+(defun locate-dominating-project-file (name)
+    (when-let (p (project-current))
+      (let ((proot (project-root p)))
+        (when-let (buf-path (buffer-file-name))
+          (when-let* ((locate-dominating-stop-dir-regexp (expand-file-name proot))
+                      (cfg-path (locate-dominating-file buf-path name)))
+            (expand-file-name name cfg-path))))))
+
 (use-package eglot
   :init
   (defvar eglot-keymap (make-sparse-keymap))
@@ -53,7 +61,7 @@
 
   :bind
   (:map eglot-keymap
-        ("=" . eglot-format-buffer)
+        ("=" . eglot-format)
         ("r" . eglot-rename)
         ("g d" . eglot-find-declarations)
         ("g i" . eglot-find-implementation)
@@ -68,8 +76,7 @@
         ("." . consult-eglot-symbols))
 
   :hook
-  (after-save . (lambda ()
-                  (ignore-errors (eglot-format-buffer))))
+  (before-save . (lambda () (ignore-errors (eglot-format nil))))
   :custom (eglot-connect-timeout 180)
   :init
   
@@ -87,16 +94,12 @@
 
   (defclass eglot-sqls (eglot-lsp-server) () :documentation "SQL's Language Server")
 
-  (defun get-sqls-config-path (_)
-    (let ((path (if-let (p (project-current))
-                    (list "sqls" "--config"
-                          (format "%s.sqls/config.yaml" (project-root p)))
-                  (list "sqls"))))
-      ;; `(eglot-sqls ,path)
-      (cons 'eglot-sqls path)
-      ))
+  (defun get-sqls-exec-string (arg)
+    (cl-list* 'eglot-sqls "sqls"
+              (when-let (path (locate-dominating-project-file ".sqls.yaml"))
+                (list "--config" path))))
 
-  (add-to-list 'eglot-server-programs '(sql-mode . get-sqls-config-path))
+  (add-to-list 'eglot-server-programs '(sql-mode . get-sqls-exec-string))
 
   (cl-defmethod eglot-execute-command
     ((server eglot-sqls) (command (eql executeQuery)) arguments)
@@ -152,17 +155,7 @@
                                     nil nil (car menu-items))))
            (idx (car (split-string conn " "))))
       (jsonrpc-request server :workspace/executeCommand
-                       `(:command "switchConnections" :arguments [,idx] :timeout 0.5))))
-
-  (cl-defmethod eglot-execute-command
-    ((server eglot-sqls) (_cmd (eql showTables)) arguments)
-    (print (jsonrpc-request server :workspace/executeCommand
-                            `(:command "showTables" :arguments ,arguments :timeout 0.5))))
-
-  (cl-defmethod eglot-execute-command
-    ((server eglot-sqls) (_cmd (eql showSchemas)) arguments)
-    (print (jsonrpc-request server :workspace/executeCommand
-                            `(:command "showSchemas" :arguments ,arguments :timeout 0.5)))))
+                       `(:command "switchConnections" :arguments [,idx] :timeout 0.5)))))
 
 
 (use-package flymake
@@ -296,12 +289,12 @@
   (call-interactively 'default-indent-new-line)
   (call-interactively 'indent-for-tab-command))
 
-(define-key prog-mode-map (kbd "C-c ;") 'insert-semi-at-eol)
-(define-key prog-mode-map (kbd "C-c RET") 'insert-empty-line-and-go)
+(define-key prog-mode-map (kbd "C-x x ;") 'insert-semi-at-eol)
+(define-key prog-mode-map (kbd "C-x M-RET") 'insert-empty-line-and-go)
+(define-key global-map (kbd "C-x M-;") 'comment-line)
 
 (use-package rfc-mode
   :ensure t)
-
 
 ;; (use-package puni
 ;;   :ensure t

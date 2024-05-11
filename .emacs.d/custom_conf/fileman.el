@@ -54,6 +54,9 @@
 
 (use-package nerd-icons-dired
   :ensure t
+  :config
+  (eval-after-load 'wdired
+    (advice-add 'wdired-abort-changes :around #'nerd-icons-dired--refresh-advice))
   :hook
   (dired-mode . (lambda ()
                   ;; avoid turning enabling nerd-icons-dired for tramp buffers

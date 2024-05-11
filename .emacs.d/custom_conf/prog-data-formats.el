@@ -11,9 +11,7 @@
   :after so-long
   :hook (jsonian-mode . (lambda ()
                           (eldoc-mode 1)
-                          (eglot-ensure)
-                          ;; (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-                          ))
+                          (eglot-ensure)))
   :custom
   (jsonian-no-so-long-mode))
 

@@ -20,21 +20,29 @@
   (popper-mode +1)
   (popper-echo-mode +1))
 
-(use-package windmove
+(use-package ace-window
   :ensure t
   :config
-  (windmove-mode t)
-  ;; (windmove-default-keybindings)
-  ;; (windmove-swap-states-default-keybindings)
-  ;; (windmove-display-default-keybindings)
-  ;; (windmove-delete-default-keybindings)
-  )
+  (setq aw-scope 'frame)
+  (setq aw-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+  :bind
+  ("M-o" . ace-window))
+
+;; (use-package windmove
+;;   :ensure t
+;;   :config
+;;   (windmove-mode t)
+;;   ;; (windmove-default-keybindings)
+;;   ;; (windmove-swap-states-default-keybindings)
+;;   ;; (windmove-display-default-keybindings)
+;;   ;; (windmove-delete-default-keybindings)
+;;   )
 
 (use-package golden-ratio
   :ensure t
   :bind
-  ("C-c r %" . golden-ratio)
-  ("C-c r M-%" . golden-ratio-mode))
+  ("C-x w %" . golden-ratio)
+  ("C-x w M-%" . golden-ratio-mode))
 
 (winner-mode t)
 
@@ -43,13 +51,13 @@
   :config
   (setq cycle-resize-steps '(66 50 33 50))
   :bind
-  ("C-c r n" . cycle-resize-window-vertically)
-  ("C-c r f" . cycle-resize-window-horizontally)
-  ("C-c r SPC" . cycle-resize-window-horizontally))
+  ("C-x w n" . cycle-resize-window-vertically)
+  ("C-x w f" . cycle-resize-window-horizontally)
+  ("C-x w SPC" . cycle-resize-window-horizontally))
 
 (use-package windresize
   :ensure t
   :bind
-  ("C-c r r" . windresize))
+  ("C-x w w" . windresize))
 
 (provide 'windows)
