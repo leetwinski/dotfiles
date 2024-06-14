@@ -52,7 +52,7 @@ in
     julia-bin
     vivaldi
     purescript
-    # spago
+    spago
     erlang_26
     lfe
     rebar3
@@ -67,9 +67,10 @@ in
     aspellDicts.en
     aspellDicts.en-science
     aspellDicts.en-computers
+    aspellDicts.es
     maxima
     wxmaxima
-    nyxt
+    # nyxt
     idris2
     scala_3
     jdk21
@@ -79,7 +80,7 @@ in
     mermaid-cli
     svgbob
     gnuplot
-    dbeaver
+    dbeaver-bin
     insomnia
     visualvm
     htop
@@ -95,12 +96,14 @@ in
     nnn
     btop
     neofetch
-
+    dig
     keychain
-
+    sqlite
     tdlib
-
+    openssl
+    xdg-utils
     wsl-open
+    nodejs_22
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -129,7 +132,8 @@ in
     erlang-ls
     metals
     luajitPackages.lua-lsp
-  ]) ++ [nixos.nodejs_21] ;
+    sqls
+  ]); # ++ [nixos.nodejs_21] ;
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -259,6 +263,7 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
+    export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath([pkgs.openssl])}
 
     alias ew="emacsclient -c"
 
@@ -318,6 +323,10 @@ in
   services.emacs.enable = true;
 
   home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    # PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.3
+    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.5
+  '';
+
+  home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["installPackages"] ''
+    PATH="${config.home.path}/bin:$PATH" run ros install qlot
   '';
 }

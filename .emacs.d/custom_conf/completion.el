@@ -159,7 +159,7 @@
   (set-face-attribute 'embark-keybinding nil :inherit font-lock-keyword-face)
   :bind
   ("C-x x ." . embark-act)
-  ("C-x x SPC" . embark-dwim)
+  ("C-x x ," . embark-dwim)
   ("C-x x e" . embark-export)
   ("C-h B" . embark-bindings))
 

@@ -98,8 +98,7 @@
   :defer t
   ;; :hook (after-init . (lambda () (recentf-mode 1)))
   :init
-  (recentf-mode 1)
-  )
+  (recentf-mode 1))
 
 (use-package avy
   :ensure t
@@ -272,8 +271,9 @@
 (setq tramp-backup-directory-alist backup-directory-alist)
 (setq tramp-auto-save-directory autosave-dir)
 
-(global-set-key (kbd "C-c DEL DEL") 'delete-all-space)
-(global-set-key (kbd "C-c DEL l") 'kill-whole-line)
+(global-set-key (kbd "C-x x DEL") 'delete-all-space)
+(global-set-key (kbd "C-x x s") 'backward-kill-sexp)
+(global-set-key (kbd "C-x x l") 'kill-whole-line)
 
 (use-package easy-kill
   :ensure t

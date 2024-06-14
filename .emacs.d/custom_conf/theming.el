@@ -58,18 +58,41 @@
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)
     (set-face-background 'vterm-color-black "brightblack" frame)
-    ;; (set-face-background 'region "gray23" frame)
-    (set-face-background 'region "color-53" frame)
+    (set-face-background 'region "color-95" frame)
+    (set-face-attribute 'region frame :italic t)
+    (set-face-background 'mode-line-inactive "color-235" frame)
+    (set-face-background 'mode-line-active "color-237" frame)
+    (set-face-background 'header-line "color-234" frame)
+    (set-face-background 'magit-diff-removed-highlight "gray39" frame)
+
+ ;;    '(mode-line-inactive ((((type tty))
+ ;;                           (:background "color-235"))))
+
+ ;; '(mode-line-active ((((type tty))
+ ;;                      (:background "color-237"))))
+
+ ;; '(header-line ((((type tty))
+ ;;                 (:background "color-234" :italic t))))
+
+ ;; '(magit-diff-removed-highlight ((((type tty))
+ ;;                                  (:background "gray29"))))
+
     ))
 
-(add-hook 'after-make-frame-functions 'set-faces-for-terminal)
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (select-frame frame)
+            (set-faces-for-terminal frame)
+            (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)))
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (select-frame frame)
-                (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)))
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154))
+;; (if (daemonp)
+;;     (add-hook 'after-make-frame-functions
+;;               (lambda (frame)
+;;                 (select-frame frame)
+;;                 (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)))
+;;   (progn
+;;     (set-faces-for-terminal)
+;;     (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)))
 
 (use-package ligature
   :ensure t
@@ -90,23 +113,26 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode t))
 
-(custom-set-faces
- ;; other faces
- ;; '(magit-diff-added ((((type tty)) (:foreground "green"))))
- ;; '(magit-diff-added-highlight ((((type tty)) (:foreground "LimeGreen"))))
- ;; '(magit-diff-context-highlight ((((type tty)) (:foreground "default"))))
- ;; '(magit-diff-file-heading ((((type tty)) nil)))
- ;; '(magit-diff-removed ((((type tty)) (:foreground "red"))))
- '(mode-line-inactive ((((type tty))
-                        (:background "color-236"))))
+;; (custom-set-faces
+;;  ;; other faces
+;;  ;; '(magit-diff-added ((((type tty)) (:foreground "green"))))
+;;  ;; '(magit-diff-added-highlight ((((type tty)) (:foreground "LimeGreen"))))
+;;  ;; '(magit-diff-context-highlight ((((type tty)) (:foreground "default"))))
+;;  ;; '(magit-diff-file-heading ((((type tty)) nil)))
+;;  ;; '(magit-diff-removed ((((type tty)) (:foreground "red"))))
+;;  '(mode-line-inactive ((((type tty))
+;;                         (:background "color-235"))))
 
- '(mode-line-active ((((type tty))
-                        (:background "color-23"))))
+;;  '(mode-line-active ((((type tty))
+;;                       (:background "color-237"))))
 
- '(magit-diff-removed-highlight ((((type tty))
-                                  (:background "gray29"))))
- ;; '(magit-section-highlight ((((type tty)) nil)))
- )
+;;  '(header-line ((((type tty))
+;;                  (:background "color-234" :italic t))))
+
+;;  '(magit-diff-removed-highlight ((((type tty))
+;;                                   (:background "gray29"))))
+;;  ;; '(magit-section-highlight ((((type tty)) nil)))
+;;  )
 
 (use-package colorful-mode
   :ensure t
@@ -117,7 +143,7 @@
   :ensure t
   :config
   (breadcrumb-mode t)
-  (set-face-attribute 'breadcrumb-face nil :foreground "gray70"))
+  (set-face-attribute 'breadcrumb-face nil :foreground "gray70" :background nil))
 
 ;; (use-package all-the-icons
 ;;   :ensure t)

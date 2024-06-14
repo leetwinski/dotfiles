@@ -290,7 +290,7 @@
   (call-interactively 'indent-for-tab-command))
 
 (define-key prog-mode-map (kbd "C-x x ;") 'insert-semi-at-eol)
-(define-key prog-mode-map (kbd "C-x M-RET") 'insert-empty-line-and-go)
+(define-key prog-mode-map (kbd "C-M-j") 'insert-empty-line-and-go)
 (define-key global-map (kbd "C-x M-;") 'comment-line)
 
 (use-package rfc-mode

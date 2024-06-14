@@ -53,9 +53,19 @@
   (setf sly-default-lisp 'roswell)
   (setf inferior-lisp-program "ros -L sbcl -Q -l ~/.sbclrc run"))
 
+
+
+(defun sly-make-run (directory)
+  (interactive (list (read-directory-name "Project directory: ")))
+  (sly-start :program "make"
+             :program-args '("run")
+             :directory directory
+             :name 'make
+             :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
+
 (defun sly-qlot-exec (directory)
   (interactive (list (read-directory-name "Project directory: ")))
-  (sly-start :program "qlot"
+  (sly-start :program "~/.roswell/bin/qlot"
              :program-args '("exec" "ros" "-S" "." "run")
              :directory directory
              :name 'qlot

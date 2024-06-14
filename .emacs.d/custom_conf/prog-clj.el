@@ -14,7 +14,12 @@
 (use-package cider
   :ensure t
   :defer t
-  :bind)
+  :config
+  (keymap-unset cider-repl-mode-map "M-s" 'remove)
+  (keymap-unset cider-repl-mode-map "RET" 'cider-repl-return)
+  :bind
+  (:map cider-repl-mode-map
+        ("M-RET" . cider-repl-return)))
 
 (use-package sotclojure
   :ensure t
