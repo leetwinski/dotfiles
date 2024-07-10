@@ -95,7 +95,6 @@ in
     bat
     nnn
     btop
-    neofetch
     dig
     keychain
     sqlite
@@ -120,7 +119,7 @@ in
     vscode-langservers-extracted
     nodePackages_latest.typescript-language-server
     yaml-language-server
-    nodePackages_latest.bash-language-server
+    bash-language-server
     jdt-language-server
     zls
     ocamlPackages.lsp
@@ -263,7 +262,7 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
-    export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath([pkgs.openssl])}
+    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath([pkgs.openssl])}"
 
     alias ew="emacsclient -c"
 
@@ -323,7 +322,7 @@ in
   services.emacs.enable = true;
 
   home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.5
+    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.6
   '';
 
   home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["installPackages"] ''
