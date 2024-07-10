@@ -33,8 +33,7 @@
                      doc-md
                      infra-docker
                      communication
-                     org-stuff
-                     ai))
+                     org-stuff))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
