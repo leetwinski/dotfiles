@@ -129,13 +129,21 @@
   ;; :config
   :init
   (global-company-mode t)
-  (define-key company-mode-map [remap completion-at-point] #'company-complete)
-  :init
-  :bind ("C-M-i" . company-complete)
+  ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)
+  ;; (:map company-active-map
+  ;;       ("TAB" . company-complete-common-or-cycle)
+  ;;       ("<backtab>" . (company-complete-common-or-cycle -1)))
+  ;; :bind ("C-M-i" . company-complete)
   ;; :hook (prog-mode . (lambda () (add-to-list
   ;;                           'completion-at-point-functions
   ;;                           #'company-complete)))
+  :bind
+  ("M-/" . company-complete-common-or-cycle)
+  (:map company-active-map
+        ("M-." . company-show-location))
   )
+
+
 
 (use-package company-quickhelp
   :ensure t

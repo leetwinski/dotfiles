@@ -21,7 +21,7 @@
   (set-face-background 'vertical-border nil)
   (set-face-foreground 'vertical-border "grey18")
   (set-mouse-color "LightSteelBlue3")
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 154)
+
   ;; Enable flashing mode-line on errors
   ;; (doom-themes-visual-bell-config)
   ;; or for treemacs users
@@ -32,11 +32,10 @@
   )
 
 (set-variable 'frame-background-mode 'dark)
-
-;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 13")
-
+(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 164)
+;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 17")
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
-;;                            :size 17
+;;                            :size 24
 ;;                            :weight 'semilight))
 
 (use-package doom-modeline
