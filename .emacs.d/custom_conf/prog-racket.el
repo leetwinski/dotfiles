@@ -16,6 +16,9 @@
                    (racket-unicode-input-method-enable)
                    (paredit-mode t)
                    (eglot-ensure)
-                   (eldoc-mode t))))
+                   (eldoc-mode t)))
+  :bind
+  (:map racket-repl-mode-map
+        ("M-RET" . racket-repl-submit)))
 
 (provide 'prog-racket)
