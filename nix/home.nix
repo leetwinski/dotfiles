@@ -132,6 +132,7 @@ in
     metals
     luajitPackages.lua-lsp
     sqls
+    pyright
   ]); # ++ [nixos.nodejs_21] ;
 
 
@@ -292,7 +293,7 @@ in
         fi
     }
 
-    if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ -z "$INSIDE_EMACS" ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
       exec tmux
     fi
 
@@ -322,7 +323,7 @@ in
   services.emacs.enable = true;
 
   home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.6
+    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.7
   '';
 
   home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["installPackages"] ''

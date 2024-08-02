@@ -27,6 +27,7 @@
                      prog-zig
                      prog-go
                      prog-c
+                     prog-py
                      prog-data-formats
                      prog-nix
                      prog-ocaml

@@ -20,7 +20,6 @@
   (set-face-background 'default "black")
   (set-face-background 'vertical-border nil)
   (set-face-foreground 'vertical-border "grey18")
-  (set-mouse-color "LightSteelBlue3")
 
   ;; Enable flashing mode-line on errors
   ;; (doom-themes-visual-bell-config)
@@ -32,7 +31,19 @@
   )
 
 (set-variable 'frame-background-mode 'dark)
-(set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 164)
+
+(defun new-frame-fn ()
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 164)
+  ;; (add-hook 'vterm-mode-hook
+  ;;           (lambda ()
+  ;;             (set (make-local-variable 'buffer-face-mode-face) )
+  ;;             (buffer-face-mode t)))
+  (set-mouse-color "LightSteelBlue3"))
+
+(new-frame-fn)
+
+(add-hook 'server-after-make-frame-hook
+          #'new-frame-fn)
 ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 17")
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
 ;;                            :size 24

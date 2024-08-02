@@ -3,17 +3,21 @@
   :defer t
   :mode "\\.jl\\'")
 
-
 (use-package julia-snail
   :ensure t
   :defer t
+  :config
+  (setf julia-snail-multimedia-enable t)
+  (setf julia-snail-multimedia-buffer-autoswitch t)
   :hook (julia-mode . (lambda ()
-                        (eldoc-mode +1)
-                        (julia-snail-mode t))))
+                        (julia-snail-mode 1)
+                        (eldoc-mode +1))))
 
 ;; (use-package eglot-jl
 ;;   :ensure t
 ;;   :after (julia-mode)
+;;   :config
+;;   (setf eglot-connect-timeout 300)
 ;;   :init
 ;;   (eglot-jl-init)
 ;;   :hook

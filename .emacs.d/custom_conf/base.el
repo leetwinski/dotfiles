@@ -10,6 +10,7 @@
             ;; Lower threshold back to 8 MiB (default is 800kB)
             (setf gc-cons-threshold (expt 2 23))
             (setf delete-by-moving-to-trash t)
+            (setf split-width-threshold 140)
             (setq-default tab-width 4)
             (menu-bar-mode -99)
             (tool-bar-mode -1)
