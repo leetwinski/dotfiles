@@ -117,6 +117,15 @@
   ;;       ("d" . consult-dir))
   )
 
+(use-package consult-dash
+  :bind (("M-s -" . consult-dash))
+  :ensure t
+  :custom
+  (dash-docs-browser-func 'eww)
+  :config
+  ;; Use the symbol at point as initial search term
+  (consult-customize consult-dash :initial (thing-at-point 'symbol)))
+
 (use-package consult-ag
   :ensure t
   :defer t

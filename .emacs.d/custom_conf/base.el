@@ -390,4 +390,7 @@
 
 (bind-key (kbd "M-g w") #'browse-url-generic)
 
+(use-package w3m
+  :ensure t)
+
 (provide 'base)

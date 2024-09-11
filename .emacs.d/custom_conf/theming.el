@@ -7,7 +7,17 @@
 
 ;; (load-theme 'modus-vivendi t)
 
-;; (add-hook 'after-init-hook 'global-hl-line-mode)
+(add-hook 'after-init-hook (lambda ()
+                             (global-hl-line-mode)
+                             ;; (set-face-attribute 'hl-line nil
+                             ;;                     :background "grey14"
+                             ;;                     :underline nil
+                             ;;                     :inverse-video nil
+                             ;;                     :extend t :foreground nil)
+                             ))
+
+;; (add-hook 'vterm-mode-hook (lambda ()
+;;                              (hl-line-mode nil)))
 
 (use-package doom-themes
   :ensure t
@@ -16,10 +26,29 @@
   (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-miramare t)
-  (load-theme 'doom-feather-dark t)
-  (set-face-background 'default "black")
-  (set-face-background 'vertical-border nil)
-  (set-face-foreground 'vertical-border "grey18")
+
+  ;; (load-theme 'doom-feather-dark t)
+  ;; (set-face-background 'vertical-border nil)
+
+  (load-theme 'doom-rouge t)
+  ;; (load-theme 'doom-meltbus t)
+
+  (set-face-foreground 'vertical-border "grey48")
+
+  ;; (set-face-attribute 'magit-section-heading nil
+  ;;                     :foreground "#3af"
+  ;;                     :underline nil)
+
+  ;; (set-face-attribute 'region nil
+  ;;                     :inverse-video nil
+  ;;                     :background "grey20"
+  ;;                     :foreground "#f8b0b0")
+
+  ;; (set-face-attribute 'magit-diff-hunk-region nil
+  ;;                     :background "grey20")
+
+
+  ;; (set-face-background 'default "black")
 
   ;; Enable flashing mode-line on errors
   ;; (doom-themes-visual-bell-config)
@@ -27,6 +56,7 @@
   ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
   ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
+
   (doom-themes-org-config)
   )
 
@@ -53,7 +83,9 @@
   :ensure t
   :defer t
   :commands (doom-modeline-mode)
-  :hook (after-init . doom-modeline-mode))
+  :hook (after-init . (lambda ()
+                        (doom-modeline-mode 1)
+                        (set-face-attribute 'doom-modeline nil :background "grey19"))))
 
 (use-package nerd-icons
   :defer t

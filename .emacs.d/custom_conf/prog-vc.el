@@ -14,6 +14,20 @@
   (:map project-prefix-map
         ("v" . project-magit-or-vc-dir))
   :hook
-  (git-commit-setup . flyspell-mode))
+  (magit-mode . (lambda ()
+                  (unless (display-graphic-p)
+                    (set-face-attribute 'magit-diff-added nil :foreground "#ac9e7a"
+                                        :background "grey10")
+                    (set-face-attribute 'magit-diff-added-highlight nil
+                                        :foreground "#73803a"
+                                        :background "grey10")
+                    (set-face-attribute 'magit-diff-removed nil :foreground "#a89"
+                                        :background "grey10")
+                    (set-face-attribute 'magit-diff-removed-highlight nil
+                                        :foreground "#a69"
+                                        :background "grey10"))))
+  ;; :hook
+  ;; (git-commit-setup . flyspell-mode)
+  )
 
 (provide 'prog-vc)

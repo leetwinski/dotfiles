@@ -71,12 +71,13 @@ in
     maxima
     wxmaxima
     # nyxt
+    graphviz
+    w3m
     idris2
     scala_3
     jdk21
     maven
     gradle
-    luajit
     mermaid-cli
     svgbob
     gnuplot
@@ -116,7 +117,7 @@ in
     #   echo "Hello, ${config.home.username}!"
     # '')
   ] ++ (with unstable; [
-    vscode-langservers-extracted
+    # vscode-langservers-extracted
     nodePackages_latest.typescript-language-server
     yaml-language-server
     bash-language-server
@@ -130,10 +131,9 @@ in
     marksman
     erlang-ls
     metals
-    luajitPackages.lua-lsp
     sqls
     pyright
-  ]); # ++ [nixos.nodejs_21] ;
+  ]) ++ [nixos.vscode-langservers-extracted] ;
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -326,7 +326,7 @@ in
     PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.7
   '';
 
-  home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install qlot
-  '';
+  # home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["home.activation.ros-install-sbcl"] ''
+  #   PATH="${config.home.path}/bin:$PATH" run ros install qlot
+  # '';
 }

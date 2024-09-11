@@ -66,7 +66,7 @@
 (defun sly-qlot-exec (directory)
   (interactive (list (read-directory-name "Project directory: ")))
   (sly-start :program "~/.roswell/bin/qlot"
-             :program-args '("exec" "ros" "-S" "." "run")
+             :program-args '("exec" "ros" "dynamic-space-size=4096" "-S" "." "run")
              :directory directory
              :name 'qlot
              :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))

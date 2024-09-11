@@ -52,6 +52,8 @@
                       (cfg-path (locate-dominating-file buf-path name)))
             (expand-file-name name cfg-path))))))
 
+(defcustom eglot-format-on-save t "should eglot format buffer on save")
+
 (use-package eglot
   :init
   (defvar eglot-keymap (make-sparse-keymap))
@@ -76,8 +78,12 @@
         ("." . consult-eglot-symbols))
 
   :hook
-  (before-save . (lambda () (ignore-errors (eglot-format nil))))
-  :custom (eglot-connect-timeout 180)
+  (before-save . (lambda ()
+                   (when eglot-format-on-save
+                     (ignore-errors (eglot-format nil)))))
+  :custom
+  (eglot-connect-timeout 180)
+
   :init
   
   :config
