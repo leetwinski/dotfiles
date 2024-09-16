@@ -106,9 +106,20 @@
   :init
   (defvar avy-custom-keymap (make-sparse-keymap))
 
-  :custom
-  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+  :config
+  (set-face-attribute 'avy-lead-face nil
+                      :background "grey20"
+                      :foreground "gold")
+  (set-face-attribute 'avy-lead-face-0 nil
+                      :background "grey25")
+  (set-face-attribute 'avy-lead-face-1 nil
+                      :background "grey30")
+  (set-face-attribute 'avy-lead-face-2 nil
+                      :background "grey30")
 
+  :custom
+  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))  
+  
   :bind-keymap
   ("M-s q" . avy-custom-keymap)
   :bind
