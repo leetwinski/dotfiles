@@ -106,8 +106,9 @@
   :init
   (defvar avy-custom-keymap (make-sparse-keymap))
 
-  :custom (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
-  
+  :custom
+  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+
   :bind-keymap
   ("M-s q" . avy-custom-keymap)
   :bind
@@ -153,7 +154,7 @@
   :config
   (defvar mc-map (make-sparse-keymap))
   :bind-keymap
-  ("M-s `" . mc-map)
+  ("M-s TAB" . mc-map)
   :bind
   (:map search-map
         ("SPC" . mc/mark-more-like-this-extended)
@@ -167,16 +168,16 @@
         ("w w" . mc/mark-all-words-like-this)
         ("w n" . mc/mark-next-word-like-this)
         ("w p" . mc/mark-previous-word-like-this)
-        ("w f" . mc/mark-all-words-like-this-in-defun)
+        ("w d" . mc/mark-all-words-like-this-in-defun)
         ("s s" . mc/mark-all-symbols-like-this)
-        ("s f" . mc/mark-all-symbols-like-this-in-defun)
+        ("s d" . mc/mark-all-symbols-like-this-in-defun)
         ("s n" . mc/mark-next-symbol-like-this)
         ("s p" . mc/mark-previous-symbol-like-this)
         ("SPC" . mc/mark-more-like-this-extended)
-        ("`" . mc/mark-all-dwim)
+        ("TAB" . mc/mark-all-dwim)
         (". ." . mc/mark-all-like-this-dwim)
         (". ," . mc/mark-all-like-this)
-        (". f" . mc/mark-all-like-this-in-defun)
+        (". d" . mc/mark-all-like-this-in-defun)
         (". r" . mc/mark-all-in-region)
         (". R" . mc/mark-all-in-region-regexp)
         (">" . mc/mark-sgml-tag-pair)
@@ -272,9 +273,25 @@
 (setq tramp-backup-directory-alist backup-directory-alist)
 (setq tramp-auto-save-directory autosave-dir)
 
+(defun kill-whole-paragraph ()
+  (interactive)
+  (save-excursion
+    (mark-paragraph)
+    (cl-destructuring-bind ((s . e)) (region-bounds)
+      (kill-region s e))))
+
+(defun kill-whole-defun ()
+  (interactive)
+  (save-excursion
+    (mark-defun)
+    (cl-destructuring-bind ((s . e)) (region-bounds)
+      (kill-region s e))))
+
 (global-set-key (kbd "C-x x DEL") 'delete-all-space)
 (global-set-key (kbd "C-x x s") 'backward-kill-sexp)
-(global-set-key (kbd "C-x x l") 'kill-whole-line)
+(global-set-key (kbd "C-x x l") 'crux-kill-whole-line)
+(global-set-key (kbd "C-x x p") 'kill-whole-paragraph)
+(global-set-key (kbd "C-x x d") 'kill-whole-defun)
 
 (use-package easy-kill
   :ensure t

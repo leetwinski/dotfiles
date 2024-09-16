@@ -64,6 +64,16 @@
 
 (defun new-frame-fn ()
   (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 164)
+  (set-face-attribute 'avy-lead-face nil
+                      :background "grey20"
+                      :foreground "gold")
+  (set-face-attribute 'avy-lead-face-0 nil
+                      :background "grey25")
+  (set-face-attribute 'avy-lead-face-1 nil
+                      :background "grey30")
+  (set-face-attribute 'avy-lead-face-2 nil
+                      :background "grey30")
+
   ;; (add-hook 'vterm-mode-hook
   ;;           (lambda ()
   ;;             (set (make-local-variable 'buffer-face-mode-face) )
@@ -83,9 +93,7 @@
   :ensure t
   :defer t
   :commands (doom-modeline-mode)
-  :hook (after-init . (lambda ()
-                        (doom-modeline-mode 1)
-                        (set-face-attribute 'doom-modeline nil :background "grey19"))))
+  :hook (after-init . (lambda () (doom-modeline-mode 1))))
 
 (use-package nerd-icons
   :defer t

@@ -133,6 +133,7 @@ in
     metals
     sqls
     pyright
+    nixd
   ]) ++ [nixos.vscode-langservers-extracted] ;
 
 
@@ -263,7 +264,7 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
-    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath([pkgs.openssl])}"
+    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl]}"
 
     alias ew="emacsclient -c"
 

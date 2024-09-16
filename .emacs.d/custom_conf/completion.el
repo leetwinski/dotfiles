@@ -110,6 +110,14 @@
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
   (setq consult-project-function #'consult--default-project-function))
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode t)
+  :custom
+  (which-key-idle-delay 1)
+  (which-key-secondary-delay 0.4))
+
 (use-package consult-dir
   :ensure t
   :bind
