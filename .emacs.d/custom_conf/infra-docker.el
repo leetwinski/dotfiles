@@ -8,6 +8,9 @@
   :hook
   (dockerfile-mode . (lambda ()
                        (eldoc-mode t)
-                       (eglot-ensure))))
+                       (eglot-ensure)))
+  (dockerfile-ts-mode . (lambda ()
+                          (eldoc-mode t)
+                          (eglot-ensure))))
 
 (provide 'infra-docker)

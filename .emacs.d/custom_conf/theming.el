@@ -93,6 +93,17 @@
   :ensure t
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
+(use-package nerd-icons-completion
+  :ensure t
+  :config
+  (nerd-icons-completion-mode))
+
+;; (use-package compile-multi-nerd-icons
+;;   :ensure t
+;;   :after nerd-icons-completion
+;;   :after compile-multi
+;;   :demand t)
+
 (use-package ligature
   :ensure t
   :config

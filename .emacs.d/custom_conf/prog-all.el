@@ -91,7 +91,11 @@
   (add-to-list 'eglot-server-programs
                `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
                                                        ("vscode-json-languageserver" "--stdio")
-                                                       ("json-languageserver" "--stdio")))))
+                                                       ("json-languageserver" "--stdio"))))
+               ;; `(json-ts-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
+               ;;                                         ("vscode-json-languageserver" "--stdio")
+               ;;                                         ("json-languageserver" "--stdio"))))
+               )
   (add-to-list 'display-buffer-alist
                '("\\*sqls\\*"
                  (display-buffer-reuse-window display-buffer-at-bottom)
@@ -206,6 +210,15 @@
   :init
   (ws-butler-global-mode t))
 
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist
+   '(typescript javascript rust java kotlin nix c sql html python json toml yaml csv go docker))
+  (global-treesit-auto-mode))
+
 (use-package tree-sitter-langs
   :ensure t
   :defer t
@@ -301,6 +314,22 @@
 
 (use-package rfc-mode
   :ensure t)
+
+;; (use-package compile-multi
+;;   :ensure t)
+
+;; (use-package consult-compile-multi
+;;   :ensure t
+;;   :after compile-multi
+;;   :demand t
+;;   :config (consult-compile-multi-mode))
+
+;; (use-package compile-multi-embark
+;;   :ensure t
+;;   :after embark
+;;   :after compile-multi
+;;   :demand t
+;;   :config (compile-multi-embark-mode +1))
 
 ;; (use-package puni
 ;;   :ensure t

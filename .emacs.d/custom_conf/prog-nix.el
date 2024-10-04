@@ -4,7 +4,10 @@
   :hook
   (nix-mode . (lambda ()
                 (eglot-ensure)
-                (eldoc-mode +1))))
+                (eldoc-mode +1)))
+  (nix-ts-mode . (lambda ()
+                   (eglot-ensure)
+                   (eldoc-mode +1))))
 
 (add-hook 'nix-repl-mode-hook
           (lambda ()

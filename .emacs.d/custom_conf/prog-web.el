@@ -10,6 +10,16 @@
                 (eglot-ensure)
                 (eldoc-mode +1))))
 
+(add-hook 'html-ts-mode-hook
+          (lambda ()
+            (eglot-ensure)
+            (eldoc-mode +1)))
+
+(add-hook 'css-ts-mode-hook
+          (lambda ()
+            (eglot-ensure)
+            (eldoc-mode +1)))
+
 (use-package emmet-mode
   :ensure t
   :hook

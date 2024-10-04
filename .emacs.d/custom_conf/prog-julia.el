@@ -3,6 +3,11 @@
   :defer t
   :mode "\\.jl\\'")
 
+;; (use-package julia-ts-mode
+;;   :ensure t
+;;   :defer t
+;;   :mode "\\.jl\\'")
+
 (use-package julia-snail
   :ensure t
   ;; :defer t

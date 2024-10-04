@@ -298,6 +298,9 @@
     (cl-destructuring-bind ((s . e)) (region-bounds)
       (kill-region s e))))
 
+(use-package crux
+  :ensure t)
+
 (global-set-key (kbd "C-x x DEL") 'delete-all-space)
 (global-set-key (kbd "C-x x s") 'backward-kill-sexp)
 (global-set-key (kbd "C-x x l") 'crux-kill-whole-line)

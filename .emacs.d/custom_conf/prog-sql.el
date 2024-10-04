@@ -5,6 +5,9 @@
   :hook
   (sql-mode . (lambda ()
                 (eglot-ensure)
-                (eldoc-mode +1))))
+                (eldoc-mode +1)))
+  (sql-ts-mode . (lambda ()
+                   (eglot-ensure)
+                   (eldoc-mode +1))))
 
 (provide 'prog-sql)

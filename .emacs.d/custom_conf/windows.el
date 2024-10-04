@@ -25,8 +25,10 @@
   :config
   (setq aw-scope 'frame)
   (setq aw-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+  (setq aw-make-frame-char ?`)
   :bind
-  ("M-o" . ace-window))
+  ("M-o" . ace-window)
+  ("C-x w o" . ace-swap-window))
 
 ;; (use-package windmove
 ;;   :ensure t

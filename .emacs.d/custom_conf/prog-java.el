@@ -3,6 +3,11 @@
   :after (java-mode)
   :ensure t)
 
+(add-hook 'java-ts-mode-hook (lambda ()
+                               (eglot-ensure)
+                               (eglot-java-mode 1)
+                               (eldoc-mode +1)))
+
 (add-hook 'java-mode-hook (lambda ()
                             (eglot-ensure)
                             (eglot-java-mode 1)

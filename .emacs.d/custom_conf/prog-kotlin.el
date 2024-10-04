@@ -1,3 +1,9 @@
+(use-package kotlin-ts-mode
+  :ensure t
+  :hook (kotlin-ts-mode . (lambda ()
+                            (eldoc-mode t)
+                            (eglot-ensure))))
+
 (use-package kotlin-mode
   :ensure t
   :defer t

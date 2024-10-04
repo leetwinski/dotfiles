@@ -5,7 +5,10 @@
   :hook
   (rust-mode . (lambda ()
                  (eglot-ensure)
-                 (eldoc-mode +1))))
+                 (eldoc-mode +1)))
+  (rust-ts-mode . (lambda ()
+                    (eglot-ensure)
+                    (eldoc-mode +1))))
 
 (use-package cargo-mode
   :ensure t
