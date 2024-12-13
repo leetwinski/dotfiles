@@ -31,7 +31,8 @@ in
     # git
     babashka
     rlwrap
-    fira-code-nerdfont
+    nerd-fonts.fira-code
+    # fira-code-nerdfont
     roswell
     go
     clojure
@@ -41,7 +42,7 @@ in
     silver-searcher
     platinum-searcher
     fzf
-    curl
+    # curl
     tmux
     zig
     ocaml
@@ -49,7 +50,7 @@ in
     opam
     cmake
     kotlin
-    julia-bin
+    # julia-lts
     vivaldi
     purescript
     spago
@@ -59,7 +60,7 @@ in
     gnumake
     janet
     jpm
-    nodePackages_latest.ts-node
+    # nodePackages_latest.ts-node
     typescript
     bun
     aspell
@@ -100,10 +101,10 @@ in
     keychain
     sqlite
     tdlib
-    openssl
     xdg-utils
     wsl-open
     nodejs_22
+    julia
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -134,7 +135,7 @@ in
     sqls
     pyright
     nixd
-  ]) ++ [nixos.vscode-langservers-extracted] ;
+  ]) ++ [nixos.vscode-langservers-extracted nixos.openssl nixos.curl] ;
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -264,7 +265,7 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
-    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl]}"
+    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl_3_2]}"
 
     alias ew="emacsclient -c"
 
@@ -324,7 +325,7 @@ in
   services.emacs.enable = true;
 
   home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.7
+    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.11
   '';
 
   # home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["home.activation.ros-install-sbcl"] ''
