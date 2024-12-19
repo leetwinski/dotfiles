@@ -219,6 +219,11 @@
   :bind
   ("M-$" . consult-flyspell))
 
+(use-package consult-vc-modified-files
+  :ensure t
+  :bind
+  ("C-x v /" . consult-vc-modified-files))
+
 (use-package prescient
   :ensure t)
 
