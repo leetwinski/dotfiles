@@ -26,6 +26,7 @@
             (global-subword-mode t)
             (setf ring-bell-function #'ignore)
             (put 'upcase-region 'disabled nil)
+            (repeat-mode t)
             (put 'downcase-region 'disabled nil)))
 
 (defun shell-command-on-buffer ()
@@ -256,20 +257,22 @@
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
   (advice-add 'magit-process-filter :around #'my/advice-compilation-filter)
 
-  (setf comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions)))
+  ;; (setf comint-output-filter-functions
+  ;;       (remove 'ansi-color-process-output comint-output-filter-functions))
+  )
 
-(add-hook 'shell-mode-hook
-          (lambda ()
-            ;; Disable font-locking in this buffer to improve performance
-            (font-lock-mode -1)
-            ;; Prevent font-locking from being re-enabled in this buffer
-            (make-local-variable 'font-lock-function)
-            (setq font-lock-function (lambda (_) nil))
-            (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-;; (add-hook 'shell-mode-hook 'colorize-output)
-;; (add-hook 'comint-mode-hook 'colorize-output)
-;; (add-hook 'magit-process-mode-hook 'colorize-output)
+;; (add-hook 'shell-mode-hook
+;;           (lambda ()
+;;             ;; Disable font-locking in this buffer to improve performance
+;;             (font-lock-mode -1)
+;;             ;; Prevent font-locking from being re-enabled in this buffer
+;;             (make-local-variable 'font-lock-function)
+;;             (setq font-lock-function (lambda (_) nil))
+;;             (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+
+(add-hook 'shell-mode-hook 'colorize-output)
+(add-hook 'comint-mode-hook 'colorize-output)
+(add-hook 'magit-process-mode-hook 'colorize-output)
 
 (defun dotemacs ()
   "Open init.el for editing."
@@ -354,10 +357,22 @@
 
 (setf bookmark-save-flag 1)
 
-(defun disable-drag-stuff ()
-  (interactive)
-  (turn-off-drag-stuff-mode)
-  (message "drag-stuff mode disabled"))
+;; (defun disable-drag-stuff ()
+;;   (interactive)
+;;   (turn-off-drag-stuff-mode)
+;;   (message "drag-stuff mode disabled"))
+
+;; (use-package drag-stuff
+;;   :ensure t
+;;   :defer t
+;;   :bind
+;;   ("C-x <up>" . drag-stuff-mode)
+;;   (:map drag-stuff-mode-map
+;;         ("C-g" . disable-drag-stuff))
+;;   :config
+;;   (setf drag-stuff-modifier nil)
+;;   (drag-stuff-define-keys))
+
 
 (use-package drag-stuff
   :ensure t
@@ -369,20 +384,6 @@
   :config
   (setf drag-stuff-modifier nil)
   (drag-stuff-define-keys))
-
-
-(use-package drag-stuff
-  :ensure t
-  :defer t
-  :bind
-  ("C-x <up>" . drag-stuff-mode)
-  (:map drag-stuff-mode-map
-        ("C-g" . disable-drag-stuff))
-  :config
-  (setf drag-stuff-modifier nil)
-  (drag-stuff-define-keys))
-
-
 
 ;; (use-package phi-search
 ;;   :ensure t
@@ -407,7 +408,12 @@
   :hook (after-init . global-clipetty-mode))
 
 (xterm-mouse-mode t)
-(bind-key (kbd "C-c [")  #'vterm-copy-mode)
+;; (bind-key (kbd "C-c [")  #'vterm-copy-mode)
+
+(use-package eat
+  :ensure t
+  :hook (eshell-load . eat-eshell-mode)
+  :hook (eshell-load . eat-eshell-visual-command-mode))
 
 (use-package tramp
   :config
@@ -422,6 +428,9 @@
 (bind-key (kbd "M-g w") #'browse-url-generic)
 
 (use-package w3m
+  :ensure t)
+
+(use-package ess
   :ensure t)
 
 (provide 'base)

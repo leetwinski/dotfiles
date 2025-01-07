@@ -61,9 +61,9 @@
                   (unless (file-remote-p default-directory)
                     (nerd-icons-dired-mode 1)))))
 
-(use-package diredfl
-  :ensure t
-  :hook
-  (dired-mode . diredfl-mode))
+;; (use-package diredfl
+;;   :ensure t
+;;   :hook
+;;   (dired-mode . diredfl-mode))
 
 (provide 'fileman)

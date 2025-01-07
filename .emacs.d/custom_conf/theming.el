@@ -63,7 +63,7 @@
 (set-variable 'frame-background-mode 'dark)
 
 (defun new-frame-fn ()
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono" :height 164)  
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 164)
   ;; (add-hook 'vterm-mode-hook
   ;;           (lambda ()
   ;;             (set (make-local-variable 'buffer-face-mode-face) )

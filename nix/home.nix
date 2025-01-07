@@ -32,7 +32,7 @@ in
     babashka
     rlwrap
     nerd-fonts.fira-code
-    # fira-code-nerdfont
+    fira-code-nerdfont
     roswell
     go
     clojure
@@ -60,7 +60,7 @@ in
     gnumake
     janet
     jpm
-    # nodePackages_latest.ts-node
+    nodePackages_latest.ts-node
     typescript
     bun
     aspell
@@ -105,6 +105,7 @@ in
     wsl-open
     nodejs_22
     julia
+    python3Full
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -135,6 +136,11 @@ in
     sqls
     pyright
     nixd
+    delve
+    vscode-js-debug
+    gdb
+    vscode-extensions.vadimcn.vscode-lldb
+    ocamlPackages.earlybird    
   ]) ++ [nixos.vscode-langservers-extracted nixos.openssl nixos.curl] ;
 
 
@@ -265,7 +271,7 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
-    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl_3_2]}"
+    # export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl_3_2]}"
 
     alias ew="emacsclient -c"
 
@@ -304,6 +310,9 @@ in
       export BROWSER=wsl-open
     fi
 
+    [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+      source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
     '';
 
     # set some aliases, feel free to add more or remove some
@@ -325,7 +334,7 @@ in
   services.emacs.enable = true;
 
   home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.4.11
+    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.5.0
   '';
 
   # home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["home.activation.ros-install-sbcl"] ''

@@ -157,10 +157,7 @@
   :bind
   ("M-/" . company-complete-common-or-cycle)
   (:map company-active-map
-        ("M-." . company-show-location))
-  )
-
-
+        ("M-." . company-show-location)))
 
 (use-package company-quickhelp
   :ensure t
