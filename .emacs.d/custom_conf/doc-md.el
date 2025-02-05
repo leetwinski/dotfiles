@@ -12,4 +12,10 @@
                      (eldoc-mode 1)
                      (eglot-ensure))))
 
+(use-package mermaid-mode
+  :ensure t)
+
+(use-package ob-mermaid
+  :ensure t)
+
 (provide 'doc-md)

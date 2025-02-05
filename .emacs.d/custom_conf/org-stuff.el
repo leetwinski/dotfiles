@@ -4,17 +4,18 @@
   :config
   (org-roam-db-autosync-mode +1))
 
-(use-package poly-org
-  :ensure t
-  :defer t
-  :hook (org-mode . (lambda () (poly-org-mode t))))
+;; (use-package poly-org
+;;   :ensure t
+;;   :defer t
+;;   :hook (org-mode . (lambda () (poly-org-mode t))))
 
-(defun flycheck-buffer-not-indirect-p (&rest _)
-  "Ensure that the current buffer is not indirect."
-  (null (buffer-base-buffer)))
+;; (defun flycheck-buffer-not-indirect-p (&rest _)
+;;   "Ensure that the current buffer is not indirect."
+;;   (null (buffer-base-buffer)))
 
-(advice-add 'flycheck-may-check-automatically
-            :before-while #'flycheck-buffer-not-indirect-p)
+;; (advice-add 'flycheck-may-check-automatically
+;;             :before-while
+;;             #'flycheck-buffer-not-indirect-p)
 
 (use-package ob-restclient
   :ensure t
@@ -31,16 +32,23 @@
                            (org-babel-do-load-languages
                             'org-babel-load-languages
                             '((lisp . t)
+                              (mermaid . t)
                               (clojure . t)
                               (shell . t)
                               (js . t)
                               (C . t)
+                              (java . t)
                               (go . t)
                               (restclient . t)
                               (julia . t)
+                              (makefile . t)
+                              (ocaml . t)
                               (python . t)
+                              (gnuplot . t)
+                              (latex . t)
+                              ;; (maxima . t)
+                              (processing . t)
+                              ;; (sclang . t)
                               ))))
-
-
 
 (provide 'org-stuff)

@@ -1,8 +1,9 @@
 (use-package telega
   :ensure t
   :defer t
-  :custom
-  (telega-server-libs-prefix "/usr"))
+  ;; :custom
+  ;; (telega-server-libs-prefix "/usr")
+  )
 
 (use-package notmuch
   :ensure t

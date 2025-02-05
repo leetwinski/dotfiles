@@ -51,7 +51,6 @@ in
     cmake
     kotlin
     # julia-lts
-    vivaldi
     purescript
     spago
     erlang_26
@@ -106,6 +105,20 @@ in
     nodejs_22
     julia
     python3Full
+
+    telegram-desktop
+    slack
+
+    texliveFull
+    libreoffice-fresh
+    zip
+
+    # supercollider_scel
+    # supercolliderPlugins.sc3-plugins
+    processing
+    # kdePackages.kwayland
+    # kdePackages.wayqt
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -142,7 +155,6 @@ in
     vscode-extensions.vadimcn.vscode-lldb
     ocamlPackages.earlybird    
   ]) ++ [nixos.vscode-langservers-extracted nixos.openssl nixos.curl] ;
-
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -189,7 +201,7 @@ in
   programs.eza = {
     enable = true;
     package = unstable.eza;
-    icons = true;
+    icons = "auto";
     git = true;
     enableBashIntegration = true;
   };
@@ -271,7 +283,6 @@ in
     bashrcExtra = ''
     
     export EDITOR="emacsclient -nw"
-    # export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath[pkgs.openssl_3_2]}"
 
     alias ew="emacsclient -c"
 

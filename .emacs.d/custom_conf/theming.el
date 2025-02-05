@@ -30,10 +30,11 @@
   ;; (load-theme 'doom-feather-dark t)
   ;; (set-face-background 'vertical-border nil)
 
-  (load-theme 'doom-rouge t)
+  ;; (load-theme 'doom-rouge t)
   ;; (load-theme 'doom-meltbus t)
+  (load-theme 'doom-material-dark t)
 
-  (set-face-foreground 'vertical-border "grey48")
+  ;; (set-face-foreground 'vertical-border "grey48")
 
   ;; (set-face-attribute 'magit-section-heading nil
   ;;                     :foreground "#3af"
@@ -63,7 +64,8 @@
 (set-variable 'frame-background-mode 'dark)
 
 (defun new-frame-fn ()
-  (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 164)
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono Light" :height 112
+                      )
   ;; (add-hook 'vterm-mode-hook
   ;;           (lambda ()
   ;;             (set (make-local-variable 'buffer-face-mode-face) )

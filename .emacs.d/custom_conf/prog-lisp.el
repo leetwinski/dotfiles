@@ -5,6 +5,7 @@
   :hook
   (lisp-mode . (lambda () (paredit-mode 1)))
   (common-lisp-mode-hook . (lambda () (paredit-mode 1)))
+  (lisp-data-mode . (lambda () (paredit-mode 1)))
   :config
   (define-key paredit-mode-map (kbd "M-?") nil)
   (define-key paredit-mode-map (kbd "M-s") nil)
@@ -45,15 +46,13 @@
   (sly-mrepl-mode . slime-mrepl-hook)
   :init
   (add-to-list 'sly-contribs 'sly-asdf 'append)
-  (add-hook 'sly-mode-hook #'slime-hook)
-  (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
+  ;; (add-hook 'sly-mode-hook #'slime-hook)
+  ;; (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
   (setf sly-lisp-implementations
-        '((sbcl    ("sbcl" "--dynamic-space-size" "4096"))
-          (roswell ("ros" "dynamic-space-size=4096" "-Q" "-l" "~/.sbclrc" "run"))))
+        '((sbcl    ("sbcl" "--dynamic-space-size" "1024"))
+          (roswell ("ros" "dynamic-space-size=1024" "-Q" "-l" "~/.sbclrc" "run"))))
   (setf sly-default-lisp 'roswell)
-  (setf inferior-lisp-program "ros -L sbcl -Q -l ~/.sbclrc run"))
-
-
+  (setf inferior-lisp-program "ros dynamic-space-size=1024 -L sbcl -Q -l ~/.sbclrc run"))
 
 (defun sly-make-run (directory)
   (interactive (list (read-directory-name "Project directory: ")))

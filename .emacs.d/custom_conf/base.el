@@ -119,8 +119,8 @@
                       :background "grey30")
 
   :custom
-  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))  
-  
+  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+
   :bind-keymap
   ("M-s q" . avy-custom-keymap)
   :bind
@@ -133,7 +133,7 @@
         ("p" . avy-prev)
         ("n" . avy-next)
         ("a" . avy-resume)
-        
+
         ;; char
         ("q" . avy-goto-char-timer)
 
@@ -235,6 +235,18 @@
     "Non-local buffer candidate source for `consult-buffer'.")
 
   (setq consult-buffer-sources '(consult--source-hidden-buffer
+                                 consult--source-recent-file
+                                 consult--source-modified-buffer
+                                 consult--source-bookmark
+                                 consult--source-file-register
+                                 
+                                 consult--source-project-root
+                                 consult--source-project-buffer
+                                 consult--source-project-recent-file
+                                 consult--source-project-root-hidden
+                                 consult--source-project-buffer-hidden
+                                 consult--source-project-recent-file-hidden
+
                                  my-consult--source-local-buffer
                                  my-consult--source-buffer
                                  ;; ... other sources ...
@@ -357,10 +369,10 @@
 
 (setf bookmark-save-flag 1)
 
-;; (defun disable-drag-stuff ()
-;;   (interactive)
-;;   (turn-off-drag-stuff-mode)
-;;   (message "drag-stuff mode disabled"))
+(defun disable-drag-stuff ()
+  (interactive)
+  (turn-off-drag-stuff-mode)
+  (message "drag-stuff mode disabled"))
 
 ;; (use-package drag-stuff
 ;;   :ensure t
@@ -422,8 +434,9 @@
   (setq tramp-chunksize 2000))
 
 
-(when (string= (getenv "IS_WSL") "1")
-  (setf browse-url-generic-program "wsl-open"))
+(if (string= (getenv "IS_WSL") "1")
+  (setf browse-url-generic-program "wsl-open")
+  (setf browse-url-generic-program "vivaldi"))
 
 (bind-key (kbd "M-g w") #'browse-url-generic)
 
@@ -431,6 +444,9 @@
   :ensure t)
 
 (use-package ess
+  :ensure t)
+
+(use-package vterm
   :ensure t)
 
 (provide 'base)
