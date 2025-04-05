@@ -42,6 +42,7 @@ in
     silver-searcher
     platinum-searcher
     fzf
+    lsof
     # curl
     tmux
     zig
@@ -68,9 +69,11 @@ in
     aspellDicts.en-science
     aspellDicts.en-computers
     aspellDicts.es
-    maxima
-    wxmaxima
-    # nyxt
+
+    # maxima
+    # wxmaxima
+    nyxt
+
     graphviz
     w3m
     idris2
@@ -112,10 +115,16 @@ in
     texliveFull
     libreoffice-fresh
     zip
-
+    libev
     # supercollider_scel
     # supercolliderPlugins.sc3-plugins
     processing
+
+    aider-chat
+    pass
+
+    openssl
+    dotenv-cli
     # kdePackages.kwayland
     # kdePackages.wayqt
 
@@ -152,9 +161,10 @@ in
     delve
     vscode-js-debug
     gdb
-    vscode-extensions.vadimcn.vscode-lldb
+    # vscode-extensions.vadimcn.vscode-lldb
     ocamlPackages.earlybird    
-  ]) ++ [nixos.vscode-langservers-extracted nixos.openssl nixos.curl] ;
+  ]) ++ [nixos.vscode-langservers-extracted # nixos.openssl
+         nixos.curl] ;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -225,7 +235,7 @@ in
 
   programs.emacs = {
     enable = true;
-    package = nixos.emacs29; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    package = nixos.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
     # defaultEditor = true;
   };
 
@@ -295,7 +305,7 @@ in
     }
 
     function pp() {
-        path="$(find ~/dev/projects/*/* -maxdepth 0  -type d -print | fzf)"
+        path="$(find ~/dev/projects/ -maxdepth 5 -type d -name '.git' -printf '%h\n' | fzf)"
         if [ -z "$path" ]; then
             echo "project path is not specified"
             return 1
@@ -339,16 +349,9 @@ in
   home.file.".tmux.conf" = {
     source = ~/dotfiles/.tmux.conf;
   };
-
+ 
   systemd.user.startServices = true;
 
   services.emacs.enable = true;
 
-  home.activation.ros-install-sbcl = lib.hm.dag.entryAfter ["installPackages"] ''
-    PATH="${config.home.path}/bin:$PATH" run ros install sbcl-bin/2.5.0
-  '';
-
-  # home.activation.ros-install-qlot = lib.hm.dag.entryAfter ["home.activation.ros-install-sbcl"] ''
-  #   PATH="${config.home.path}/bin:$PATH" run ros install qlot
-  # '';
 }

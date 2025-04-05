@@ -50,4 +50,8 @@
                  (eldoc-mode 1)
                  (eglot-ensure))))
 
+(use-package protobuf-ts-mode
+  :ensure t
+  :mode "\\.proto\\'")
+
 (provide 'prog-data-formats)

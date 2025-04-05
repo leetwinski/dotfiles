@@ -6,12 +6,13 @@
   :custom
   (popper-window-height 16)
   (popper-reference-buffers '("\\*Messages\\*"
-                              "Output\\*$"
+                              ;; "Output\\*$"
                               "\\*xref\\*"
                               "\\*Async Shell Command\\*"
                               "\\*eldoc"
                               "\\*Flymake diagnostics"
                               "\\*sqls\\*"
+                              "\\*Warnings\\*"
                               eshell-mode
                               vterm-mode
                               help-mode

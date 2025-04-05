@@ -9,8 +9,8 @@
     (if (string-empty-p project-win)
         (shell-command (format "tmux new-window -n '[p]%s' emacsclient -nw -c '%s'"
                                pname
-                               dir))
-      (shell-command (format "tmux select-window -t '%s'" project-win)))))
+                               shell))
+      (dir-command (format "tmux select-window -t '%s'" project-win)))))
 
 (use-package project
   :ensure t
@@ -23,6 +23,19 @@
   :bind
   (:map project-other-frame-map
         ("_" . project-tmux-maybe-new-window)))
+
+(use-package otpp
+  :ensure t
+  :after project
+  :init
+  ;; If you like to define some aliases for better user experience
+  (defalias 'one-tab-per-project-mode 'otpp-mode)
+  (defalias 'one-tab-per-project-override-mode 'otpp-override-mode)
+  ;; Enable `otpp-mode` globally
+  (otpp-mode 1)
+  ;; If you want to advice the commands in `otpp-override-commands`
+  ;; to be run in the current's tab (so, current project's) root directory
+  (otpp-override-mode 1))
 
 (cl-defmethod project-root ((project string))
   project)
@@ -313,6 +326,9 @@
 (define-key global-map (kbd "C-x M-;") 'comment-line)
 
 (use-package rfc-mode
+  :ensure t)
+
+(use-package rmsbolt
   :ensure t)
 
 ;; debug

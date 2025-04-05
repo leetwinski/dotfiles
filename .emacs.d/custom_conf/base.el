@@ -433,7 +433,6 @@
   (setq tramp-auto-save-directory "~/tmp/tramp/")
   (setq tramp-chunksize 2000))
 
-
 (if (string= (getenv "IS_WSL") "1")
   (setf browse-url-generic-program "wsl-open")
   (setf browse-url-generic-program "vivaldi"))
@@ -447,6 +446,8 @@
   :ensure t)
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  ;; :hook (vterm-mode . (lambda () (hl-line-mode -1)))
+  )
 
 (provide 'base)

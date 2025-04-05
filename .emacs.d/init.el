@@ -52,7 +52,8 @@
                      infra-docker
                      communication
                      org-stuff
-                     media))
+                     media
+                     ai))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
