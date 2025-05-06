@@ -24,7 +24,8 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+        doom-themes-enable-italic t
+        ) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-miramare t)
 
   ;; (load-theme 'doom-feather-dark t)
@@ -32,7 +33,8 @@
 
   ;; (load-theme 'doom-rouge t)
   ;; (load-theme 'doom-meltbus t)
-  (load-theme 'doom-material-dark t)
+  ;; (load-theme 'doom-material-dark t)
+  (load-theme 'doom-tomorrow-night t)
 
   ;; (set-face-foreground 'vertical-border "grey48")
 

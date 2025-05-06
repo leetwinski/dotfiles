@@ -427,6 +427,41 @@
   :hook (eshell-load . eat-eshell-mode)
   :hook (eshell-load . eat-eshell-visual-command-mode))
 
+
+;; ESHELL prompt
+
+(defun exec-to-str (cmd &rest args)
+  (with-temp-buffer
+    (let ((status (ignore-errors (apply #'call-process
+                                        cmd nil t nil args))))
+      (when (and status (zerop status))
+        (string-trim (buffer-string))))))
+
+(defun git-get-current-ref ()
+  (exec-to-str "git" "symbolic-ref" "--short" "HEAD"))
+
+(defun custom-eshell-prompt ()
+  (concat "\n  "
+          (abbreviate-path (abbreviate-file-name (eshell/pwd)) 3)
+          (when-let ((ref (git-get-current-ref)))
+            (concat "  " ref))
+          "\n  "))
+
+(defun abbreviate-path (path &optional section-max-len)
+  (let ((section-max-len (or section-max-len 2))
+        (chunks (split-string path "/")))
+    (string-join (append (cl-mapcar
+                          (lambda (chunk) (if (> (length chunk) section-max-len)
+                                         (substring-no-properties chunk 0 section-max-len)
+                                       chunk))
+                          (butlast chunks))
+                         (last chunks))
+                 "/")))
+
+
+(setf eshell-prompt-function #'custom-eshell-prompt)
+;; --------------------
+
 (use-package tramp
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)

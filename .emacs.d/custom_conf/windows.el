@@ -12,6 +12,7 @@
                               "\\*eldoc"
                               "\\*Flymake diagnostics"
                               "\\*sqls\\*"
+                              "\\*eat\\*"
                               "\\*Warnings\\*"
                               eshell-mode
                               vterm-mode
