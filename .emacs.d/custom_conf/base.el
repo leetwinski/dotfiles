@@ -37,7 +37,22 @@
    (read-shell-command "Shell command on buffer: ")))
 
 (bind-key (kbd "C-x x !") #'shell-command-on-buffer)
-(bind-key (kbd "C-x <down>") #'duplicate-dwim)
+
+(bind-key (kbd "C-x <down> <down>") #'duplicate-dwim)
+
+(bind-key (kbd "C-x <down> p") (lambda ()
+                                 (interactive)
+                                 (mark-paragraph)
+                                 (duplicate-dwim)
+                                 (deactivate-mark)
+                                 (forward-paragraph)))
+
+(bind-key (kbd "C-x <down> d") (lambda ()
+                                 (interactive)
+                                 (mark-defun)
+                                 (duplicate-dwim)
+                                 (deactivate-mark)
+                                 (forward-paragraph)))
 
 (use-package ffap
   :ensure t
@@ -441,11 +456,15 @@
   (exec-to-str "git" "symbolic-ref" "--short" "HEAD"))
 
 (defun custom-eshell-prompt ()
-  (concat "\n  "
-          (abbreviate-path (abbreviate-file-name (eshell/pwd)) 3)
-          (when-let ((ref (git-get-current-ref)))
-            (concat "  " ref))
-          "\n  "))
+  (let* ((path (abbreviate-file-name (eshell/pwd)))
+         (prefix (cond ((cl-search "~/dev/projects/work" path) "")
+                       ((cl-search "~/dev/projects/life" path) "♥")
+                       (t ""))))
+    (concat "\n "  prefix " "
+            (abbreviate-path path 3)
+            (when-let ((ref (git-get-current-ref)))
+              (concat "  " ref))
+            "\n  ")))
 
 (defun abbreviate-path (path &optional section-max-len)
   (let ((section-max-len (or section-max-len 2))

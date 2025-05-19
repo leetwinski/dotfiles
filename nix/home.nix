@@ -16,7 +16,7 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
 
   # The home.packages option allows you to install Nix packages into your
@@ -119,12 +119,15 @@ in
     # supercollider_scel
     # supercolliderPlugins.sc3-plugins
     processing
-
+    vivaldi
     aider-chat
     pass
-
+    
     openssl
     dotenv-cli
+
+    zoom-us
+    ghostty
     # kdePackages.kwayland
     # kdePackages.wayqt
 
@@ -305,7 +308,7 @@ in
     }
 
     function pp() {
-        path="$(find ~/dev/projects/ -maxdepth 5 -type d -name '.git' -printf '%h\n' | fzf)"
+        path="$(find /home/leet/dev/projects/ -maxdepth 5 -type d -name '.git' -printf '%h\n' | fzf)"
         if [ -z "$path" ]; then
             echo "project path is not specified"
             return 1
@@ -343,15 +346,18 @@ in
 
   home.file.".emacs.d" = {
     recursive = true;
-    source = ~/dotfiles/.emacs.d;
+    source = /home/leet/dotfiles/.emacs.d;
   };
 
   home.file.".tmux.conf" = {
-    source = ~/dotfiles/.tmux.conf;
+    source = /home/leet/dotfiles/.tmux.conf;
+  };
+
+  home.file.".config/ghostty/config" = {
+    source = /home/leet/dotfiles/.ghostty.conf;
   };
  
   systemd.user.startServices = true;
 
   services.emacs.enable = true;
-
 }

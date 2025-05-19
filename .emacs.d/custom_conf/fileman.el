@@ -36,9 +36,16 @@
   :after (treemacs)
   :config
   (project-treemacs-mode)
+  (treemacs-project-follow-mode 1)
+  (setf treemacs-project-follow-cleanup t)
   :bind
   (:map project-prefix-map
         ("t" . treemacs)))
+
+(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  :after (treemacs)
+  :ensure t
+  :config (treemacs-set-scope-type 'Tabs))
 
 (use-package treemacs-magit
   :ensure t

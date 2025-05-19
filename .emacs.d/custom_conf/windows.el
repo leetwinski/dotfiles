@@ -17,6 +17,7 @@
                               eshell-mode
                               vterm-mode
                               help-mode
+                              eat-mode
                               compilation-mode))
   :init
   (popper-mode +1)
