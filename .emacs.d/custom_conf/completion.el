@@ -47,6 +47,7 @@
          ("L" . consult-line-multi)
          ("k" . consult-keep-lines)
          ("u" . consult-focus-lines)
+         ("f d" . consult-fd)
          ;; Isearch integration
          ("e" . consult-isearch-history)
          :map isearch-mode-map
@@ -112,15 +113,18 @@
 
 (use-package which-key
   :ensure t
-  :config
-  (which-key-mode t)
+  :defer t
+  ;; :config
+  ;; (which-key-mode t)
   :custom
   (which-key-idle-delay 1)
-  (which-key-secondary-delay 0.4))
+  (which-key-secondary-delay 0.4)
+  :hook (after-init . (lambda () (which-key-mode t))))
 
 (use-package consult-dir
   :ensure t
-  :bind
+  :defer t
+  ;; :bind
   ;; (:map consult-keymap
   ;;       ("d" . consult-dir))
   )
@@ -193,7 +197,9 @@
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode t))
+  (vertico-mode t)
+  :config
+  (vertico-prescient-mode t))
 
 (use-package marginalia
   :ensure t
@@ -225,6 +231,7 @@
   :ensure t)
 
 (use-package wgrep
+  :defer t
   :ensure t)
 
 (define-key search-map (kbd "*") 'multi-occur)
@@ -232,9 +239,11 @@
 
 (use-package vertico-prescient
   :ensure t
-  :after (vertico prescient)
-  :config
-  (vertico-prescient-mode t))
+  :defer t
+  ;; :after (vertico prescient)
+  ;; :config
+  ;; (vertico-prescient-mode t)
+  )
 ;; end completion
 
 (provide 'completion)

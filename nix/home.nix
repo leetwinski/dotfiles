@@ -18,16 +18,15 @@ in
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with unstable; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+
     gnutar
     unzip
-    openssh
     # git
     babashka
     rlwrap
@@ -38,6 +37,7 @@ in
     clojure
     leiningen
     gcc
+    pkg-config
     racket
     silver-searcher
     platinum-searcher
@@ -112,25 +112,26 @@ in
     telegram-desktop
     slack
 
-    texliveFull
     libreoffice-fresh
     zip
     libev
     # supercollider_scel
     # supercolliderPlugins.sc3-plugins
     processing
-    vivaldi
-    aider-chat
     pass
     
     openssl
     dotenv-cli
+    fd
+    sbcl
 
     zoom-us
-    ghostty
+    # ghostty
+
+    yarn
     # kdePackages.kwayland
     # kdePackages.wayqt
-
+    # aider-chat-full
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -143,6 +144,8 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    kdePackages.kdecoration
+    kdePackages.applet-window-buttons6
   ] ++ (with unstable; [
     # vscode-langservers-extracted
     nodePackages_latest.typescript-language-server
@@ -164,10 +167,22 @@ in
     delve
     vscode-js-debug
     gdb
+    # openssh
     # vscode-extensions.vadimcn.vscode-lldb
-    ocamlPackages.earlybird    
+    ocamlPackages.earlybird
   ]) ++ [nixos.vscode-langservers-extracted # nixos.openssl
-         nixos.curl] ;
+         nixos.curl
+         nixos.vivaldi
+         nixos.texliveFull
+         nixos.aider-chat-full
+        ] ++ (let
+          ghostty = unstable.ghostty.overrideAttrs (_: {
+            preBuild = ''
+                  shopt -s globstar
+                  sed -i 's/^const xev = @import("xev");$/const xev = @import("xev").Epoll;/' **/*.zig
+                  shopt -u globstar
+            '';
+          }); in [ghostty]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -242,6 +257,11 @@ in
     # defaultEditor = true;
   };
 
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
   # programs.notmuch = {
   #   enable = true;
   #   config.user.name = "Victor Litvintsev";
@@ -270,27 +290,27 @@ in
     enableCompletion = true;
 
     profileExtra = ''
-    SSH_ENV="$HOME/.ssh/agent-environment"
+    # SSH_ENV="$HOME/.ssh/agent-environment"
 
-    function start_agent {
-      echo "Initialising new SSH agent..."
-      ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-      echo succeeded
-      chmod 600 "$SSH_ENV"
-      . "$SSH_ENV" > /dev/null
-    }
+    # function start_agent {
+    #   echo "Initialising new SSH agent..."
+    #   ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+    #   echo succeeded
+    #   chmod 600 "$SSH_ENV"
+    #   . "$SSH_ENV" > /dev/null
+    # }
 
-    # Source SSH settings, if applicable
+    # # Source SSH settings, if applicable
 
-    if [ -f "$SSH_ENV" ]; then
-      . "$SSH_ENV" > /dev/null
-      #ps $SSH_AGENT_PID doesn't work under cywgin
-      ps -ef | grep $SSH_AGENT_PID | grep ssh-agent$ > /dev/null || {
-          start_agent;
-      }
-    else
-      start_agent;
-    fi
+    # if [ -f "$SSH_ENV" ]; then
+    #   . "$SSH_ENV" > /dev/null
+    #   #ps $SSH_AGENT_PID doesn't work under cywgin
+    #   ps -ef | grep $SSH_AGENT_PID | grep ssh-agent$ > /dev/null || {
+    #       start_agent;
+    #   }
+    # else
+    #   start_agent;
+    # fi
     '';
 
     bashrcExtra = ''

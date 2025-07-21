@@ -1,5 +1,7 @@
 (use-package kotlin-ts-mode
   :ensure t
+  :defer t
+  :mode "\\.kt\\'"
   :hook (kotlin-ts-mode . (lambda ()
                             (eldoc-mode t)
                             (eglot-ensure))))

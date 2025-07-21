@@ -13,9 +13,11 @@
                      (eglot-ensure))))
 
 (use-package mermaid-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package ob-mermaid
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'doc-md)

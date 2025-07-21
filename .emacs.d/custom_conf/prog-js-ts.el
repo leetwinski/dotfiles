@@ -13,8 +13,9 @@
                        (setq compile-command "tsc"))))
 
 (use-package typescript-ts-mode
+  :defer t
   :ensure t
-  ;; :mode "\\.tsx?\\'"
+  :mode "\\.tsx?\\'"
   ;; :hook
   ;; (typescript-ts-mode . (lambda ()
   ;;                      (eglot-ensure)

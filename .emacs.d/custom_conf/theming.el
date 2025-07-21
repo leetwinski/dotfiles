@@ -86,6 +86,21 @@
 (use-package doom-modeline
   :ensure t
   :defer t
+  :config
+  (defsubst doom-modeline--drag-stuff ()
+  "Show the number of multiple cursors."
+    (when (bound-and-true-p drag-stuff-mode)
+      (propertize "󰹹"
+                  'face (doom-modeline-face 'doom-modeline-panel))))
+
+  (doom-modeline-def-segment drag-stuff
+    "Display buffer size."
+    (doom-modeline--drag-stuff))
+
+  (doom-modeline-def-modeline 'main
+    '(eldoc bar window-state workspace-name window-number modals drag-stuff matches follow buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(compilation objed-state misc-info project-name persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs check time))
+
   :commands (doom-modeline-mode)
   :hook (after-init . (lambda () (doom-modeline-mode 1))))
 
@@ -95,12 +110,29 @@
 
 (use-package nerd-icons-ibuffer
   :ensure t
+  :defer t
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
-(use-package nerd-icons-completion
+(use-package nerd-icons-xref
   :ensure t
-  :config
-  (nerd-icons-completion-mode))
+  :defer t
+  :init
+  (nerd-icons-xref-mode))
+
+;; (use-package nerd-icons-completion
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (nerd-icons-completion-mode))
+
+(use-package nerd-icons-grep
+  :ensure t
+  :defer t
+  :init
+  (nerd-icons-grep-mode)
+  :custom
+  (grep-use-headings t))
+
 
 ;; (use-package compile-multi-nerd-icons
 ;;   :ensure t
@@ -110,6 +142,8 @@
 
 (use-package ligature
   :ensure t
+  :defer t
+  :hook (after-init . (lambda () (global-ligature-mode t)))
   :config
   ;; Enable the www ligature in every possible major mode
   (ligature-set-ligatures t '("www"))
@@ -125,17 +159,23 @@
                                        "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (global-ligature-mode t))
+  ;; (global-ligature-mode t)
+  )
 
 (use-package colorful-mode
   :ensure t
-  :config
-  (global-colorful-mode 1))
+  :defer t
+  ;; :config
+  :hook (after-init . (lambda ()
+                        (global-colorful-mode 1))))
 
 (use-package breadcrumb
   :ensure t
-  :config
-  (breadcrumb-mode t)
+  :defer t
+  :hook (after-init . (lambda ()
+                        (breadcrumb-mode t)))
+  ;; :config
+  ;; (breadcrumb-mode t)
   ;; (set-face-attribute 'breadcrumb-face nil :foreground "gray70" :background nil)
   )
 

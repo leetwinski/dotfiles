@@ -20,19 +20,22 @@
                              (project-find-regexp "Regexp")
                              (project-magit-or-vc-dir "VC")
                              (project-eshell "Eshell")))
+  :config
+  (otpp-mode 1)
   :bind
   (:map project-other-frame-map
         ("_" . project-tmux-maybe-new-window)))
 
 (use-package otpp
   :ensure t
-  :after project
+  :defer t
+  ;; :after project
   :init
   ;; If you like to define some aliases for better user experience
   (defalias 'one-tab-per-project-mode 'otpp-mode)
   (defalias 'one-tab-per-project-override-mode 'otpp-override-mode)
   ;; Enable `otpp-mode` globally
-  (otpp-mode 1)
+  ;; (otpp-mode 1)
   ;; If you want to advice the commands in `otpp-override-commands`
   ;; to be run in the current's tab (so, current project's) root directory
   (otpp-override-mode 1))
@@ -109,11 +112,20 @@
                `(json-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
                                                     ("vscode-json-languageserver" "--stdio")
                                                     ("json-languageserver" "--stdio")))))
+
+  (add-to-list 'eglot-server-programs
+               `(java-mode . ,(eglot-alternatives '(("jdtls" ;; "--stdio"
+                                                     ))
+                  ;; :initializationOptions
+                  ;; (:bundles ["~/.emacs.d/debug-adapters/java/com.microsoft.java.debug.plugin-0.53.1.jar"])
+                  )))
+
   (add-to-list 'display-buffer-alist
                '("\\*sqls\\*"
                  (display-buffer-reuse-window display-buffer-at-bottom)
                  (reusable-frames . visible)
                  (window-height . 0.3)))
+
 
   (defclass eglot-sqls (eglot-lsp-server) () :documentation "SQL's Language Server")
 
@@ -201,7 +213,8 @@
         ("@" . flymake-show-project-diagnostics)))
 
 (use-package consult-eglot
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package consult-project-extra
   :ensure t
@@ -234,30 +247,49 @@
 
 (use-package tree-sitter-langs
   :ensure t
-  :defer t
-  :config
-  (defun copy-tree-sitter-langs ()
-    (interactive)
-    (let ((dest "~/.emacs.d/tree-sitter"))
-      (delete-directory dest t)
-      (make-directory "~/.emacs.d/tree-sitter")
-      (when-let (dir (car (directory-files "~/.emacs.d/elpa" t ".*tree-sitter-langs.*")))
-        (cl-loop  with src = (expand-file-name "bin" dir)
-                  for f in (directory-files src nil ".*\\.so$")
-                  for src-file = (expand-file-name f src)
-                  for dest-file = (expand-file-name (concat "libtree-sitter-" f) dest)
-                  do (princ (format "copying %s to %s\n" src-file dest-file))
-                  do (copy-file src-file dest-file))))))
+  :defer t)
+
+(defun copy-tree-sitter-langs ()
+  (interactive)
+  (let ((dest "~/.emacs.d/tree-sitter"))
+    (delete-directory dest t)
+    (make-directory "~/.emacs.d/tree-sitter")
+    (when-let (dir (car (directory-files "~/.emacs.d/elpa" t ".*tree-sitter-langs.*")))
+      (cl-loop  with src = (expand-file-name "bin" dir)
+                for f in (directory-files src nil ".*\\.so$")
+                for src-file = (expand-file-name f src)
+                for dest-file = (expand-file-name (concat "libtree-sitter-" f) dest)
+                do (princ (format "copying %s to %s\n" src-file dest-file))
+                do (copy-file src-file dest-file)))))
 
 (use-package hideshow
   :ensure t
   :defer t
   :init
+  ;; (defvar-keymap hs-map
+  ;;   :repeat t
+  ;;   "C-h"   #'hs-hide-block
+  ;;   "C-s"   #'hs-show-block
+  ;;   "C-M-h" #'hs-hide-all
+  ;;   "C-M-s" #'hs-show-all
+  ;;   "C-l"   #'hs-hide-level
+  ;;   "C-c"   #'hs-toggle-hiding
+  ;;   "C-a"   #'hs-show-all
+  ;;   "C-t"   #'hs-hide-all
+  ;;   "C-d"   #'hs-hide-block
+  ;;   "C-e"   #'hs-toggle-hiding
+  ;;   "C-M-p" #'backward-sexp
+  ;;   "C-M-n" #'forward-sexp
+  ;;   "C-M-a" #'beginning-of-defun
+  ;;   "C-M-e" #'end-of-defun
+  ;;   "C-p"   #'previous-line
+  ;;   "C-n"   #'next-line
+  ;;   ;; "S-<mouse-2>" #'hs-toggle-hiding
+  ;;   )
   ;; (defvar hs-map (make-sparse-keymap))
-
   :hook
   (prog-mode . (lambda () (hs-minor-mode 1)))
-
+  ;; :bind-keymap ("C-c @" . hs-map)
   ;; :bind-keymap
   ;; ;; ("C-c =" . hs-map)
   ;; :bind
@@ -280,23 +312,33 @@
   :ensure t
   :hook (prog-mode . electric-pair-mode))
 
-(use-package tree-sitter
-  :ensure t
-  :defer t
-  :init
-  (global-tree-sitter-mode t)
-  (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html)))
+;; (use-package tree-sitter
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (global-tree-sitter-mode t)
+;;   (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . html)))
+
 
 (use-package string-inflection
   :ensure t
   :defer t
   :init
-  (defvar string-inflection-keymap (make-sparse-keymap))
+  (defvar-keymap string-inflection-keymap
+    :repeat t
+    "," #'string-inflection-all-cycle)
+  ;; (defvar string-inflection-repeat-map
+  ;;   (let ((map (make-sparse-keymap)))
+  ;;     (define-key map (kbd ",") #'string-inflection-all-cycle)
+  ;;     map))
+  ;; (put 'string-inflection-all-cycle
+  ;;      'repeat-map
+  ;;      'string-inflection-repeat-map)
   :bind-keymap
   ("C-x ," . string-inflection-keymap)
   :bind
   (:map string-inflection-keymap
-        ("," . string-inflection-all-cycle)
+        ;; ("," . string-inflection-all-cycle)
         ("-" . string-inflection-lisp)
         ("_" . string-inflection-underscore)
         ("^" . string-inflection-upcase)
@@ -326,6 +368,7 @@
 (define-key global-map (kbd "C-x M-;") 'comment-line)
 
 (use-package rfc-mode
+  :defer t
   :ensure t)
 
 (use-package rmsbolt

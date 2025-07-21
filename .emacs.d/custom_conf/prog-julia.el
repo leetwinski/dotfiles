@@ -10,7 +10,7 @@
 
 (use-package julia-snail
   :ensure t
-  ;; :defer t
+  :defer t
   :init
   (setf julia-snail-multimedia-enable t)
   (setf julia-snail-multimedia-buffer-autoswitch t)

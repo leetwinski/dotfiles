@@ -57,11 +57,15 @@
 (use-package ffap
   :ensure t
   :defer t
-  :init (ffap-bindings))
+  :init (ffap-bindings)
+  :bind
+  ("C-x x SPC" . ffap-next)
+  ("C-x x u" . ffap-next-url))
 
 (use-package expand-region
   :ensure t
-  ;; :defer t
+  :defer t
+  :commands (er--expand-region-1)
   ;; :init
   ;; (defvar expand-region-keymap (make-sparse-keymap))
   ;; :bind-keymap
@@ -91,10 +95,15 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  ;; :custom
+  ;; :defer t
+  ;; :hook (after-init . (lambda () (exec-path-from-shell-initialize)))
+  :custom
+  (exec-path-from-shell-check-startup-files nil)
+  (exec-path-from-shell-arguments '("-l"))
   ;; (exec-path-from-shell-arguments nil)
   :init
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  )
 
 (use-package guru-mode
   :ensure t
@@ -119,22 +128,30 @@
 
 (use-package avy
   :ensure t
+  ;; :defer t
+
   :init
-  (defvar avy-custom-keymap (make-sparse-keymap))
+  (defvar-keymap avy-custom-keymap
+    :repeat (:enter (avy-goto-char-timer))
+    "n" #'avy-next
+    "p" #'avy-prev
+    "a" #'avy-resume)
 
   :config
   (set-face-attribute 'avy-lead-face nil
-                      :background "grey20"
+                      :background "grey15"
                       :foreground "gold")
   (set-face-attribute 'avy-lead-face-0 nil
-                      :background "grey25")
+                      :foreground "gold"
+                      :background "grey23")
   (set-face-attribute 'avy-lead-face-1 nil
+                      :foreground "gold"
                       :background "grey30")
   (set-face-attribute 'avy-lead-face-2 nil
+                      :foreground "gold"
                       :background "grey30")
-
   :custom
-  (avy-keys '(?q ?w ?e ?r ?a ?s ?d ?f ?z ?x ?c ?v))
+  (avy-keys '(?1 ?2 ?3 ?q ?w ?e ?a ?s ?d))
 
   :bind-keymap
   ("M-s q" . avy-custom-keymap)
@@ -179,7 +196,14 @@
   :ensure t
   :defer t
   :config
-  (defvar mc-map (make-sparse-keymap))
+  (defvar-keymap mc-map
+    :repeat nil
+    ;; "n" #'mc/mark-next-like-this
+    ;; "p" #'mc/mark-previous-like-this
+    ;; "N" #'mc/skip-to-next-like-this
+    ;; "P" #'mc/skip-to-previous-like-this
+    )
+  ;; (defvar mc-map (make-sparse-keymap))
   :bind-keymap
   ("M-s TAB" . mc-map)
   :bind
@@ -311,8 +335,6 @@
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
 (setq auto-save-list-file-prefix autosave-dir)
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
-(setq tramp-backup-directory-alist backup-directory-alist)
-(setq tramp-auto-save-directory autosave-dir)
 
 (defun kill-whole-paragraph ()
   (interactive)
@@ -329,6 +351,7 @@
       (kill-region s e))))
 
 (use-package crux
+  :defer t
   :ensure t)
 
 (global-set-key (kbd "C-x x DEL") 'delete-all-space)
@@ -388,18 +411,6 @@
   (interactive)
   (turn-off-drag-stuff-mode)
   (message "drag-stuff mode disabled"))
-
-;; (use-package drag-stuff
-;;   :ensure t
-;;   :defer t
-;;   :bind
-;;   ("C-x <up>" . drag-stuff-mode)
-;;   (:map drag-stuff-mode-map
-;;         ("C-g" . disable-drag-stuff))
-;;   :config
-;;   (setf drag-stuff-modifier nil)
-;;   (drag-stuff-define-keys))
-
 
 (use-package drag-stuff
   :ensure t
@@ -482,8 +493,11 @@
 ;; --------------------
 
 (use-package tramp
+  :defer t
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq tramp-backup-directory-alist backup-directory-alist)
+  (setq tramp-auto-save-directory autosave-dir)
   (setq tramp-auto-save-directory "~/tmp/tramp/")
   (setq tramp-chunksize 2000))
 
@@ -494,13 +508,18 @@
 (bind-key (kbd "M-g w") #'browse-url-generic)
 
 (use-package w3m
+  :defer t
   :ensure t)
 
 (use-package ess
+  :defer t
   :ensure t)
 
 (use-package vterm
   :ensure t
+  :defer t
+  :commands (vterm--internal)
+  ;; :config (hl-line-mode -1)
   ;; :hook (vterm-mode . (lambda () (hl-line-mode -1)))
   )
 

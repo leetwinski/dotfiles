@@ -15,12 +15,16 @@
 ;;   :ensure t)
 
 (use-package processing-mode
-  :ensure t)
+  :ensure t
+  :defer t
+  :config (processing-snippets-initialize))
 
 (use-package processing-snippets
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package gnuplot
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'media)

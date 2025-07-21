@@ -9,6 +9,8 @@
   (:map search-map
         ("M-/" . find-grep-dired)
         ("/" . find-name-dired))
+  :custom
+  (dired-listing-switches "-lah")
   :hook
   (dired-mode . (lambda () (toggle-truncate-lines 1))))
 
@@ -27,13 +29,16 @@
 
 (use-package treemacs
   :ensure t
-  ;; :defer t
+  :defer t
   )
+
+
 
 (use-package project-treemacs
   :ensure t
   :demand t
-  :after (treemacs)
+  :defer t
+  ;; :after (treemacs)
   :config
   (project-treemacs-mode)
   (treemacs-project-follow-mode 1)
@@ -59,21 +64,33 @@
   :config
   (treemacs-load-theme "nerd-icons"))
 
-(use-package nerd-icons-dired
+(use-package treemacs-icons-dired
   :ensure t
+  :init
   :hook
   (dired-mode . (lambda ()
                   ;; avoid turning enabling nerd-icons-dired for tramp buffers
                   ;; as it seems to slow down the display
                   (unless (file-remote-p default-directory)
-                    (nerd-icons-dired-mode 1)))))
+                    (treemacs-icons-dired-mode 1))))
+  )
+
+;; (use-package nerd-icons-dired
+;;   :ensure t
+;;   :defer t
+;;   :hook
+;;   (dired-mode . (lambda ()
+;;                   ;; avoid turning enabling nerd-icons-dired for tramp buffers
+;;                   ;; as it seems to slow down the display
+;;                   (unless (file-remote-p default-directory)
+;;                     (nerd-icons-dired-mode 1)))))
 
 (use-package diredfl
   :ensure t
-  :config
-  (diredfl-global-mode)
-  ;; :hook
-  ;; (dired-mode . diredfl-mode)
-  )
+  :defer t
+  ;; :config
+  ;; (diredfl-global-mode)
+  :hook
+  (dired-mode . diredfl-mode))
 
 (provide 'fileman)
