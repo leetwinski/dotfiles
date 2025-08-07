@@ -119,11 +119,11 @@
   :init
   (nerd-icons-xref-mode))
 
-;; (use-package nerd-icons-completion
-;;   :ensure t
-;;   :defer t
-;;   :config
-;;   (nerd-icons-completion-mode))
+(use-package nerd-icons-completion
+  :ensure t
+  :defer t
+  :config
+  (nerd-icons-completion-mode))
 
 (use-package nerd-icons-grep
   :ensure t
@@ -166,14 +166,12 @@
   :ensure t
   :defer t
   ;; :config
-  :hook (after-init . (lambda ()
-                        (global-colorful-mode 1))))
+  :hook (after-init . (lambda () (global-colorful-mode 1))))
 
 (use-package breadcrumb
   :ensure t
   :defer t
-  :hook (after-init . (lambda ()
-                        (breadcrumb-mode t)))
+  :hook (after-init . (lambda () (breadcrumb-mode t)))
   ;; :config
   ;; (breadcrumb-mode t)
   ;; (set-face-attribute 'breadcrumb-face nil :foreground "gray70" :background nil)

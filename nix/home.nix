@@ -27,6 +27,7 @@ in
 
     gnutar
     unzip
+    unrar
     # git
     babashka
     rlwrap
@@ -111,7 +112,7 @@ in
 
     telegram-desktop
     slack
-
+    multimarkdown
     libreoffice-fresh
     zip
     libev
@@ -131,7 +132,7 @@ in
     yarn
     # kdePackages.kwayland
     # kdePackages.wayqt
-    # aider-chat-full
+    aider-chat-with-browser
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -174,7 +175,7 @@ in
          nixos.curl
          nixos.vivaldi
          nixos.texliveFull
-         nixos.aider-chat-full
+         # nixos.aider-chat-full
         ] ++ (let
           ghostty = unstable.ghostty.overrideAttrs (_: {
             preBuild = ''
@@ -262,10 +263,21 @@ in
   #   enableSSHSupport = true;
   # };
 
-  # programs.notmuch = {
-  #   enable = true;
-  #   config.user.name = "Victor Litvintsev";
-  # };
+  programs.notmuch = {
+    enable = true;
+    extraConfig = {
+      user.name = "Victor Litvintsev";
+      user.primary_email = "leetwinski@gmail.com";
+    };
+    # config.user.name = "Victor Litvintsev";
+  };
+
+  programs.lieer = {
+    enable = true;
+    package = unstable.lieer;
+  };
+
+  services.lieer.enable = true;
 
   programs.git = {
     enable = true;
@@ -317,7 +329,8 @@ in
     
     export EDITOR="emacsclient -nw"
 
-    alias ew="emacsclient -c"
+    alias ew="emacsclient -c &"
+    alias ewq="emacsclient -c ."
 
     function e() {
         TERM=xterm-256color emacsclient -c -nw "$@"

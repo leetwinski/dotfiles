@@ -64,26 +64,26 @@
   :config
   (treemacs-load-theme "nerd-icons"))
 
-(use-package treemacs-icons-dired
-  :ensure t
-  :init
-  :hook
-  (dired-mode . (lambda ()
-                  ;; avoid turning enabling nerd-icons-dired for tramp buffers
-                  ;; as it seems to slow down the display
-                  (unless (file-remote-p default-directory)
-                    (treemacs-icons-dired-mode 1))))
-  )
-
-;; (use-package nerd-icons-dired
+;; (use-package treemacs-icons-dired
 ;;   :ensure t
-;;   :defer t
+;;   :init
 ;;   :hook
 ;;   (dired-mode . (lambda ()
 ;;                   ;; avoid turning enabling nerd-icons-dired for tramp buffers
 ;;                   ;; as it seems to slow down the display
 ;;                   (unless (file-remote-p default-directory)
-;;                     (nerd-icons-dired-mode 1)))))
+;;                     (treemacs-icons-dired-mode 1))))
+;;   )
+
+(use-package nerd-icons-dired
+  :ensure t
+  :defer t
+  :hook
+  (dired-mode . (lambda ()
+                  ;; avoid turning enabling nerd-icons-dired for tramp buffers
+                  ;; as it seems to slow down the display
+                  (unless (file-remote-p default-directory)
+                    (nerd-icons-dired-mode 1)))))
 
 (use-package diredfl
   :ensure t

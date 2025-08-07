@@ -7,6 +7,7 @@
 (use-package markdown-mode
   :ensure t
   :defer t
+  :custom (markdown-command "multimarkdown")
   :hook
   (markdown-mode . (lambda ()
                      (eldoc-mode 1)

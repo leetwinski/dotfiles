@@ -148,6 +148,9 @@
 (use-package company
   :ensure t
   ;; :config
+  :custom
+  (company-dabbrev-ignore-case t)
+  (company-dabbrev-downcase nil)
   :init
   (global-company-mode t)
   ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)

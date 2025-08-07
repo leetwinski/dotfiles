@@ -14,6 +14,7 @@
                               "\\*sqls\\*"
                               "\\*eat\\*"
                               "\\*Warnings\\*"
+                              "\\*sly-xref"
                               eshell-mode
                               vterm-mode
                               help-mode

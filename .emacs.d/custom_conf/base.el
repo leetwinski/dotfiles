@@ -27,6 +27,8 @@
             (setf ring-bell-function #'ignore)
             (put 'upcase-region 'disabled nil)
             (repeat-mode t)
+            (savehist-mode 1)
+            (setf savehist-autosave-interval 15)
             (put 'downcase-region 'disabled nil)))
 
 (defun shell-command-on-buffer ()

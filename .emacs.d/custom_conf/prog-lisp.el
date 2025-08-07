@@ -50,9 +50,9 @@
   ;; (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
   (setf sly-lisp-implementations
         '((sbcl    ("sbcl" "--dynamic-space-size" "1024"))
-          (roswell ("ros" "dynamic-space-size=1024" "-L" "sbcl-bin/2.5.6" "-Q" "-l" "~/.sbclrc" "run"))))
+          (roswell ("ros" "dynamic-space-size=1024" "-L" "sbcl-bin/2.5.7" "-Q" "-l" "~/.sbclrc" "run"))))
   (setf sly-default-lisp 'roswell)
-  (setf inferior-lisp-program "ros dynamic-space-size=1024 -L sbcl-bin/2.5.6 -Q -l ~/.sbclrc run"))
+  (setf inferior-lisp-program "ros dynamic-space-size=1024 -L sbcl-bin/2.5.7 -Q -l ~/.sbclrc run"))
 
 (defun sly-make-run (directory)
   (interactive (list (read-directory-name "Project directory: ")))
