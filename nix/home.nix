@@ -132,7 +132,8 @@ in
     yarn
     # kdePackages.kwayland
     # kdePackages.wayqt
-    aider-chat-with-browser
+    # aider-chat-with-browser
+    aider-chat-full
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -145,6 +146,8 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+
+    # dict
     kdePackages.kdecoration
     kdePackages.applet-window-buttons6
   ] ++ (with unstable; [
@@ -168,14 +171,12 @@ in
     delve
     vscode-js-debug
     gdb
-    # openssh
     # vscode-extensions.vadimcn.vscode-lldb
     ocamlPackages.earlybird
   ]) ++ [nixos.vscode-langservers-extracted # nixos.openssl
          nixos.curl
          nixos.vivaldi
          nixos.texliveFull
-         # nixos.aider-chat-full
         ] ++ (let
           ghostty = unstable.ghostty.overrideAttrs (_: {
             preBuild = ''
@@ -374,6 +375,8 @@ in
 
     # set some aliases, feel free to add more or remove some
     shellAliases = {
+      edif = "/home/leet/edif.sh";
+      emer = "/home/leet/emer.sh";
     };
   };
 
@@ -389,8 +392,45 @@ in
   home.file.".config/ghostty/config" = {
     source = /home/leet/dotfiles/.ghostty.conf;
   };
+
+  home.file."edif.sh" = {
+    executable = true;
+    text = ''
+    #!/usr/bin/env bash
+
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "no files to diff" >&2
+        exit 1
+    fi
+
+    emacsclient -c -nw -e "(ediff \"$1\" \"$2\")"
+    '';
+  };
+
+  home.file."emer.sh" = {
+    executable = true;
+    text = ''
+    #!/usr/bin/env bash
+
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "no files to diff" >&2
+        exit 1
+    fi
+
+    emacsclient -c -nw -e "(ediff-merge \"$1\" \"$2\")"
+    '';
+  };
  
   systemd.user.startServices = true;
 
   services.emacs.enable = true;
+
+  # lib.services.dictd = {
+  #   enable = true;
+  #   # dictdDBs = with unstable; [
+  #   #   dictdDBs.eng2rus
+  #   #   dictdDBs.wordnet
+  #   #   dictdDBs.wiktionary
+  #   # ];
+  # };
 }
