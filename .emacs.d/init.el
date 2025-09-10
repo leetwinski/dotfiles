@@ -48,6 +48,7 @@
                      prog-data-formats
                      prog-nix
                      prog-ocaml
+                     prog-erl
                      doc-md
                      infra-docker
                      communication

@@ -5,12 +5,13 @@
   :bind
   (:map dired-mode-map
         ("K" . dired-kill-subdir)
-        ("C-c C-p" . wdired-change-to-wdired-mode))
+        ("C-c '" . wdired-change-to-wdired-mode))
   (:map search-map
         ("M-/" . find-grep-dired)
         ("/" . find-name-dired))
   :custom
   (dired-listing-switches "-lah")
+  (dired-create-destination-dirs 'ask)
   :hook
   (dired-mode . (lambda () (toggle-truncate-lines 1))))
 
@@ -31,8 +32,6 @@
   :ensure t
   :defer t
   )
-
-
 
 (use-package project-treemacs
   :ensure t

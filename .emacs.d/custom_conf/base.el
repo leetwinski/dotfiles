@@ -56,6 +56,9 @@
                                  (deactivate-mark)
                                  (forward-paragraph)))
 
+(add-hook 'occur-mode-hook
+          (lambda () (local-set-key (kbd "C-c '") #'occur-edit-mode)))
+
 (use-package ffap
   :ensure t
   :defer t
@@ -356,11 +359,11 @@
   :defer t
   :ensure t)
 
-(global-set-key (kbd "C-x x DEL") 'delete-all-space)
-(global-set-key (kbd "C-x x s") 'backward-kill-sexp)
-(global-set-key (kbd "C-x x l") 'crux-kill-whole-line)
-(global-set-key (kbd "C-x x p") 'kill-whole-paragraph)
-(global-set-key (kbd "C-x x d") 'kill-whole-defun)
+(global-set-key (kbd "C-c DEL DEL") 'delete-all-space)
+(global-set-key (kbd "C-c DEL s") 'backward-kill-sexp)
+(global-set-key (kbd "C-c DEL l") 'crux-kill-whole-line)
+(global-set-key (kbd "C-c DEL p") 'kill-whole-paragraph)
+(global-set-key (kbd "C-c DEL d") 'kill-whole-defun)
 
 (use-package easy-kill
   :ensure t
@@ -455,7 +458,6 @@
   :hook (eshell-load . eat-eshell-mode)
   :hook (eshell-load . eat-eshell-visual-command-mode))
 
-
 ;; ESHELL prompt
 
 (defun exec-to-str (cmd &rest args)
@@ -507,7 +509,9 @@
   (setf browse-url-generic-program "wsl-open")
   (setf browse-url-generic-program "vivaldi"))
 
-(bind-key (kbd "M-g w") #'browse-url-generic)
+(use-package hyperbole
+  :ensure t
+  :defer t)
 
 (use-package w3m
   :defer t
@@ -524,5 +528,6 @@
   ;; :config (hl-line-mode -1)
   ;; :hook (vterm-mode . (lambda () (hl-line-mode -1)))
   )
+
 
 (provide 'base)

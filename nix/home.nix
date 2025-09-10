@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ osConfig, config, pkgs, lib, ... }:
 let
   unstable = import <unstable> { };
   nixos = import <nixos> { };
@@ -55,7 +55,7 @@ in
     # julia-lts
     purescript
     spago
-    erlang_26
+    erlang_28
     lfe
     rebar3
     gnumake
@@ -127,13 +127,14 @@ in
     sbcl
 
     zoom-us
-    # ghostty
+    ghostty
 
     yarn
     # kdePackages.kwayland
     # kdePackages.wayqt
     # aider-chat-with-browser
-    aider-chat-full
+    # aider-chat-full
+    # aider-chat
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -158,7 +159,7 @@ in
     jdt-language-server
     zls
     ocamlPackages.lsp
-    cmake-language-server
+    # cmake-language-server
     clojure-lsp
     kotlin-language-server
     gopls
@@ -171,20 +172,28 @@ in
     delve
     vscode-js-debug
     gdb
-    # vscode-extensions.vadimcn.vscode-lldb
+    vivaldi
+    curl
+    vscode-extensions.vadimcn.vscode-lldb
+    vscode-langservers-extracted
+    texliveFull
     ocamlPackages.earlybird
-  ]) ++ [nixos.vscode-langservers-extracted # nixos.openssl
-         nixos.curl
-         nixos.vivaldi
-         nixos.texliveFull
-        ] ++ (let
-          ghostty = unstable.ghostty.overrideAttrs (_: {
-            preBuild = ''
-                  shopt -s globstar
-                  sed -i 's/^const xev = @import("xev");$/const xev = @import("xev").Epoll;/' **/*.zig
-                  shopt -u globstar
-            '';
-          }); in [ghostty]);
+    ghostscript
+    mupdf-headless
+    poppler-utils
+  ]) ++ [# nixos.vscode-langservers-extracted
+    # nixos.openssl
+    nixos.aider-chat-full
+    nixos.cmake-language-server
+        ] # ++ (let
+          # ghostty = unstable.ghostty.overrideAttrs (_: {
+          #   preBuild = ''
+          #         shopt -s globstar
+          #         sed -i 's/^const xev = @import("xev");$/const xev = @import("xev").Epoll;/' **/*.zig
+          #         shopt -u globstar
+          #   '';
+          # }); in [ghostty])
+  ;
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -377,6 +386,7 @@ in
     shellAliases = {
       edif = "/home/leet/edif.sh";
       emer = "/home/leet/emer.sh";
+      edif3 = "/home/leet/edif3.sh";
     };
   };
 
@@ -393,6 +403,27 @@ in
     source = /home/leet/dotfiles/.ghostty.conf;
   };
 
+  home.file.".xinitrc" = {
+    text = ''
+      # # Disable access control for the current user.
+      # xhost +SI:localuser:$USER
+
+      # # Make Java applications aware this is a non-reparenting window manager.
+      # export _JAVA_AWT_WM_NONREPARENTING=1
+
+      # # Set default cursor.
+      # # xsetroot -cursor_name left_ptr
+
+      # # Set keyboard repeat rate.
+      # xset r rate 200 60
+
+      # export XMODIFIERS=@im=exwm-xim
+      # export GTK_IM_MODULE=xim
+      # export QT_IM_MODULE=xim
+      # export CLUTTER_IM_MODULE=xim
+    '';
+  };
+
   home.file."edif.sh" = {
     executable = true;
     text = ''
@@ -404,6 +435,20 @@ in
     fi
 
     emacsclient -c -nw -e "(ediff \"$1\" \"$2\")"
+    '';
+  };
+
+  home.file."edif3.sh" = {
+    executable = true;
+    text = ''
+    #!/usr/bin/env bash
+
+    if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
+        echo "no files to diff" >&2
+        exit 1
+    fi
+
+    emacsclient -c -nw -e "(ediff3 \"$1\" \"$2\" \"$3\")"
     '';
   };
 

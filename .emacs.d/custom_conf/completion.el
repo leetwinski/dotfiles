@@ -187,9 +187,13 @@
   :config
   (set-face-attribute 'embark-keybinding nil :inherit font-lock-keyword-face)
   :bind
-  ("C-x x ." . embark-act)
-  ("C-x x ," . embark-dwim)
-  ("C-x x e" . embark-export)
+  ("C-c e ." . embark-act)
+  ("C-c e *" . embark-act-all)
+  ("C-c e SPC" . embark-dwim)
+  ("C-c e e" . embark-export)
+  ("C-c e >" . embark-become)
+  ("C-c e c" . embark-collect)
+  ("C-c e l" . embark-live)
   ("C-h B" . embark-bindings))
 
 (use-package embark-consult
@@ -235,7 +239,12 @@
 
 (use-package wgrep
   :defer t
-  :ensure t)
+  :ensure t
+  :custom
+  (wgrep-enable-key "\C-c'")
+  :bind
+  (:map wgrep-mode-map
+        ("C-c C-c" . wgrep-finish-edit)))
 
 (define-key search-map (kbd "*") 'multi-occur)
 (define-key search-map (kbd "O") 'multi-occur-in-matching-buffers)

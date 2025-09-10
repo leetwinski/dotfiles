@@ -196,7 +196,10 @@
 (use-package flymake
   :ensure t
   :init
-  (defvar flymake-keymap (make-sparse-keymap))
+  (defvar-keymap flymake-keymap
+    :repeat t
+    "p" #'flymake-goto-prev-error
+    "n" #'flymake-goto-next-error)
 
   :hook
   (prog-mode . flymake-mode)
@@ -335,7 +338,7 @@
   ;;      'repeat-map
   ;;      'string-inflection-repeat-map)
   :bind-keymap
-  ("C-x ," . string-inflection-keymap)
+  ("C-c ," . string-inflection-keymap)
   :bind
   (:map string-inflection-keymap
         ;; ("," . string-inflection-all-cycle)
@@ -349,7 +352,7 @@
   :ensure t
   :defer t
   :bind-keymap
-  ("M-s ]" . surround-keymap))
+  ("C-c ]" . surround-keymap))
 
 (defun insert-semi-at-eol ()
   (interactive)
@@ -363,9 +366,9 @@
   (call-interactively 'default-indent-new-line)
   (call-interactively 'indent-for-tab-command))
 
-(define-key prog-mode-map (kbd "C-x x ;") 'insert-semi-at-eol)
+(define-key prog-mode-map (kbd "C-c ;") 'insert-semi-at-eol)
 (define-key prog-mode-map (kbd "C-M-j") 'insert-empty-line-and-go)
-(define-key global-map (kbd "C-x M-;") 'comment-line)
+(define-key global-map (kbd "C-c M-;") 'comment-line)
 
 (use-package rfc-mode
   :defer t

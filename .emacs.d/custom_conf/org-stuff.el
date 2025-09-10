@@ -17,11 +17,20 @@
 ;;             :before-while
 ;;             #'flycheck-buffer-not-indirect-p)
 
+(use-package org-src
+  :bind
+  (:map org-src-mode-map
+        ("C-c C-c" . org-edit-src-exit)))
+
 (use-package ob-restclient
   :ensure t
   :defer t)
 
 (use-package ob-go
+  :ensure t
+  :defer t)
+
+(use-package ob-bigquery
   :ensure t
   :defer t)
 
@@ -46,6 +55,7 @@
                               (python . t)
                               (gnuplot . t)
                               (latex . t)
+                              (bigquery . t)
                               ;; (maxima . t)
                               (processing . t)
                               ;; (sclang . t)
