@@ -108,7 +108,7 @@ in
     wsl-open
     nodejs_22
     julia
-    python3Full
+    python3
 
     telegram-desktop
     slack
@@ -264,7 +264,7 @@ in
 
   programs.emacs = {
     enable = true;
-    package = nixos.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    package = unstable.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
     # defaultEditor = true;
   };
 

@@ -48,6 +48,7 @@
          ("k" . consult-keep-lines)
          ("u" . consult-focus-lines)
          ("f d" . consult-fd)
+         ("v" . consult-git-log-grep)
          ;; Isearch integration
          ("e" . consult-isearch-history)
          :map isearch-mode-map
@@ -55,6 +56,7 @@
          ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
          ("M-s l" . consult-line) ;; needed by consult-line to detect isearch
          ("M-s L" . consult-line-multi) ;; needed by consult-line to detect isearch
+
          ;; Minibuffer history
          :map minibuffer-local-map
          ("M-s" . consult-history) ;; orig. next-matching-history-element
@@ -120,6 +122,23 @@
   (which-key-idle-delay 1)
   (which-key-secondary-delay 0.4)
   :hook (after-init . (lambda () (which-key-mode t))))
+
+(defun my-consult-git-log-grep-show-commit (sha)
+  "Displays the result of 'git show SHA' in a new buffer. Sets diff-mode and read-only"
+  (let* ((short-sha (truncate-string-to-width sha 8))
+         (buf (get-buffer-create (format "consult-git-log-grep-commit-%s" short-sha))))
+    (shell-command (format "git --no-pager show %s" sha) buf)
+    (with-current-buffer buf
+      (goto-char (point-min))
+      (diff-mode) ;; Apply diff-mode for syntax highlighting
+      (setq buffer-read-only t))))
+
+(use-package consult-git-log-grep
+  :ensure t
+  :defer t
+  :custom
+  (consult-git-log-grep-preview t)
+  (consult-git-log-grep-open-function #'my-consult-git-log-grep-show-commit))
 
 (use-package consult-dir
   :ensure t
@@ -244,7 +263,8 @@
   (wgrep-enable-key "\C-c'")
   :bind
   (:map wgrep-mode-map
-        ("C-c C-c" . wgrep-finish-edit)))
+        ("C-c C-c" . wgrep-finish-edit)
+        ("C-c '" . wgrep-finish-edit)))
 
 (define-key search-map (kbd "*") 'multi-occur)
 (define-key search-map (kbd "O") 'multi-occur-in-matching-buffers)

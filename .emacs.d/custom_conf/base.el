@@ -59,6 +59,9 @@
 (add-hook 'occur-mode-hook
           (lambda () (local-set-key (kbd "C-c '") #'occur-edit-mode)))
 
+(add-hook 'occur-edit-mode-hook
+          (lambda () (local-set-key (kbd "C-c '") #'occur-cease-edit)))
+
 (use-package ffap
   :ensure t
   :defer t

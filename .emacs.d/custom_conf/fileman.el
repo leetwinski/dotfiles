@@ -1,5 +1,10 @@
 
 ;; dired edit file name at point
+(use-package wdired
+  :ensure t
+  :bind
+  (:map wdired-mode-map
+        ("C-c '" . wdired-finish-edit)))
 
 (use-package dired
   :bind
