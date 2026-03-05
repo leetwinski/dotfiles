@@ -25,10 +25,11 @@
             (setq-default truncate-lines t)
             (global-subword-mode t)
             (setf ring-bell-function #'ignore)
-            (put 'upcase-region 'disabled nil)
             (repeat-mode t)
             (savehist-mode 1)
             (setf savehist-autosave-interval 15)
+            (setf scroll-conservatively most-positive-fixnum)
+            (put 'upcase-region 'disabled nil)
             (put 'downcase-region 'disabled nil)))
 
 (defun shell-command-on-buffer ()
@@ -281,18 +282,19 @@
                            :as #'buffer-name)))
     "Non-local buffer candidate source for `consult-buffer'.")
 
-  (setq consult-buffer-sources '(consult--source-hidden-buffer
-                                 consult--source-recent-file
-                                 consult--source-modified-buffer
-                                 consult--source-bookmark
-                                 consult--source-file-register
+  (setq consult-buffer-sources '(consult-source-hidden-buffer
+                                 consult-source-buffer
+                                 consult-source-recent-file
+                                 consult-source-modified-buffer
+                                 consult-source-bookmark
+                                 consult-source-file-register
                                  
-                                 consult--source-project-root
-                                 consult--source-project-buffer
-                                 consult--source-project-recent-file
-                                 consult--source-project-root-hidden
-                                 consult--source-project-buffer-hidden
-                                 consult--source-project-recent-file-hidden
+                                 consult-source-project-root
+                                 consult-source-project-buffer
+                                 consult-source-project-recent-file
+                                 consult-source-project-root-hidden
+                                 consult-source-project-buffer-hidden
+                                 consult-source-project-recent-file-hidden
 
                                  my-consult--source-local-buffer
                                  my-consult--source-buffer
@@ -528,9 +530,21 @@
   :ensure t
   :defer t
   :commands (vterm--internal)
+  :bind
+  (:map vterm-mode-map
+        ("C-c '" . vterm-copy-mode))
+  (:map vterm-copy-mode-map
+        ("C-c '" . vterm-copy-mode)
+        ("q" . vterm-copy-mode))
   ;; :config (hl-line-mode -1)
   ;; :hook (vterm-mode . (lambda () (hl-line-mode -1)))
   )
+
+(use-package atomic-chrome
+  :ensure t
+  :init (atomic-chrome-start-server)
+  :bind
+  ("C-c '" . atomic-chrome-close-current-buffer))
 
 
 (provide 'base)

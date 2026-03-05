@@ -1,5 +1,4 @@
 
-
 (use-package paredit
   :ensure t
   :hook
@@ -35,7 +34,11 @@
   :defer t
   :after sly)
 
-(defvar *sbcl-version* "sbcl-bin/2.5.8")
+(defvar *sbcl-version* "sbcl-bin/2.6.2")
+(defvar *sly-heap-size* 2048)
+
+(defvar *ld-lib-path*
+  (concat "LD_LIBRARY_PATH=" (getenv "NIX_LD_LIBRARY_PATH") ":" (getenv "LD_LIBRARY_PATH")))
 
 (use-package sly
   :ensure t
@@ -51,28 +54,45 @@
   ;; (add-hook 'sly-mode-hook #'slime-hook)
   ;; (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
   (setf sly-lisp-implementations
-        `((sbcl    ("sbcl" "--dynamic-space-size" "1024"))
-          (roswell ("ros" "dynamic-space-size=1024" "-L" ,*sbcl-version* "-Q" "-l" "~/.sbclrc" "run"))))
+   `((sbcl ("sbcl" "--dynamic-space-size" ,*sly-heap-size*)
+           :env (,*ld-lib-path*))
+     (roswell ("ros" ,(format "dynamic-space-size=%s" *sly-heap-size*)
+               "-L" ,*sbcl-version* "-Q" "-l" "~/.sbclrc" "run")
+              :env (,*ld-lib-path*))))
   (setf sly-default-lisp 'roswell)
   (setf inferior-lisp-program (format
-                               "ros dynamic-space-size=1024 -L %s -Q -l ~/.sbclrc run"
-                               *sbcl-version*)))
+                          "ros dynamic-space-size=%s -L %s -Q -l ~/.sbclrc run"
+                          *sly-heap-size* *sbcl-version*)))
 
-(defun sly-make-run (directory)
-  (interactive (list (read-directory-name "Project directory: ")))
-  (sly-start :program "make"
-             :program-args '("run")
-             :directory directory
-             :name 'make
-             :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
+;; (defun sly-make-run (directory)
+;;   (interactive (list (read-directory-name "Project directory: ")))
+;;   (sly-start :program "make"
+;;              :program-args '("run")
+;;              :directory directory
+;;              :name 'make
+;;              :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
 
 (defun sly-qlot-exec (directory)
   (interactive (list (read-directory-name "Project directory: ")))
-  (sly-start :program "~/.roswell/bin/qlot"
-             :program-args '("exec" "ros" "dynamic-space-size=4096" "-S" "." "run")
+  (sly-start :program "qlot"
+             :program-args (list "exec" "ros" (format "dynamic-space-size=%s" *sly-heap-size*)
+                                 "-L" *sbcl-version*
+                                 "-l" "~/.sbclrc"
+                                 "-l" ".qlot/setup.lisp"
+                                 "-S" "."
+                                 "run")
              :directory directory
              :name 'qlot
-             :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
+             :env (list (concat "PATH=" (mapconcat 'identity exec-path ":"))
+                        *ld-lib-path*)))
+
+(defun sly-quit-all-dbgs ()
+  "Quit all sly debug buffers."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (when (string-match-p "\\*sly-db" (buffer-name buf))
+      (with-current-buffer buf
+        (sly-db-quit)))))
 
 (use-package common-lisp-mode
   :defer t

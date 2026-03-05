@@ -1,20 +1,17 @@
-;; (use-package json-mode
-;;   :ensure t
-;;   :defer t
-;;   :hook
-;;   (json-ts-mode . (lambda ()
-;;                     (eldoc-mode 1)
-;;                     (eglot-ensure)))
-;;   (json-mode . (lambda ()
-;;                  (eldoc-mode 1)
-;;                  (eglot-ensure))))
+(use-package json-mode
+  :ensure t
+  :defer t
+  :hook
+  (json-mode . (lambda ()
+                 (eldoc-mode 1)
+                 (eglot-ensure))))
 
 (use-package so-long
   :ensure t
   :config (global-so-long-mode))
 
 (use-package json-ts-mode
-  :mode "\\.json\\'"
+  :mode "\\.json\\'\\|json\\.schema\\'"
   :custom (json-ts-mode-indent-offset 4)
   :hook (json-ts-mode . (lambda ()
                           (eldoc-mode 1)

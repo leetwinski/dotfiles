@@ -11,16 +11,16 @@
                         (otherwise val)))))
 
 (use-package aidermacs
-  :bind (("C-c a" . aidermacs-transient-menu))
+  ;; :bind (("C-c a" . aidermacs-transient-menu))
   :custom
   (aidermacs-default-model "sonnet")
   (aidermacs-default-chat-mode 'architect)
-  ;; (aidermacs-backend 'vterm)
+  ;; (aidermacs-backend 'comint)
   (aidermacs-backend 'vterm)
   ;; (aidermacs-vterm-theme-background-colors-plist
   ;;  '("--completion-menu-bg-color" "#aa4444"
   ;;    "--completion-menu-current-bg-color" highlight))
-  (aidermacs-comint-multiline-newline-key "C-<return>")
+  ;; (aidermacs-comint-multiline-newline-key "C-<return>")
   (aidermacs-vterm-multiline-newline-key "C-<return>")
   (aidermacs-vterm-use-theme-colors nil)
 

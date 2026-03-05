@@ -17,6 +17,7 @@
   :custom
   (dired-listing-switches "-lah")
   (dired-create-destination-dirs 'ask)
+  (dired-create-destination-dirs-on-trailing-dirsep t)
   :hook
   (dired-mode . (lambda () (toggle-truncate-lines 1))))
 

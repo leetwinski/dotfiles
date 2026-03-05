@@ -37,4 +37,8 @@
   :hook (restclient-mode . (lambda () (require 'restclient-jq)))
   :defer t)
 
+(use-package nginx-mode
+  :ensure t
+  :defer t)
+
 (provide 'prog-web)

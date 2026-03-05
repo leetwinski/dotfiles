@@ -25,19 +25,20 @@ in
     # # "Hello, world!" when run.
     # pkgs.hello
 
-    gnutar
-    unzip
-    unrar
+    # ??
+    # llvmPackages.libcxxClang
+    # clang-tools
+
     # git
     babashka
-    rlwrap
+    # rlwrap
     nerd-fonts.fira-code
-    fira-code-nerdfont
-    roswell
+    # fira-code-nerdfont
+    # roswell
     go
     clojure
     leiningen
-    gcc
+    # gcc
     pkg-config
     racket
     silver-searcher
@@ -50,7 +51,7 @@ in
     ocaml
     dune_3
     opam
-    cmake
+    # cmake
     kotlin
     # julia-lts
     purescript
@@ -58,10 +59,10 @@ in
     erlang_28
     lfe
     rebar3
-    gnumake
+    # gnumake
     janet
     jpm
-    nodePackages_latest.ts-node
+    # nodePackages_latest.ts-node
     typescript
     bun
     aspell
@@ -74,7 +75,7 @@ in
     # maxima
     # wxmaxima
     nyxt
-
+    imagemagick
     graphviz
     w3m
     idris2
@@ -92,7 +93,8 @@ in
     ocamlPackages.utop
     tldr
     libtool
-    libvterm
+    # libvterm
+    # glib
     bzip2
     parallel
     # jetbrains.idea-community
@@ -103,11 +105,11 @@ in
     dig
     keychain
     sqlite
-    tdlib
+    # tdlib
     xdg-utils
     wsl-open
     nodejs_22
-    julia
+    julia-bin
     python3
 
     telegram-desktop
@@ -115,7 +117,7 @@ in
     multimarkdown
     libreoffice-fresh
     zip
-    libev
+    # libev
     # supercollider_scel
     # supercolliderPlugins.sc3-plugins
     processing
@@ -130,10 +132,13 @@ in
     ghostty
 
     yarn
+
+    firefox
     # kdePackages.kwayland
     # kdePackages.wayqt
     # aider-chat-with-browser
     # aider-chat-full
+    nix-index
     # aider-chat
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -164,7 +169,7 @@ in
     kotlin-language-server
     gopls
     marksman
-    erlang-ls
+    erlang-language-platform
     metals
     sqls
     pyright
@@ -172,7 +177,6 @@ in
     delve
     vscode-js-debug
     gdb
-    vivaldi
     curl
     vscode-extensions.vadimcn.vscode-lldb
     vscode-langservers-extracted
@@ -181,11 +185,25 @@ in
     ghostscript
     mupdf-headless
     poppler-utils
-  ]) ++ [# nixos.vscode-langservers-extracted
+
+  ]) ++ (with nixos; [# nixos.vscode-langservers-extracted
     # nixos.openssl
-    nixos.aider-chat-full
-    nixos.cmake-language-server
-        ] # ++ (let
+    # nixos.aider-chat-full
+    # nixos.gcc
+    meson
+    gnutar
+    unzip
+    unrar
+    llvmPackages.libcxxClang
+    rlwrap
+    clang-tools
+    gnumake
+    cmake
+    roswell
+    vivaldi
+    vlc
+    cmake-language-server
+  ]) # ++ (let
           # ghostty = unstable.ghostty.overrideAttrs (_: {
           #   preBuild = ''
           #         shopt -s globstar
@@ -194,21 +212,6 @@ in
           #   '';
           # }); in [ghostty])
   ;
-
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home
@@ -232,11 +235,6 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.thefuck = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
   programs.eza = {
     enable = true;
     package = unstable.eza;
@@ -252,7 +250,6 @@ in
 
   programs.atuin = {
     enable = true;
-    package = unstable.atuin;
     enableBashIntegration = true;
   };
 
@@ -291,8 +288,10 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Victor Litvintsev";
-    userEmail = "leetwinski@gmail.com";
+    settings = {
+      user.name = "Victor Litvintsev";
+      user.email = "leetwinski@gmail.com";
+    };
   };
 
   programs.starship = {
@@ -312,38 +311,20 @@ in
     enableCompletion = true;
 
     profileExtra = ''
-    # SSH_ENV="$HOME/.ssh/agent-environment"
 
-    # function start_agent {
-    #   echo "Initialising new SSH agent..."
-    #   ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-    #   echo succeeded
-    #   chmod 600 "$SSH_ENV"
-    #   . "$SSH_ENV" > /dev/null
-    # }
-
-    # # Source SSH settings, if applicable
-
-    # if [ -f "$SSH_ENV" ]; then
-    #   . "$SSH_ENV" > /dev/null
-    #   #ps $SSH_AGENT_PID doesn't work under cywgin
-    #   ps -ef | grep $SSH_AGENT_PID | grep ssh-agent$ > /dev/null || {
-    #       start_agent;
-    #   }
-    # else
-    #   start_agent;
-    # fi
     '';
 
     bashrcExtra = ''
-    
-    export EDITOR="emacsclient -nw"
 
-    alias ew="emacsclient -c &"
+    export EDITOR="emacsclient"
+    # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+    export PATH=~/.roswell/bin:$PATH
+    alias ew="emacsclient -c"
     alias ewq="emacsclient -c ."
+    alias ewo="emacsclient -c"
 
     function e() {
-        TERM=xterm-256color emacsclient -c -nw "$@"
+        emacsclient -c -nw "$@"
     }
 
     function ff() {
@@ -360,7 +341,7 @@ in
         win_num="$(tmux list-windows -F '#I #W' | grep -m 1 "\[p\]$new_name\$" | awk '{print $1}')"
         if [ -z "$win_num" ]; then
             tmux neww -c "$path" -n "[p]$new_name" "emacsclient -nw -c $path" ';'\
-                 splitw -l 14 -c '#{pane_current_path}' ';'\
+                 splitw -l 14 -c $path ';'\
                  select-pane -t 0 ';'\
                  resize-pane -Z
         else
@@ -379,7 +360,6 @@ in
 
     [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
       source "$EAT_SHELL_INTEGRATION_DIR/bash"
-
     '';
 
     # set some aliases, feel free to add more or remove some
@@ -403,26 +383,27 @@ in
     source = /home/leet/dotfiles/.ghostty.conf;
   };
 
-  home.file.".xinitrc" = {
-    text = ''
-      # # Disable access control for the current user.
-      # xhost +SI:localuser:$USER
+  # home.file.".xinitrc" = { !!
+  #   text = ''
+  #     # # Disable access control for the current user.
+  #     # xhost +SI:localuser:$USER
 
-      # # Make Java applications aware this is a non-reparenting window manager.
-      # export _JAVA_AWT_WM_NONREPARENTING=1
+  #     # # Make Java applications aware this is a non-reparenting window manager.
+  #     # export _JAVA_AWT_WM_NONREPARENTING=1
 
-      # # Set default cursor.
-      # # xsetroot -cursor_name left_ptr
+  #     # # Set default cursor.
+  #     # # xsetroot -cursor_name left_ptr
 
-      # # Set keyboard repeat rate.
-      # xset r rate 200 60
+  #     # # Set keyboard repeat rate.
+  #     # xset r rate 200 60
 
-      # export XMODIFIERS=@im=exwm-xim
-      # export GTK_IM_MODULE=xim
-      # export QT_IM_MODULE=xim
-      # export CLUTTER_IM_MODULE=xim
-    '';
-  };
+  #     # export XMODIFIERS=@im=exwm-xim
+  #     # export GTK_IM_MODULE=xim
+  #     # export QT_IM_MODULE=xim
+  #     # export CLUTTER_IM_MODULE=xim
+  #     # xrandr --output eDP-1 --mode 1920x1200
+  #   '';
+  # };
 
   home.file."edif.sh" = {
     executable = true;

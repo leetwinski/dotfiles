@@ -64,7 +64,11 @@
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :hook
+  (completion-list-mode . consult-preview-at-point-mode)
+  (nix-repl-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
+  (shell-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
+  (eshell-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
 
   ;; The :init configuration is always executed (Not lazy)
   :init
@@ -90,6 +94,7 @@
                       :background "yellow"
                       :foreground "black"
                       :bold t)
+
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
   ;; (setq consult-preview-key 'any)
@@ -101,8 +106,8 @@
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
    ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
 
@@ -112,6 +117,26 @@
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
   (setq consult-project-function #'consult--default-project-function))
+
+(use-package gumshoe
+  :ensure t
+  :init
+  ;; Enabing global-gumshoe-mode will initiate tracking
+  (global-gumshoe-mode +1)
+  ;; customize peruse slot display if you like
+  (setf gumshoe-slot-schema '(time buffer position line))
+  ;; personally, I use perspectives
+  ;; (setf gumshoe-slot-schema '(perspective time buffer position line))
+  ;; disable auto-cancel of backtracking
+  (setf gumshoe-auto-cancel-backtracking-p nil))
+
+(use-package consult-gumshoe
+  :ensure t
+  :after (gumshoe)
+  :bind (("M-g q q" . consult-gumshoe-peruse-in-backlog)
+         ("M-g q b" . consult-gumshoe-peruse-in-buffer)
+         ("M-g q w" . consult-gumshoe-peruse-in-window)
+         ("M-g q m" . consult-gumshoe-peruse-markers)))
 
 (use-package which-key
   :ensure t
@@ -166,10 +191,20 @@
 
 (use-package company
   :ensure t
-  ;; :config
+  :hook (eglot-managed-mode . (lambda ()
+                                (setq company-backends
+                                      '((company-capf
+                                         :with company-yasnippet company-files :separate)
+                                        company-dabbrev))))
+  :config
+  (setq company-backends
+        '((company-capf
+           :with company-yasnippet company-files :separate)
+          company-dabbrev))
   :custom
   (company-dabbrev-ignore-case t)
   (company-dabbrev-downcase nil)
+  (company-selection-wrap-around t)
   :init
   (global-company-mode t)
   ;; (define-key company-mode-map [remap completion-at-point] #'company-complete)
@@ -182,8 +217,11 @@
   ;;                           #'company-complete)))
   :bind
   ("M-/" . company-complete-common-or-cycle)
+
   (:map company-active-map
-        ("M-." . company-show-location)))
+        ("M-." . company-show-location)
+        ("M-<" . company-select-first)
+        ("M->" . company-select-last)))
 
 (use-package company-quickhelp
   :ensure t
@@ -209,6 +247,7 @@
   ("C-c e ." . embark-act)
   ("C-c e *" . embark-act-all)
   ("C-c e SPC" . embark-dwim)
+
   ("C-c e e" . embark-export)
   ("C-c e >" . embark-become)
   ("C-c e c" . embark-collect)

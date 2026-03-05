@@ -245,7 +245,8 @@
   (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist
-   '(typescript javascript rust java kotlin nix c sql html python json toml yaml csv go docker))
+   '(;; typescript
+     javascript rust java kotlin nix c sql html python json toml yaml csv go docker))
   (global-treesit-auto-mode))
 
 (use-package tree-sitter-langs
@@ -445,5 +446,9 @@
 ;;                                      emacs-lisp-mode
 ;;                                      clojure-mode))
 ;;                    (puni-mode +1)))))
+
+(use-package dumb-jump
+  :ensure t
+  :bind)
 
 (provide 'prog-all)
