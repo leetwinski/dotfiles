@@ -1,0 +1,4 @@
+https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+https://github.com/nix-community/nixos-avf/releases/download/nixos-unstable/nixos-channel-unstable-aarch64.tar.xz unstable
+https://github.com/nix-community/nixos-avf/releases/download/nixos-25.11/nixos-channel-25.11-aarch64.tar.xz nixos
+https://github.com/nix-community/nixos-avf/releases/download/nixos-unstable/avf-channel-unstable-aarch64.tar.xz nixos-avf
