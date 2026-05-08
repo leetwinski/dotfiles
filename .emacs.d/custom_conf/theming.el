@@ -2,6 +2,8 @@
 
 (use-package beacon
   :ensure t
+  :init
+  (beacon-mode t)
   :config
   (beacon-mode t)
   (add-to-list 'beacon-dont-blink-predicates
@@ -34,62 +36,63 @@
 ;; (add-hook 'vterm-mode-hook (lambda ()
 ;;                              (hl-line-mode nil)))
 
-(use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
-        doom-themes-enable-italic t
-        )                    ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-miramare t)
+(load-theme 'modus-vivendi t)
 
-  ;; (load-theme 'doom-feather-dark t)
-  ;; (set-face-background 'vertical-border nil)
+;; (use-package doom-themes
+;;   :ensure t
+;;   :config
+;;   ;; Global settings (defaults)
+;;   (setq doom-themes-enable-bold t       ; if nil, bold is universally disabled
+;;         doom-themes-enable-italic t
+;;         )                              ; if nil, italics is universally disabled
+;;   ;; (load-theme 'doom-miramare t)
 
-  ;; (load-theme 'doom-rouge t)
-  ;; (load-theme 'doom-meltbus t)
-  ;; (load-theme 'doom-material-dark t)
-  ;; this is the theme
+;;   ;; (load-theme 'doom-feather-dark t)
+;;   ;; (set-face-background 'vertical-border nil)
 
-
-  ;; (load-theme 'doom-tomorrow-night t)
-  ;; (load-theme 'doom-sourcerer t) <--
-  (load-theme 'modus-vivendi t)
-
-  ;; -----------------
-  ;; (load-theme 'doom-plain-dark t)
-  ;; (load-theme 'doom-sourcerer t)
-  ;; (load-theme 'doom-badger t)
-  ;; (load-theme 'doom-pine t)
-  ;; (load-theme 'doom-lantern t)
-
-  ;; (set-face-foreground 'vertical-border "grey48")
-
-  ;; (set-face-attribute 'magit-section-heading nil
-  ;;                     :foreground "#3af"
-  ;;                     :underline nil)
-
-  ;; (set-face-attribute 'region nil
-  ;;                     :inverse-video nil
-  ;;                     :background "grey20"
-  ;;                     :foreground "#f8b0b0")
-
-  ;; (set-face-attribute 'magit-diff-hunk-region nil
-  ;;                     :background "grey20")
+;;   ;; (load-theme 'doom-rouge t)
+;;   ;; (load-theme 'doom-meltbus t)
+;;   ;; (load-theme 'doom-material-dark t)
+;;   ;; this is the theme
 
 
-  ;; (set-face-background 'default "black")
+;;   ;; (load-theme 'doom-tomorrow-night t)
+;;   ;; (load-theme 'doom-sourcerer t) <--
 
-  ;; Enable flashing mode-line on errors
-  ;; (doom-themes-visual-bell-config)
-  ;; or for treemacs users
-  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  ;; (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
+;;   ;; -----------------
+;;   ;; (load-theme 'doom-plain-dark t)
+;;   ;; (load-theme 'doom-sourcerer t)
+;;   ;; (load-theme 'doom-badger t)
+;;   ;; (load-theme 'doom-pine t)
+;;   ;; (load-theme 'doom-lantern t)
 
-  (doom-themes-org-config)
+;;   ;; (set-face-foreground 'vertical-border "grey48")
 
-  )
+;;   ;; (set-face-attribute 'magit-section-heading nil
+;;   ;;                     :foreground "#3af"
+;;   ;;                     :underline nil)
+
+;;   ;; (set-face-attribute 'region nil
+;;   ;;                     :inverse-video nil
+;;   ;;                     :background "grey20"
+;;   ;;                     :foreground "#f8b0b0")
+
+;;   ;; (set-face-attribute 'magit-diff-hunk-region nil
+;;   ;;                     :background "grey20")
+
+
+;;   ;; (set-face-background 'default "black")
+
+;;   ;; Enable flashing mode-line on errors
+;;   ;; (doom-themes-visual-bell-config)
+;;   ;; or for treemacs users
+;;   ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+;;   ;; (doom-themes-treemacs-config)
+;;   ;; Corrects (and improves) org-mode's native fontification.
+
+;;   (doom-themes-org-config)
+
+;;   )
 
 ;; (load-theme 'modus-vivendi-tritanopia t)
 
@@ -113,13 +116,12 @@
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
 ;;                            :size 24
 ;;                            :weight 'semilight))
-
 (use-package doom-modeline
   :ensure t
   :defer t
   :config
   (defsubst doom-modeline--drag-stuff ()
-  "Show the number of multiple cursors."
+    "Show the number of multiple cursors."
     (when (bound-and-true-p drag-stuff-mode)
       (propertize "󰹹"
                   'face (doom-modeline-face 'doom-modeline-panel))))

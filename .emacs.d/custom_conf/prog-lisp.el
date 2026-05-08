@@ -1,6 +1,7 @@
 
 (use-package paredit
   :ensure t
+  :defer t
   :hook
   (lisp-mode . (lambda () (paredit-mode 1)))
   (common-lisp-mode-hook . (lambda () (paredit-mode 1)))
@@ -34,11 +35,19 @@
   :defer t
   :after sly)
 
-(defvar *sbcl-version* "sbcl-bin/2.6.2")
+(defvar *sbcl-version* "sbcl-bin/2.6.4")
 (defvar *sly-heap-size* 2048)
 
 (defvar *ld-lib-path*
   (concat "LD_LIBRARY_PATH=" (getenv "NIX_LD_LIBRARY_PATH") ":" (getenv "LD_LIBRARY_PATH")))
+
+;; (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.3")
+
+(defun my/sly-sbcl-setup-sources ()
+  (sly-eval-async
+      '(cl:prog1
+        nil
+        (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.4"))))
 
 (use-package sly
   :ensure t
@@ -49,20 +58,21 @@
   :hook
   (sly-mode . slime-hook)
   (sly-mrepl-mode . slime-mrepl-hook)
+  (sly-connected . my/sly-sbcl-setup-sources)
   :init
   (add-to-list 'sly-contribs 'sly-asdf 'append)
   ;; (add-hook 'sly-mode-hook #'slime-hook)
   ;; (add-hook 'sly-mrepl-mode-hook #'slime-mrepl-hook)
   (setf sly-lisp-implementations
-   `((sbcl ("sbcl" "--dynamic-space-size" ,*sly-heap-size*)
-           :env (,*ld-lib-path*))
-     (roswell ("ros" ,(format "dynamic-space-size=%s" *sly-heap-size*)
-               "-L" ,*sbcl-version* "-Q" "-l" "~/.sbclrc" "run")
-              :env (,*ld-lib-path*))))
+        `((sbcl ("sbcl" "--dynamic-space-size" ,*sly-heap-size*)
+                :env (,*ld-lib-path*))
+          (roswell ("ros" ,(format "dynamic-space-size=%s" *sly-heap-size*)
+                    "-L" ,*sbcl-version* "-Q" "-l" "~/.sbclrc" "run")
+                   :env (,*ld-lib-path*))))
   (setf sly-default-lisp 'roswell)
   (setf inferior-lisp-program (format
-                          "ros dynamic-space-size=%s -L %s -Q -l ~/.sbclrc run"
-                          *sly-heap-size* *sbcl-version*)))
+                               "ros dynamic-space-size=%s -L %s -Q -l ~/.sbclrc run"
+                               *sly-heap-size* *sbcl-version*)))
 
 ;; (defun sly-make-run (directory)
 ;;   (interactive (list (read-directory-name "Project directory: ")))

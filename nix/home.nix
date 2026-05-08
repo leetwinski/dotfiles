@@ -28,7 +28,10 @@ in
     # ??
     # llvmPackages.libcxxClang
     # clang-tools
-
+    xclip
+    claude-code
+    claude-agent-acp
+    duckdb
     # git
     babashka
     # rlwrap
@@ -122,6 +125,7 @@ in
     # supercolliderPlugins.sc3-plugins
     processing
     pass
+    opencode
     
     openssl
     dotenv-cli
@@ -158,7 +162,7 @@ in
     kdePackages.applet-window-buttons6
   ] ++ (with unstable; [
     # vscode-langservers-extracted
-    nodePackages_latest.typescript-language-server
+    typescript-language-server
     yaml-language-server
     bash-language-server
     jdt-language-server
@@ -185,7 +189,6 @@ in
     ghostscript
     mupdf-headless
     poppler-utils
-
   ]) ++ (with nixos; [# nixos.vscode-langservers-extracted
     # nixos.openssl
     # nixos.aider-chat-full
@@ -200,9 +203,10 @@ in
     gnumake
     cmake
     roswell
-    vivaldi
     vlc
     cmake-language-server
+    vivaldi
+    vivaldi-ffmpeg-codecs
   ]) # ++ (let
           # ghostty = unstable.ghostty.overrideAttrs (_: {
           #   preBuild = ''
@@ -327,10 +331,6 @@ in
         emacsclient -c -nw "$@"
     }
 
-    function ff() {
-        tmux new-window emacsclient -nw -c "$(fzf)"
-    }
-
     function pp() {
         path="$(find /home/leet/dev/projects/ -maxdepth 5 -type d -name '.git' -printf '%h\n' | fzf)"
         if [ -z "$path" ]; then
@@ -347,6 +347,16 @@ in
         else
             tmux select-window -t "$win_num"
         fi
+    }
+
+    function ppx() {
+        path="$(find /home/leet/dev/projects/ -maxdepth 5 -type d -name '.git' -printf '%h\n' | fzf)"
+        if [ -z "$path" ]; then
+            echo "project path is not specified"
+            return 1
+        fi
+
+        ew $path &
     }
 
     if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ -z "$INSIDE_EMACS" ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then

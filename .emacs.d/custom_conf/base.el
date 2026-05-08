@@ -57,6 +57,8 @@
                                  (deactivate-mark)
                                  (forward-paragraph)))
 
+(define-key global-map (kbd "C-c r") #'query-replace-regexp)
+
 (add-hook 'occur-mode-hook
           (lambda () (local-set-key (kbd "C-c '") #'occur-edit-mode)))
 
@@ -114,11 +116,11 @@
   (exec-path-from-shell-initialize)
   )
 
-(use-package guru-mode
-  :ensure t
-  :defer t
-  :config (guru-global-mode t)
-  :hook (after-init . (lambda () (guru-global-mode t))))
+;; (use-package guru-mode
+;;   :ensure t
+;;   :defer t
+;;   :config (guru-global-mode t)
+;;   :hook (after-init . (lambda () (guru-global-mode t))))
 
 (use-package vundo :ensure t
   :defer t
@@ -254,6 +256,7 @@
   :defer t
   :init
   (bufferlo-mode 1)
+  :bind ("C-x x b" . bufferlo-ibuffer)
   :config
   (defvar my-consult--source-local-buffer
     `(:name "Local Buffers"
@@ -370,50 +373,49 @@
 (global-set-key (kbd "C-c DEL p") 'kill-whole-paragraph)
 (global-set-key (kbd "C-c DEL d") 'kill-whole-defun)
 
-(use-package easy-kill
-  :ensure t
-  :defer t
-  :init
-  (global-set-key [remap kill-ring-save] 'easy-kill)
-  (global-set-key [remap mark-sexp] 'easy-mark-sexp)
-  (global-set-key [remap mark-word] 'easy-mark-word))
+;; (use-package easy-kill
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (global-set-key [remap kill-ring-save] 'easy-kill)
+;;   (global-set-key [remap mark-sexp] 'easy-mark-sexp)
+;;   (global-set-key [remap mark-word] 'easy-mark-word))
 
-(use-package easy-kill-extras
-  :ensure t
-  :defer t
-  :after easy-kill
-  :init
-  (require 'extra-things)
-  (define-key easy-kill-base-map (kbd "o") 'easy-kill-er-expand)
-  (define-key easy-kill-base-map (kbd "i") 'easy-kill-er-unexpand)
-  (global-set-key [remap zap-to-char] 'easy-mark-to-char)
-  (add-to-list 'easy-kill-alist '(?^ backward-line-edge ""))
-  (add-to-list 'easy-kill-alist '(?$ forward-line-edge ""))
-  ;; (add-to-list 'easy-kill-alist '(?b buffer ""))
-  ;; (add-to-list 'easy-kill-alist '(?< buffer-before-point ""))
-  ;; (add-to-list 'easy-kill-alist '(?> buffer-after-point ""))
-  ;; (add-to-list 'easy-kill-alist '(?f string-to-char-forward ""))
-  ;; (add-to-list 'easy-kill-alist '(?F string-up-to-char-forward ""))
-  ;; (add-to-list 'easy-kill-alist '(?t string-to-char-backward ""))
-  ;; (add-to-list 'easy-kill-alist '(?T string-up-to-char-backward ""))
-  (add-to-list 'easy-kill-alist '(?W  WORD " ") t)
-  (add-to-list 'easy-kill-alist '(?\' squoted-string "") t)
-  (add-to-list 'easy-kill-alist '(?\" dquoted-string "") t)
-  (add-to-list 'easy-kill-alist '(?\` bquoted-string "") t)
-  (add-to-list 'easy-kill-alist '(?q  quoted-string "") t)
-  (add-to-list 'easy-kill-alist '(?Q  quoted-string-universal "") t)
-  (add-to-list 'easy-kill-alist '(?\) parentheses-pair-content "\n") t)
-  (add-to-list 'easy-kill-alist '(?\( parentheses-pair "\n") t)
-  (add-to-list 'easy-kill-alist '(?\] brackets-pair-content "\n") t)
-  (add-to-list 'easy-kill-alist '(?\[ brackets-pair "\n") t)
-  (add-to-list 'easy-kill-alist '(?}  curlies-pair-content "\n") t)
-  (add-to-list 'easy-kill-alist '(?{  curlies-pair "\n") t)
-  (add-to-list 'easy-kill-alist '(?>  angles-pair-content "\n") t)
-  (add-to-list 'easy-kill-alist '(?<  angles-pair "\n") t))
+;; (use-package easy-kill-extras
+;;   :ensure t
+;;   :defer t
+;;   :after easy-kill
+;;   :init
+;;   (require 'extra-things)
+;;   (define-key easy-kill-base-map (kbd "o") 'easy-kill-er-expand)
+;;   (define-key easy-kill-base-map (kbd "i") 'easy-kill-er-unexpand)
+;;   (global-set-key [remap zap-to-char] 'easy-mark-to-char)
+;;   (add-to-list 'easy-kill-alist '(?^ backward-line-edge ""))
+;;   (add-to-list 'easy-kill-alist '(?$ forward-line-edge ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?b buffer ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?< buffer-before-point ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?> buffer-after-point ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?f string-to-char-forward ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?F string-up-to-char-forward ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?t string-to-char-backward ""))
+;;   ;; (add-to-list 'easy-kill-alist '(?T string-up-to-char-backward ""))
+;;   (add-to-list 'easy-kill-alist '(?W  WORD " ") t)
+;;   (add-to-list 'easy-kill-alist '(?\' squoted-string "") t)
+;;   (add-to-list 'easy-kill-alist '(?\" dquoted-string "") t)
+;;   (add-to-list 'easy-kill-alist '(?\` bquoted-string "") t)
+;;   (add-to-list 'easy-kill-alist '(?q  quoted-string "") t)
+;;   (add-to-list 'easy-kill-alist '(?Q  quoted-string-universal "") t)
+;;   (add-to-list 'easy-kill-alist '(?\) parentheses-pair-content "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?\( parentheses-pair "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?\] brackets-pair-content "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?\[ brackets-pair "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?}  curlies-pair-content "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?{  curlies-pair "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?>  angles-pair-content "\n") t)
+;;   (add-to-list 'easy-kill-alist '(?<  angles-pair "\n") t))
 
 (global-set-key (kbd "C-c n") 'display-line-numbers-mode)
 (global-set-key (kbd "C-M-y") 'up-list)
-
 
 (setf bookmark-save-flag 1)
 
@@ -526,19 +528,34 @@
   :defer t
   :ensure t)
 
+(use-package ghostel
+  :ensure t
+  :defer t)
+
 (use-package vterm
   :ensure t
   :defer t
   :commands (vterm--internal)
   :bind
   (:map vterm-mode-map
-        ("C-c '" . vterm-copy-mode))
+        ("C-c '" . vterm-copy-mode)
+        ("<wheel-up>" . vterm-copy-mode))
   (:map vterm-copy-mode-map
         ("C-c '" . vterm-copy-mode)
-        ("q" . vterm-copy-mode))
+        ("q" . vterm-copy-mode)
+        ("<touch-end>" . vterm-copy-mode))
   ;; :config (hl-line-mode -1)
   ;; :hook (vterm-mode . (lambda () (hl-line-mode -1)))
   )
+
+(use-package vterm-editor
+  :ensure t
+  :after vterm
+  :bind
+  (:map vterm-mode-map
+        ("C-c '" . vterm-editor-open))
+  (:map vterm-editor-mode-map
+        ("C-c '" . vterm-editor-finish)))
 
 (use-package atomic-chrome
   :ensure t
@@ -546,5 +563,7 @@
   :bind
   ("C-c '" . atomic-chrome-close-current-buffer))
 
+(use-package popterm :ensure t
+  :bind ("C-x 5 SPC" . popterm-toggle-cd))
 
 (provide 'base)

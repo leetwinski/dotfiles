@@ -1,14 +1,17 @@
 (use-package popper
   :ensure t
   :bind (("C-c C-SPC" . popper-toggle)
-         ("M-`" . popper-cycle)
+         ("C-c `" . popper-cycle)
          ("C-c M-`" . popper-toggle-type))
   :custom
+  (popper-group-function #'popper-group-by-project)
+
   (popper-window-height 16)
   (popper-reference-buffers '("\\*Messages\\*"
                               ;; "Output\\*$"
                               "\\*xref\\*"
                               "\\*Async Shell Command\\*"
+                              "\\*Shell Command Output\\*"
                               "\\*eldoc"
                               "\\*Flymake diagnostics"
                               "\\*sqls\\*"
@@ -19,6 +22,7 @@
                               vterm-mode
                               help-mode
                               eat-mode
+                              ghostel-mode
                               compilation-mode))
   :init
   (popper-mode +1)
@@ -36,21 +40,14 @@
   ("C-x w k" . ace-delete-window)
   ("C-x w K" . ace-delete-other-windows))
 
-;; (use-package windmove
-;;   :ensure t
-;;   :config
-;;   (windmove-mode t)
-;;   ;; (windmove-default-keybindings)
-;;   ;; (windmove-swap-states-default-keybindings)
-;;   ;; (windmove-display-default-keybindings)
-;;   ;; (windmove-delete-default-keybindings)
-;;   )
-
 (use-package golden-ratio
   :ensure t
   :bind
   ("C-x w %" . golden-ratio)
-  ("C-x w M-%" . golden-ratio-mode))
+  ("C-x w M-%" . golden-ratio-mode)
+  :config (add-to-list 'golden-ratio-inhibit-functions
+                       (lambda () (and (boundp 'popper-popup-status)
+                                  (popper-popup-p (current-buffer))))))
 
 (winner-mode t)
 
@@ -67,33 +64,5 @@
   :ensure t
   :bind
   ("C-x w w" . windresize))
-
-(defun pop-vterm-middle ()
-  (interactive)
-  (let* ((name "*vterm-popup*")
-         (width (max 140 (/ (frame-width) 2)))
-         (height (/ (frame-height) 2))
-         (f (posframe-show
-             (or (get-buffer name) (vterm--internal #'ignore name))
-             :poshandler #'posframe-poshandler-frame-center
-             :left-fringe 8
-             :right-fringe 8
-             :width width
-             :height height
-             :min-width width
-             :min-height height
-             :internal-border-width 3
-             :cursor t
-             :internal-border-color (face-foreground 'org-warning nil t)
-             ;; :background-color (face-background 'tooltip nil t)
-             :accept-focus t)))
-    ;; (set-frame-parameter f 'alpha '(80))
-    ;; (modify-frame-parameters f '((alpha . 80)))
-    (select-frame-set-input-focus f)
-    (with-selected-frame f
-      (with-current-buffer (get-buffer name)
-        (goto-char (1- (point-max)))))))
-
-(bind-key (kbd "C-x 5 `") #'pop-vterm-middle)
 
 (provide 'windows)

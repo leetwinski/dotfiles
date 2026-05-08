@@ -22,6 +22,9 @@
                             ;; (eglot-java-mode 1)
                             (eldoc-mode +1)))
 
+(dolist (hook '(java-mode-hook java-ts-mode-hook))
+  (add-hook hook (lambda () (setq-local fill-column 100))))
+
 
 (use-package groovy-mode
   :defer t

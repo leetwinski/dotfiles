@@ -1,12 +1,11 @@
-(shell-command "nix-instantiate --eval-only --expr '(import <unstable> {}).tdlib.outPath'")
-
-
 (defun get-tdlib-path ()
   (string-trim
    (cl-remove
     ?\"
     (shell-command-to-string
      "nix-instantiate --eval-only --expr '(import <unstable> {}).tdlib.outPath'"))))
+
+(use-package visual-fill-column :ensure t)
 
 (use-package telega
   :ensure t

@@ -3,10 +3,12 @@
   :defer t
   :hook
   (go-ts-mode . (lambda ()
-                  (setf go-ts-mode-indent-offset 4)
+                  (setq-local go-ts-mode-indent-offset 4)
+                  (setq-local fill-column 100)
                   (eldoc-mode 1)
                   (eglot-ensure)))
   (go-mode . (lambda ()
+               (setq-local fill-column 100)
                (eldoc-mode 1)
                (eglot-ensure))))
 

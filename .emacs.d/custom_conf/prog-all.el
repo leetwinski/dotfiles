@@ -12,6 +12,26 @@
                                shell))
       (dir-command (format "tmux select-window -t '%s'" project-win)))))
 
+(setq-default fill-column 80)
+(setq-default display-fill-column-indicator-character ?┆)
+
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
+(set-face-attribute 'fill-column-indicator nil
+                    :foreground "#233438"
+                    :background 'unspecified
+                    :height 'unspecified)
+
+(defun my/setup-fill-column-indicator-face (frame)
+  (with-selected-frame frame
+    (when (display-graphic-p frame)
+      (set-face-attribute 'fill-column-indicator frame
+                          :foreground "#233438"
+                          :background 'unspecified
+                          :height 'unspecified))))
+
+(add-hook 'after-make-frame-functions #'my/setup-fill-column-indicator-face)
+
 (use-package project
   :ensure t
   :custom
@@ -243,10 +263,11 @@
   :ensure t
   :custom
   (treesit-auto-install 'prompt)
+  (treesit-auto-langs '(javascript rust java kotlin nix c sql html python json toml yaml csv ;; go
+                                   docker))
   :config
-  (treesit-auto-add-to-auto-mode-alist
-   '(;; typescript
-     javascript rust java kotlin nix c sql html python json toml yaml csv go docker))
+  ;; (treesit-auto-add-to-auto-mode-alist
+  ;;  '(javascript rust java kotlin nix c sql html python json toml yaml csv go docker))
   (global-treesit-auto-mode))
 
 (use-package tree-sitter-langs

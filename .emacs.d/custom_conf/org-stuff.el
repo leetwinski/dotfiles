@@ -73,6 +73,7 @@
                               ;; (maxima . t)
                               (processing . t)
                               ;; (sclang . t)
+                              (duckdb . t)
                               ))))
 
 (use-package consult-org-roam
@@ -106,5 +107,15 @@
 (use-package embark-org-roam
   :ensure t
   :after (org-roam embark))
+
+(use-package ob-duckdb
+  :ensure t
+  :defer t
+  :after org
+  ;; :config
+  ;; (org-babel-do-load-languages
+  ;;  'org-babel-load-languages
+  ;;  (append org-babel-load-languages '((duckdb . t))))
+  )
 
 (provide 'org-stuff)
