@@ -119,9 +119,9 @@
                      (ignore-errors (eglot-format nil)))))
   :custom
   (eglot-connect-timeout 180)
-
+  (eglot-format-on-save nil)
   :init
-  
+
   :config
   ;; (set-face-attribute 'eglot-highlight-symbol-face nil :underline t)
   (add-to-list 'eglot-server-programs

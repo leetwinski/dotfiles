@@ -28,6 +28,26 @@ in
     # ??
     # llvmPackages.libcxxClang
     # clang-tools
+    pamixer
+    pavucontrol
+    brightnessctl
+    xkb-switch
+    gxkb
+    networkmanagerapplet
+    cbatticon
+    pasystray
+    nautilus
+    feh
+    gimp
+    qimgv
+    picom
+    # stalonetray
+    # betterlockscreen
+    simplescreenrecorder
+    imagemagick
+
+    # android-studio-full
+    silver-searcher-ng
     xclip
     claude-code
     claude-agent-acp
@@ -44,7 +64,6 @@ in
     # gcc
     pkg-config
     racket
-    silver-searcher
     platinum-searcher
     fzf
     lsof
@@ -59,8 +78,8 @@ in
     # julia-lts
     purescript
     spago
-    erlang_28
-    lfe
+    beam29Packages.erlang
+    beam27Packages.lfe
     rebar3
     # gnumake
     janet
@@ -103,7 +122,7 @@ in
     # jetbrains.idea-community
     rustup
     bat
-    nnn
+    # nnn
     btop
     dig
     keychain
@@ -193,6 +212,10 @@ in
     # nixos.openssl
     # nixos.aider-chat-full
     # nixos.gcc
+    arandr
+    # zoom-us
+    albert
+    flameshot
     meson
     gnutar
     unzip
@@ -238,6 +261,12 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # dconf.enable = true;
+  # dconf.settings."org/gnome/desktop/interface" = {
+  #   color-scheme = "prefer-dark";
+  #   gtk-theme = "Adwaita-dark";
+  # };
 
   programs.eza = {
     enable = true;
@@ -319,8 +348,9 @@ in
     '';
 
     bashrcExtra = ''
-
     export EDITOR="emacsclient"
+    export QT_SCALE_FACTOR=1
+    export QT_AUTO_SCREEN_SCALE_FACTOR=0
     # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
     export PATH=~/.roswell/bin:$PATH
     alias ew="emacsclient -c"
@@ -415,6 +445,24 @@ in
   #   '';
   # };
 
+  # qt = {
+  #   enable = true;
+  #   platformTheme.name = "gtk4";
+  # };
+
+  # gtk = {
+  #   enable = true;
+  #   gtk4.theme = null;
+  #   theme = {
+  #     name = "Adwaita-dark";
+  #     package = pkgs.gnome-themes-extra;
+  #   };
+  #   iconTheme = {
+  #     name = "Papirus-Dark";
+  #     package = pkgs.papirus-icon-theme;
+  #   };
+  # };
+
   home.file."edif.sh" = {
     executable = true;
     text = ''
@@ -460,6 +508,18 @@ in
   systemd.user.startServices = true;
 
   services.emacs.enable = true;
+
+  # home.sessionVariables = {
+  #   # QT_SCALE_FACTOR = "2";
+  #   # QT_AUTO_SCREEN_SCALE_FACTOR = "0";
+  #   # GDK_SCALE = "2";
+  #   # GDK_DPI_SCALE = "0.5";
+  #   # QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+  # };
+
+  xresources.properties = {
+    "Xft.dpi" = 192;
+  };
 
   # lib.services.dictd = {
   #   enable = true;

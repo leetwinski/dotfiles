@@ -2,6 +2,7 @@
 
 (use-package beacon
   :ensure t
+  :defer t
   :init
   (beacon-mode t)
   :config
@@ -14,7 +15,9 @@
   (beacon-size 60)
   (beacon-blink-duration 0.2)
   (beacon-blink-delay 0.1)
-  (beacon-color "dodgerblue4"))
+  (beacon-color "HotPink4")
+  ;; (beacon-color "dodgerblue4")
+  )
 
 ;; (use-package no-clown-fiesta-theme
 ;;   :ensure t
@@ -106,7 +109,8 @@
   ;;             (set (make-local-variable 'buffer-face-mode-face) )
   ;;             (buffer-face-mode t)))
   (set-mouse-color "LightSteelBlue3")
-  (set-background-color "grey12"))
+  (set-background-color "grey9")
+  )
 
 (new-frame-fn)
 

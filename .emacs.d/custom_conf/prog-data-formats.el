@@ -47,7 +47,7 @@
                  (eldoc-mode 1)
                  (eglot-ensure))))
 
-(use-package protobuf-ts-mode
+(use-package protobuf-mode
   :ensure t
   :mode "\\.proto\\'")
 

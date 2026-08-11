@@ -1,25 +1,20 @@
 # Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-# NixOS-WSL specific options are documented on the NixOS-WSL repository:
-# https://github.com/nix-community/NixOS-WSL
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-let
+let 
   unstable = import <unstable> { };
 in {
   imports =
     [ # Include the results of the hardware scan.
-      <nixos-avf/avf>
+      ./hardware-configuration.nix
       <home-manager/nixos>
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  avf.defaultUser = "leet";
 
   # boot.extraModprobeConfig = ''
   #     options snd-hda-intel model=auto
@@ -30,9 +25,9 @@ in {
 
   # boot.kernelPackages = unstable.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_latest;
-
-  # networking.hostName = "nixos"; # Define your hostname.
+  boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_latest;  
+  
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -40,7 +35,7 @@ in {
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  # networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -63,12 +58,14 @@ in {
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
+  services.xserver.windowManager.stumpwm.enable = true;
+
   services.libinput.enable = true;
   services.libinput.touchpad.naturalScrolling = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
-  # services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -83,19 +80,21 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # hardware.bluetooth.enable = true;
-  # hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
-  # systemd.user.services.mpris-proxy = {
-  #   description = "Mpris proxy";
-  #   after = [ "network.target" "sound.target" ];
-  #   wantedBy = [ "default.target" ];
-  #   serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-  # };
+  services.blueman.enable = true;
+
+  systemd.user.services.mpris-proxy = {
+    description = "Mpris proxy";
+    after = [ "network.target" "sound.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+  };
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
-
+  
   services.pulseaudio.enable = false;
   # hardware.pulseaudio.enable = true;
   # hardware.pulseaudio.support32Bit = true;
@@ -119,15 +118,14 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-
   users.users.leet = {
     isNormalUser = true;
     description = "Victor Litvintsev";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      # kdePackages.kate
-
-      #  thunderbird
+      kdePackages.kate
+      
+    #  thunderbird
     ];
   };
 
@@ -140,17 +138,18 @@ in {
 
   # Install firefox.
   # programs.firefox.enable = true;
+  programs.slock.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  # #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  # #  wget
-  #   pkgs.sof-firmware
-  # ];
+  environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+    pkgs.sof-firmware
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -169,15 +168,15 @@ in {
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
+  # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
   security.polkit.enable = true;
 
-  # home-manager.users.leet = (import /home/leet/dotfiles/nix/home.nix);
+  home-manager.users.leet = (import /home/leet/dotfiles/nix/home.nix);
 
   virtualisation.docker.enable = true;
 
@@ -187,7 +186,7 @@ in {
   # };
 
   programs.dconf.enable = true;
-
+  
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     # Add any missing dynamic libraries for unpackaged programs
@@ -210,4 +209,11 @@ in {
     agent.enable = true;
     agent.enableSSHSupport = true;
   };
+
+  programs.steam.enable = true;
+  services.dunst.enable = true;
+  systemd.user.services.dunst.wantedBy = lib.mkForce [ ];
+
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 }

@@ -35,19 +35,18 @@
   :defer t
   :after sly)
 
-(defvar *sbcl-version* "sbcl-bin/2.6.4")
+(defvar *sbcl-version* "sbcl/2.6.7")
 (defvar *sly-heap-size* 2048)
 
 (defvar *ld-lib-path*
   (concat "LD_LIBRARY_PATH=" (getenv "NIX_LD_LIBRARY_PATH") ":" (getenv "LD_LIBRARY_PATH")))
 
-;; (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.3")
 
 (defun my/sly-sbcl-setup-sources ()
   (sly-eval-async
       '(cl:prog1
         nil
-        (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.4"))))
+        (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.7"))))
 
 (use-package sly
   :ensure t

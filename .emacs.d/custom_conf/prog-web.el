@@ -2,13 +2,17 @@
   :ensure t
   :defer t
   :mode "\\.x?html?\\'"
-  :config
-  (add-to-list 'eglot-server-programs
-               `(web-mode . ("vscode-html-language-server" "--stdio")))
+  ;; :config
+  ;; (add-to-list 'eglot-server-programs
+  ;;              `(web-mode . ("vscode-html-language-server" "--stdio")))
   :hook
   (web-mode . (lambda ()
                 (eglot-ensure)
                 (eldoc-mode +1))))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(web-mode . ("vscode-html-language-server" "--stdio"))))
 
 (add-hook 'html-ts-mode-hook
           (lambda ()

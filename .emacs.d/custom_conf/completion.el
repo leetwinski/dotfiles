@@ -65,7 +65,7 @@
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
   :hook
-  (completion-list-mode . consult-preview-at-point-mode)
+  ;; (completion-list-mode . consult-preview-at-point-mode)
   (nix-repl-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
   (shell-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
   (eshell-mode . (lambda () (setq completion-in-region-function #'consult-completion-in-region)))
@@ -191,15 +191,48 @@
 
 (use-package company
   :ensure t
-  :hook (eglot-managed-mode . (lambda ()
-                                (setq company-backends
+  :hook
+  (eglot-managed-mode . (lambda ()
+                          (setq-local company-backends
                                       '((company-capf
-                                         :with company-yasnippet company-files :separate)
-                                        company-dabbrev))))
+                                         :with company-files company-yasnippet :separate)
+                                        (company-dabbrev-code
+                                         :with company-keywords company-files company-yasnippet :separate)
+                                        (company-dabbrev
+                                         :with company-keywords company-files company-yasnippet :separate)))))
+
+  (prog-mode . (lambda ()
+                 (setq-local company-backends
+                             '((company-capf
+                                :with company-files company-yasnippet :separate)
+                               (company-dabbrev-code
+                                :with company-keywords company-files company-yasnippet :separate)
+                               (company-dabbrev
+                                :with company-keywords company-files company-yasnippet :separate)))))
+  (org-mode . (lambda ()
+                (setq-local company-backends
+                            '((company-capf
+                               :with company-files company-yasnippet :separate)
+                              (company-dabbrev
+                               :with company-keywords company-files company-yasnippet :separate)))))
+
+  ;; (sly-mode . (lambda ()
+  ;;               (setq-local company-backends
+  ;;                           '((company-capf
+  ;;                              :with company-keywords company-yasnippet company-files :separate)
+  ;;                             company-dabbrev))))
+  ;; (sly-connected . (lambda ()
+  ;;                    (setq-local company-backends
+  ;;                                '((company-capf
+  ;;                                   :with company-yasnippet company-files :separate)
+  ;;                                  (company-dabbrev-code company-keywords)
+  ;;                                  company-dabbrev))))
+
   :config
   (setq company-backends
         '((company-capf
            :with company-yasnippet company-files :separate)
+          (company-dabbrev-code company-keywords)
           company-dabbrev))
   :custom
   (company-dabbrev-ignore-case t)
@@ -256,9 +289,25 @@
 
 (use-package embark-consult
   :ensure t
+  :defer t
   ;; :hook
   ;; (embark-collect-mode . consult-preview-at-point-mode)
   )
+
+(defun just-one-face (fn &rest args)
+  (let ((orderless-match-faces [completions-common-part]))
+    (apply fn args)))
+
+(use-package orderless
+  :ensure t
+  :after company
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t)
+  (orderless-component-separator "[ &]")
+  :config
+  (advice-add 'company-capf--candidates :around #'just-one-face))
 
 (use-package vertico
   :ensure t

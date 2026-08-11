@@ -516,10 +516,6 @@
   (setf browse-url-generic-program "wsl-open")
   (setf browse-url-generic-program "vivaldi"))
 
-(use-package hyperbole
-  :ensure t
-  :defer t)
-
 (use-package w3m
   :defer t
   :ensure t)
@@ -565,5 +561,9 @@
 
 (use-package popterm :ensure t
   :bind ("C-x 5 SPC" . popterm-toggle-cd))
+
+(use-package context-clues
+  :ensure t
+  :bind ("C-c c" . context-clues))
 
 (provide 'base)

@@ -37,6 +37,7 @@
 (use-package treemacs
   :ensure t
   :defer t
+  :custom-face (treemacs-window-background-face ((t (:background "grey9"))))
   )
 
 (use-package project-treemacs
