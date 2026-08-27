@@ -1,12 +1,17 @@
 (load "~/.sbclrc")
 
-(setf *read-eval* nil)
+(setf *read-eval* t)
 
 (in-package :stumpwm-user)
 (add-hook stumpwm:*start-hook*
           (lambda ()
             (run-with-timer 2 nil (lambda ()
                                     (stumpwm::update-all-mode-lines)))))
+
+;; (set-prefix-key (kbd "F13"))
+
+(ql:quickload :alexandria)
+(use-package :alexandria)
 
 (stumpwm:grename "main")        ; rename default group 1
 (stumpwm:gnewbg "chat")         ; new group, don't switch to it
@@ -23,7 +28,7 @@
 ;; (defun fmt-groups (ml)
 ;;   (declare (ignore ml))
 ;;   (let ((current (stumpwm:current-group)))
-;;     (format nil "~{~a~^ ~}"
+;;     (format nil "~{~a~^ ~}";s
 ;;       (mapcar (lambda (g)
 ;;                 (let* ((name (stumpwm:group-name g))
 ;;                        (icon (or (cdr (assoc name *group-icons* :test #'string=))
@@ -354,7 +359,7 @@
 (defcommand run-or-raise-slack () ()
   (run-or-raise "slack" '(:class "Slack")))
 
-(define-key *root-map* (kbd "C-v") "run-or-raise-slack")
+(define-key *root-map* (kbd "C-s") "run-or-raise-slack")
 
 
 (defun zoom-window-to-group (window)
@@ -412,6 +417,10 @@
 
 (load-module "command-history")
 
+;; todo: check it
+;; (setf command-history::*history-file*
+;;       (merge-pathnames ".stumpwm.history" (user-homedir-pathname)))
+
 (defun resize-frame (frame new-w new-h)
   (declare (type (or number null) new-w new-h))
   (resize (if new-w (- new-w (frame-width frame)) 0)
@@ -456,4 +465,22 @@
   (when (string= (window-class window) "albert")
     (move-window-to-group window (current-group))))
 
+(defcommand toggle-transparency () ()
+  (run-shell-command "transset --actual --toggle 0.85"))
+
+(define-key *root-map* (kbd "C-/") "toggle-transparency")
+
+(defcommand hide-all-but-current () ()
+  (when-let (cur (current-window))
+    (let ((to-hide (remove cur (group-windows (current-group)))))
+      (dolist (w to-hide)
+        (stumpwm::hide-window w)))))
+
+(define-key *root-map* (kbd "M-/") "hide-all-but-current")
+
 (add-hook *new-window-hook* #'move-albert-to-current-group)
+
+(defcommand toggle-modeline-transparency () ()
+  (loop for l in stumpwm::*mode-lines*
+        for w = (xlib:window-id (stumpwm::mode-line-window l))
+        do (run-shell-command (format nil "transset --id ~a --toggle 0.85" w))))

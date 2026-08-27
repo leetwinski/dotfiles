@@ -10,6 +10,7 @@
   :custom (markdown-command "multimarkdown")
   :hook
   (markdown-mode . (lambda ()
+                     ;; (flymake-harper-setup)
                      (eldoc-mode 1)
                      (eglot-ensure))))
 

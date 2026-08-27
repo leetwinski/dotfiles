@@ -30,4 +30,11 @@
   :defer t
   :ensure t)
 
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((java-mode java-ts-mode)  . ("jdtls")
+                            ;; :initializationOptions
+                            ;; (:bundles ["~/.emacs.d/debug-adapters/java/com.microsoft.java.debug.plugin-0.53.1.jar"])
+                            )))
+
 (provide 'prog-java)

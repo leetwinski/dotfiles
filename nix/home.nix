@@ -2,6 +2,139 @@
 let
   unstable = import <unstable> { };
   nixos = import <nixos> { };
+
+  # beamPackages = pkgs.beamPackages;
+
+  # rebar3_lfe = beamPackages.buildRebar3 {
+  #   name = "rebar3_lfe";
+  #   version = "0.5.8";
+  #   src = beamPackages.fetchHex {
+  #     pkg = "rebar3_lfe";
+  #     version = "0.5.8";
+  #     sha256 = "sha256-S8LA3wEIk+hM9Zo4fHNurZeN05MWrne1be/s0SlMHko="; # already have this from earlier
+  #   };
+
+  #   beamDeps = [ pkgs.lfe ];
+
+  #   postInstall = ''
+  #     find $out -xtype l -delete
+  #   '';
+  # };
+
+  # rebar3-with-lfe = beamPackages.rebar3WithPlugins {
+  #   plugins = [ rebar3_lfe ];
+  # };
+
+  # lfe-ls-src = pkgs.fetchFromGitHub {
+  #   owner = "mdbergmann";
+  #   repo = "lfe-ls";
+  #   rev = "master";
+  #   hash = "sha256-O8o3fXL6fuS8Yy5kBLhWkcgbOPDeUjC1E4palak9ad4=";
+  # };
+
+  # lfe-ls-deps = beamPackages.fetchRebar3Deps {
+  #   name = "lfe-ls";
+  #   version = "unstable-2026-24";
+  #   src = lfe-ls-src;
+  #   sha256 = "sha256-xJGGgzJd3tamwQkxEuTuEAMdf6VFD9xn+l47st0uYOU=";
+  # };
+
+  # lfe-ls = pkgs.stdenv.mkDerivation {
+  #   pname = "lfe-ls";
+  #   version = "unstable-2026-24";
+  #   src = lfe-ls-src;
+
+  #   nativeBuildInputs = [ rebar3-with-lfe pkgs.lfe ];
+
+  #   # buildPhase = ''
+  #   #   runHook preBuild
+  #   #   export HOME=$TMPDIR
+  #   #   cp -r ${lfe-ls-deps}/_checkouts .
+  #   #   chmod -R u+w _checkouts
+  #   #   rebar3 as prod do clean,release,escriptize
+  #   #   runHook postBuild
+  #   # '';
+
+  #   # buildPhase = ''
+  #   #   runHook preBuild
+  #   #   export HOME=$TMPDIR
+  #   #   export ERL_LIBS="${pkgs.lfe}/lib:$ERL_LIBS"
+  #   #   cp -rL ${lfe-ls-deps}/_checkouts .
+  #   #   chmod -R u+w _checkouts
+
+  #   #   DEBUG=1 rebar3 as prod do clean,release,escriptize
+  #   #   runHook postBuild
+  #   # '';
+
+
+  #   buildPhase = ''
+  #     runHook preBuild
+  #     export HOME=$TMPDIR
+  #     export ERL_LIBS="${pkgs.lfe}/lib:$ERL_LIBS"
+  #     cp -rL ${lfe-ls-deps}/_checkouts .
+  #     chmod -R u+w _checkouts
+  #     mkdir -p _checkouts/lfe/ebin
+  #     rebar3 as prod do clean,release,escriptize
+  #     runHook postBuild
+  #   '';
+
+  #   # buildPhase = ''
+  #   #   runHook preBuild
+  #   #   export HOME=$TMPDIR
+  #   #   # export ERL_LIBS="${pkgs.lfe}/lib/erlang/lib:$ERL_LIBS"
+  #   #   export PATH="${pkgs.lfe}/bin:$PATH"
+  #   #   cp -r ${lfe-ls-deps}/_checkouts .
+  #   #   chmod -R u+w _checkouts
+  #   #   rebar3 as prod do clean,release,escriptize
+  #   #   runHook postBuild
+  #   # '';
+
+  #   installPhase = ''
+  #     runHook preInstall
+  #     install -Dm755 _build/prod/bin/lfe-ls "$out/bin/lfe-ls"
+  #     runHook postInstall
+  #   '';
+  # };
+
+  k-growler = pkgs.stdenv.mkDerivation {
+    pname = "k";
+    version = "unstable-2026-08-23"; # bump when you update
+
+    src = pkgs.fetchFromCodeberg {
+      owner = "growler";
+      repo = "k";
+      rev = "master"; # pin a commit hash once you're happy with a version
+      hash = "sha256-Zrxj96QoLzDGOzGE1UvecAaUaFO1pXURXH7DpN49itI="; # nix will tell you the real one on first build
+    };
+
+    buildPhase = ''
+      make
+    '';
+
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+
+    postPatch = ''
+      substituteInPlace makefile --replace-fail "-march=native" "-march=x86-64-v3"
+    '';
+
+    buildFlags = [ "k" ];
+
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 k "$out/bin/k"
+      install -Dm644 repl.k "$out/share/k/repl.k"
+      makeWrapper "$out/bin/k" "$out/bin/k-repl" \
+        --add-flags "$out/share/k/repl.k"
+      runHook postInstall
+    '';
+
+    meta = with lib; {
+      description = "Simple fast vector programming language (growler's fork of ngn/k)";
+      homepage = "https://codeberg.org/growler/k";
+      license = licenses.agpl3Only;
+      platforms = platforms.linux ++ platforms.freebsd;
+    };
+  };
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -28,6 +161,10 @@ in
     # ??
     # llvmPackages.libcxxClang
     # clang-tools
+    stumpish
+    xcape
+    xmodmap
+    transset
     pamixer
     pavucontrol
     brightnessctl
@@ -41,11 +178,12 @@ in
     gimp
     qimgv
     picom
+    uiua
     # stalonetray
     # betterlockscreen
-    simplescreenrecorder
+    # simplescreenrecorder
     imagemagick
-
+    # harper
     # android-studio-full
     silver-searcher-ng
     xclip
@@ -137,7 +275,7 @@ in
     telegram-desktop
     slack
     multimarkdown
-    libreoffice-fresh
+    libreoffice-stable
     zip
     # libev
     # supercollider_scel
@@ -212,6 +350,9 @@ in
     # nixos.openssl
     # nixos.aider-chat-full
     # nixos.gcc
+
+    gcc
+
     arandr
     # zoom-us
     albert
@@ -220,9 +361,9 @@ in
     gnutar
     unzip
     unrar
-    llvmPackages.libcxxClang
+    # llvmPackages.libcxxClang
     rlwrap
-    clang-tools
+    # clang-tools
     gnumake
     cmake
     roswell
@@ -230,7 +371,7 @@ in
     cmake-language-server
     vivaldi
     vivaldi-ffmpeg-codecs
-  ]) # ++ (let
+  ]) ++ [ k-growler ] # ++ (let
           # ghostty = unstable.ghostty.overrideAttrs (_: {
           #   preBuild = ''
           #         shopt -s globstar
@@ -258,6 +399,12 @@ in
   # home.sessionVariables = {
   #   EDITOR = "emacsclient -nw";
   # };
+  xsession.enable = true;
+
+  xsession.initExtra = ''
+    xmodmap -e "keycode 195 = F13"
+    xcape -e 'Super_L=F13'
+  '';
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -414,6 +561,11 @@ in
     recursive = true;
     source = /home/leet/dotfiles/.emacs.d;
   };
+
+  # home.file.".stumpwm.d" = {
+  #   recursive = true;
+  #   source = /home/leet/dotfiles/.stumpwm.d;
+  # };
 
   home.file.".tmux.conf" = {
     source = /home/leet/dotfiles/.tmux.conf;

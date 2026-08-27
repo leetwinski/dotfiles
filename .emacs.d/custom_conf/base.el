@@ -566,4 +566,11 @@
   :ensure t
   :bind ("C-c c" . context-clues))
 
+;; (use-package flymake-harper
+;;   :ensure t
+;;   :hook
+;;   (text-mode . flymake-harper-setup)
+;;   ;; (fundamental-mode . flymake-harper-setup)
+;;   )
+
 (provide 'base)

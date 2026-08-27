@@ -120,6 +120,10 @@
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
 ;;                            :size 24
 ;;                            :weight 'semilight))
+(add-to-list 'load-path (expand-file-name "custom_conf/my-modeline" user-emacs-directory))
+(add-to-list 'image-load-path (expand-file-name "custom_conf/my-modeline" user-emacs-directory))
+(require 'my-modeline)
+
 (use-package doom-modeline
   :ensure t
   :defer t
@@ -135,7 +139,7 @@
     (doom-modeline--drag-stuff))
 
   (doom-modeline-def-modeline 'main
-    '(eldoc bar window-state workspace-name window-number modals drag-stuff matches follow buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(eldoc bar window-state workspace-name window-number modals drag-stuff matches follow buffer-info remote-host my-progress-indicator buffer-position word-count parrot selection-info)
     '(compilation objed-state misc-info project-name persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs check time))
 
   :commands (doom-modeline-mode)

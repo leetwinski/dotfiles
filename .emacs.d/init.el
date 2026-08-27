@@ -49,6 +49,8 @@
                      prog-nix
                      prog-ocaml
                      prog-erl
+                     prog-janet
+                     prog-uiua
                      doc-md
                      infra-docker
                      communication
