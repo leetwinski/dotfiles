@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (defun get-tdlib-path ()
   (string-trim
    (cl-remove

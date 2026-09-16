@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 
 ;; (add-to-list 'load-path "/home/leet/.emacs.d/straight/repos/scel/el")
 ;; (require 'sclang)

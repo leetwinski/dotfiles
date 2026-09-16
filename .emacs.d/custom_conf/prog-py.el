@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (add-hook 'python-mode-hook
           (lambda ()
             (eglot-ensure)

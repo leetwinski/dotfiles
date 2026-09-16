@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (defun project-tmux-maybe-new-window (dir)
   "Open project in new tmux window, or raise if exists."
   (interactive (list (project-prompt-project-dir)))
@@ -472,8 +474,42 @@
 ;;                                      clojure-mode))
 ;;                    (puni-mode +1)))))
 
+
 (use-package dumb-jump
   :ensure t
   :bind)
+
+(use-package puni
+  :ensure t
+  :defer t
+  :config (puni-global-mode t)
+  :hook (after-init . (lambda () puni-global-mode t))
+  ;; :init
+  ;; (defun my/puni-mode-maybe ()
+  ;;   "Enable `puni-mode' unless `paredit-mode' is already active."
+  ;;   (when (and (derived-mode-p 'prog-mode 'text-mode)
+  ;;              (not (bound-and-true-p paredit-mode)))
+  ;;     (puni-mode 1)))
+  ;; ;; (add-hook 'after-change-major-mode-hook #'my/puni-mode-maybe)
+  ;; :hook (after-change-major-mode . #'my/puni-mode-maybe)
+  :bind
+  (:map puni-mode-map
+        ;; ("C-M-f" . puni-forward-sexp)
+        ;; ("C-M-b" . puni-backward-sexp)
+        ;; ("C-M-a" . puni-beginning-of-sexp)
+        ;; ("C-M-e" . puni-end-of-sexp)
+        ("C-)"   . puni-slurp-forward)
+        ("C-}"   . puni-barf-forward)
+        ("C-("   . puni-slurp-backward)
+        ("C-{"   . puni-barf-backward)
+        ;; ("M-r"   . puni-raise)
+        ;; ("M-U"   . puni-splice)
+        ;; ("C-k"   . puni-kill-line)
+
+        ("C-M-("   . puni-wrap-round)
+        ("C-M-{"   . puni-wrap-curly)
+        ("C-M-["   . puni-wrap-square)
+        ("C-M-<"   . puni-wrap-angle)
+        ("C-M-t"   . puni-transpose)))
 
 (provide 'prog-all)

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 
 (use-package ob-janet
   :ensure t
@@ -8,7 +10,7 @@
 (use-package janet-mode
   :ensure t
   :hook (janet-mode . (lambda ()
-                        (paredit-mode)
+                        ;; (paredit-mode)
                         (eldoc-mode +1))))
 
 (straight-use-package
@@ -18,7 +20,7 @@
 
 (use-package ajrepl
   :straight t
-  :hook (ajrepl . (lambda () (paredit-mode)))
+  ;; :hook (ajrepl . (lambda () (paredit-mode)))
   :bind
   ("M-RET" . comint-send-input)
   :config

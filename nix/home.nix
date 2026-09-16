@@ -104,7 +104,7 @@ let
       owner = "growler";
       repo = "k";
       rev = "master"; # pin a commit hash once you're happy with a version
-      hash = "sha256-Zrxj96QoLzDGOzGE1UvecAaUaFO1pXURXH7DpN49itI="; # nix will tell you the real one on first build
+      hash = "sha256-fSRUfspi9WKskp2q+FW5gaYQlYzxMga5ItI4VLqbG08="; # nix will tell you the real one on first build
     };
 
     buildPhase = ''
@@ -161,6 +161,9 @@ in
     # ??
     # llvmPackages.libcxxClang
     # clang-tools
+    rofi
+    dmenu
+    pulseaudio
     stumpish
     xcape
     xmodmap
@@ -177,7 +180,6 @@ in
     feh
     gimp
     qimgv
-    picom
     uiua
     # stalonetray
     # betterlockscreen
@@ -399,11 +401,14 @@ in
   # home.sessionVariables = {
   #   EDITOR = "emacsclient -nw";
   # };
+
+  # fonts.fontDir.enable = true;
   xsession.enable = true;
 
   xsession.initExtra = ''
     xmodmap -e "keycode 195 = F13"
     xcape -e 'Super_L=F13'
+    # exec emacsclient -c -a "" -F '((name . "EXWM"))' &
   '';
 
   # Let Home Manager install and manage itself.
@@ -443,6 +448,23 @@ in
     enable = true;
     package = unstable.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
     # defaultEditor = true;
+  };
+
+  services.picom = {
+    enable = true;
+    # backend = "xrender";
+    backend = "glx";
+    vSync = true;
+
+    settings = {
+      unredirect-fullscreen-window = false;
+    };
+  };
+
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    package = unstable.emacs;
   };
 
   # programs.gnupg.agent = {
@@ -495,7 +517,7 @@ in
     '';
 
     bashrcExtra = ''
-    export EDITOR="emacsclient"
+    # export EDITOR="emacsclient"
     export QT_SCALE_FACTOR=1
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
@@ -643,6 +665,10 @@ in
     '';
   };
 
+  home.file.".stumpwm.d/init.lisp" = {
+    source = /home/leet/dotfiles/.stumpwm.d/init.lisp;
+  };
+
   home.file."emer.sh" = {
     executable = true;
     text = ''
@@ -658,8 +684,6 @@ in
   };
  
   systemd.user.startServices = true;
-
-  services.emacs.enable = true;
 
   # home.sessionVariables = {
   #   # QT_SCALE_FACTOR = "2";

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package json-mode
   :ensure t
   :defer t
@@ -17,16 +19,16 @@
                           (eldoc-mode 1)
                           (eglot-ensure))))
 
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               `((json-mode json-ts-mode) . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
-                                                                   ("vscode-json-languageserver" "--stdio")
-                                                                   ("json-languageserver" "--stdio")))))
-  ;; (add-to-list 'eglot-server-programs
-  ;;              `(json-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
-  ;;                                                   ("vscode-json-languageserver" "--stdio")
-  ;;                                                   ("json-languageserver" "--stdio")))))
-  )
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                `((json-mode json-ts-mode) . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
+;;                                                                    ("vscode-json-languageserver" "--stdio")
+;;                                                                    ("json-languageserver" "--stdio")))))
+;;   ;; (add-to-list 'eglot-server-programs
+;;   ;;              `(json-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
+;;   ;;                                                   ("vscode-json-languageserver" "--stdio")
+;;   ;;                                                   ("json-languageserver" "--stdio")))))
+;;   )
 
 ;; (use-package jsonian
 ;;   :ensure t
@@ -57,6 +59,8 @@
   (yaml-mode . (lambda ()
                  (eldoc-mode 1)
                  (eglot-ensure))))
+
+
 
 (use-package protobuf-mode
   :ensure t

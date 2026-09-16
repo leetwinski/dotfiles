@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setf ediff-window-setup-function 'ediff-setup-windows-plain)
 (setf ediff-split-window-function 'split-window-horizontally)
 

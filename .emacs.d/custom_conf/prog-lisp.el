@@ -1,28 +1,31 @@
+;;; -*- lexical-binding: t; -*-
 
-(use-package paredit
-  :ensure t
-  :defer t
-  :hook
-  (lisp-mode . (lambda () (paredit-mode 1)))
-  (common-lisp-mode-hook . (lambda () (paredit-mode 1)))
-  (lisp-data-mode . (lambda () (paredit-mode 1)))
-  :config
-  (define-key paredit-mode-map (kbd "M-?") nil)
-  (define-key paredit-mode-map (kbd "M-s") nil)
-  :bind
-  (:map paredit-mode-map
-        ("C-M-?" . paredit-convolute-sexp)
-        ("M-U" . paredit-splice-sexp)))
+
+;; (use-package paredit
+;;   :ensure t
+;;   :defer t
+;;   :hook
+;;   (lisp-mode . (lambda () (paredit-mode 1)))
+;;   (common-lisp-mode-hook . (lambda () (paredit-mode 1)))
+;;   (lisp-data-mode . (lambda () (paredit-mode 1)))
+;;   :config
+;;   (define-key paredit-mode-map (kbd "M-?") nil)
+;;   (define-key paredit-mode-map (kbd "M-s") nil)
+;;   :bind
+;;   (:map paredit-mode-map
+;;         ("C-M-?" . paredit-convolute-sexp)
+;;         ("M-U" . paredit-splice-sexp)))
 
 (use-package elisp-mode
-  :hook
-  (emacs-lisp-mode . (lambda () (paredit-mode 1))))
+  ;; :hook
+  ;; (emacs-lisp-mode . (lambda () (paredit-mode 1)))
+  )
 
 (defun slime-hook ()
   "My slime hook."
   ;; (subword-mode t)
   (eldoc-mode t)
-  (paredit-mode t)
+  ;; (paredit-mode t)
   ;; (rainbow-delimiters-mode-enable)
   )
 
@@ -35,7 +38,8 @@
   :defer t
   :after sly)
 
-(defvar *sbcl-version* "sbcl/2.6.7")
+
+(defvar *sbcl-version* "sbcl/2.6.8")
 (defvar *sly-heap-size* 2048)
 
 (defvar *ld-lib-path*
@@ -46,7 +50,7 @@
   (sly-eval-async
       '(cl:prog1
         nil
-        (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.7"))))
+        (sb-ext:set-sbcl-source-location "/home/leet/.roswell/src/sbcl-2.6.8"))))
 
 (use-package sly
   :ensure t
@@ -72,6 +76,17 @@
   (setf inferior-lisp-program (format
                                "ros dynamic-space-size=%s -L %s -Q -l ~/.sbclrc run"
                                *sly-heap-size* *sbcl-version*)))
+
+(use-package sly-quicklisp
+  :ensure t
+  :defer t
+  :after sly)
+
+(use-package sly-named-readtables
+  :ensure t
+  :defer t
+  :after sly)
+
 
 ;; (defun sly-make-run (directory)
 ;;   (interactive (list (read-directory-name "Project directory: ")))

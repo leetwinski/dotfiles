@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package c-mode
   :defer t
   :hook

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; (use-package markdown-ts-mode
 ;;   :ensure t
 ;;   :hook (markdown-ts-mode . (lambda ()

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'doom-modeline)
 
 (defvar my-modeline-bar-length 10

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package racket-mode
   :ensure t
   :defer t
@@ -6,7 +8,7 @@
   (unbind-key "C-M-y" racket-mode-map)
   :hook
   (racket-repl-mode . (lambda ()
-                        (paredit-mode 1)
+                        ;; (paredit-mode 1)
                         (eldoc-mode 1)
                         (racket-unicode-input-method-enable)))
 
@@ -14,7 +16,7 @@
                    (prettify-symbols-mode nil)
                    (racket-xp-mode t)
                    (racket-unicode-input-method-enable)
-                   (paredit-mode t)
+                   ;; (paredit-mode t)
                    (eglot-ensure)
                    (eldoc-mode t)))
 
@@ -22,7 +24,7 @@
                       (prettify-symbols-mode nil)
                       (racket-xp-mode t)
                       (racket-unicode-input-method-enable)
-                      (paredit-mode t)
+                      ;; (paredit-mode t)
                       (eglot-ensure)
                       (eldoc-mode t)))
   :bind

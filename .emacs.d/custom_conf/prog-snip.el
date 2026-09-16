@@ -1,6 +1,9 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package yasnippet
   :ensure t
   :defer t
+  :config (yas-global-mode t)
   :hook
   (prog-mode . (lambda ()
                  (yas-minor-mode t))))

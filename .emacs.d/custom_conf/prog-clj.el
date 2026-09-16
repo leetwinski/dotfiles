@@ -1,8 +1,10 @@
+;;; -*- lexical-binding: t; -*-
+
 (defun clj-hook ()
   "My clojure hook."
   (eldoc-mode)
   ;; (subword-mode)
-  (paredit-mode)
+  ;; (paredit-mode)
   (rainbow-delimiters-mode-enable)
   (clj-refactor-mode 1)
   (cider-company-enable-fuzzy-completion)

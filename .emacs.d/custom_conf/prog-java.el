@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; (use-package eglot-java
 ;;   :defer t
 ;;   :after (java-mode)

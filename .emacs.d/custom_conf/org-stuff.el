@@ -1,8 +1,14 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package org-roam
   :ensure t
   :defer t
+  ;; :straight (:host github :repo "org-roam/org-roam"
+  ;;                  :branch "main"
+  ;;                  :files (:defaults "extensions/*"))
   :config
   (org-roam-db-autosync-mode +1)
+  (require 'org-roam-protocol)
   :custom
   (org-roam-directory "~/org/roam"))
 
@@ -78,6 +84,10 @@
 
 (use-package consult-org-roam
    :ensure t
+   ;; :straight (consult-org-roam :type git
+   ;;                             :host github
+   ;;                             :repo "jgru/consult-org-roam"
+   ;;                             :branch "main")
    :after org-roam
    :init
    (require 'consult-org-roam)
@@ -103,6 +113,9 @@
    ("M-s \\ B" . consult-org-roam-backlinks-recursive)
    ("M-s \\ l" . consult-org-roam-forward-links)
    ("M-s \\ s" . consult-org-roam-search))
+
+;; fixes error. todo: check it later
+(setq org-roam-buffer-open-buffer-list nil)
 
 (use-package embark-org-roam
   :ensure t

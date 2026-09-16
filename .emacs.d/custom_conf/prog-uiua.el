@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package uiua-mode
   :ensure t
   :defer t

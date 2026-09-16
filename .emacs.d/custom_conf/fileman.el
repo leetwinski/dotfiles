@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 
 ;; dired edit file name at point
 (use-package wdired
@@ -37,8 +39,10 @@
 (use-package treemacs
   :ensure t
   :defer t
-  :custom-face (treemacs-window-background-face ((t (:background "grey9"))))
+  ;; :custom-face (treemacs-window-background-face ((t (:background "grey9"))))
+  :config (set-face-attribute 'treemacs-window-background-face nil :background "#grey9")
   )
+
 
 (use-package project-treemacs
   :ensure t

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; completion
 (use-package consult
   :ensure t
@@ -256,6 +258,18 @@
         ("M-<" . company-select-first)
         ("M->" . company-select-last)))
 
+;; (use-package company-posframe
+;;   :ensure t
+;;   :after company
+;;   :hook (company-mode . company-posframe-mode)
+;;   :bind
+;;   (:map company-posframe-active-map
+;;         ("M-h" . company-posframe-quickhelp-toggle))
+;;   :custom
+;;   (company-posframe-quickhelp-delay 0.5)  ;; nil disables auto-popup; number = seconds
+;;   (company-posframe-show-indicator nil)
+;;   (company-posframe-show-metadata nil))
+
 (use-package company-quickhelp
   :ensure t
   :defer t
@@ -295,7 +309,9 @@
   )
 
 (defun just-one-face (fn &rest args)
-  (let ((orderless-match-faces [completions-common-part]))
+  ;; `dlet' keeps this a dynamic binding under lexical-binding, so the
+  ;; face override still reaches `orderless'.
+  (dlet ((orderless-match-faces [completions-common-part]))
     (apply fn args)))
 
 (use-package orderless

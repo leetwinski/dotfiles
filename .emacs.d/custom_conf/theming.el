@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;; theming
 
 (use-package beacon
@@ -16,6 +18,7 @@
   (beacon-blink-duration 0.2)
   (beacon-blink-delay 0.1)
   (beacon-color "HotPink4")
+  ;; (beacon-color "Goldenrod4")
   ;; (beacon-color "dodgerblue4")
   )
 
@@ -48,8 +51,7 @@
 ;;   (setq doom-themes-enable-bold t       ; if nil, bold is universally disabled
 ;;         doom-themes-enable-italic t
 ;;         )                              ; if nil, italics is universally disabled
-;;   ;; (load-theme 'doom-miramare t)
-
+;;   (load-theme 'doom-old-hope t)
 ;;   ;; (load-theme 'doom-feather-dark t)
 ;;   ;; (set-face-background 'vertical-border nil)
 
@@ -109,13 +111,18 @@
   ;;             (set (make-local-variable 'buffer-face-mode-face) )
   ;;             (buffer-face-mode t)))
   (set-mouse-color "LightSteelBlue3")
-  (set-background-color "grey9")
+  (set-face-attribute 'default nil :background "grey9")
+  ;; (set-background-color "grey9")
   )
+
+(add-hook 'server-after-make-frame-hook #'new-frame-fn)
+
+;; (add-hook 'after-make-frame-functions #'new-frame-fn)
 
 (new-frame-fn)
 
-(add-hook 'server-after-make-frame-hook
-          #'new-frame-fn)
+(add-to-list 'default-frame-alist '(background-color . "grey9"))
+
 ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font Mono 17")
 ;; (set-frame-font (font-spec :family "FiraCode Nerd Font Mono"
 ;;                            :size 24

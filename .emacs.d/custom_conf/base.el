@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setf inhibit-startup-screen t)
 (setf initial-major-mode 'org-mode)
 (setf initial-scratch-message nil)
@@ -245,6 +247,19 @@
         (">" . mc/mark-sgml-tag-pair)
         ("i n" . mc/insert-numbers)
         ("i l" . mc/insert-letters)))
+
+(with-eval-after-load 'multiple-cursors-core
+  (cl-flet ((add-mc-lists-header (&rest _)
+              (let ((file (expand-file-name mc/list-file)))
+                  (when (file-exists-p file)
+                    (with-temp-buffer
+                      (insert-file-contents file)
+                      (goto-char (point-min))
+                      (unless (looking-at ";; -\\*- lexical-binding")
+                        (insert ";; -*- lexical-binding: t; -*-\n"))
+                      (write-region (point-min) (point-max) file))))))
+    (add-mc-lists-header)
+    (advice-add 'mc/save-lists :after #'add-mc-lists-header)))
 
 (use-package ibuffer
   :ensure t
@@ -559,8 +574,16 @@
   :bind
   ("C-c '" . atomic-chrome-close-current-buffer))
 
-(use-package popterm :ensure t
-  :bind ("C-x 5 SPC" . popterm-toggle-cd))
+(use-package popterm
+  :bind (("C-x 5 SPC"   . popterm-toggle)
+         ("C-x 5 `"   . popterm-toggle-cd)
+         ([f9]    . popterm-window-toggle))
+  :config
+  (setq popterm-backend        'ghostel     ; or 'ghostel, 'eat, 'shell, 'eshell
+        popterm-display-method 'posframe  ; or 'window, 'fullscreen
+        popterm-scope          'project   ; or 'frame, 'dedicated, nil
+        popterm-auto-cd        t)
+  (popterm-global-mode 1))
 
 (use-package context-clues
   :ensure t

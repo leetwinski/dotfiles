@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package julia-mode
   :ensure t
   :defer t
@@ -22,6 +24,29 @@
   :hook (julia-mode . (lambda ()
                         (julia-snail-mode 1)
                         (eldoc-mode +1))))
+
+(use-package julia-vterm
+  :ensure t
+  :defer t)
+
+(use-package ob-julia-vterm
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'org-babel-load-languages '(julia-vterm . t))
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+
+;; Load ob-ess-julia and dependencies
+;; (use-package ob-ess-julia
+;;   :ensure t
+;;   :config
+;;   ;; Add ess-julia into supported languages:
+;;   (org-babel-do-load-languages 'org-babel-load-languages
+;;                                (append org-babel-load-languages
+;;                                        '((ess-julia . t))))
+;;   ;; Link this language to ess-julia-mode (although it should be done by default):
+;;   (setq org-src-lang-modes
+;;         (append org-src-lang-modes '(("ess-julia" . ess-julia)))))
 
 ;; (use-package eglot-jl
 ;;   :ensure t

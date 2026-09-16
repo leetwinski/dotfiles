@@ -1,9 +1,30 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'package)
 
 (setf use-package-verbose t)
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
+
+(use-package exwm
+  :ensure t
+  :defer t
+  :hook (exwm-update-class . (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
+  ;; Global keybindings.
+  :custom (exwm-input-global-keys
+           `(([?\s-r] . exwm-reset)            ;; s-r: Reset (to line-mode).
+             ([?\s-w] . exwm-workspace-switch) ;; s-w: Switch workspace.
+             ([?\s-&] . (lambda (cmd)               ;; s-&: Launch application.
+                          (interactive (list (read-shell-command "$ ")))
+                          (start-process-shell-command cmd nil cmd)))
+             ;; s-N: Switch to certain workspace.
+             ,@(mapcar (lambda (i)
+                         `(,(kbd (format "s-%d" i)) .
+                           (lambda ()
+                             (interactive)
+                             (exwm-workspace-switch-create ,i))))
+                       (number-sequence 0 9)))))
 
 (add-to-list 'load-path "~/.emacs.d/custom_conf/")
 
@@ -58,6 +79,10 @@
                      media
                      ai
                      my-consult-http-things))
+
+(use-package stumpwm-mode
+  :ensure t
+  :config (setf stumpwm-shell-program "/home/leet/dotfiles/.stumpwm.d/modules/util/stumpish/stumpish"))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

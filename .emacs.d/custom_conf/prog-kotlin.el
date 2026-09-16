@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package kotlin-ts-mode
   :ensure t
   :defer t

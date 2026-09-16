@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package erlang
   :ensure
   :defer
@@ -15,7 +17,7 @@
   :hook (lfe-mode . (lambda ()
                       (eldoc-mode 1)
                       (eglot-ensure)
-                      (paredit-mode)
+                      ;; (paredit-mode)
                       ;; (setq-local eldoc-echo-area-use-multiline-p t)
                       )))
 
