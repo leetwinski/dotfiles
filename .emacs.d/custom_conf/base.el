@@ -541,7 +541,13 @@
 
 (use-package ghostel
   :ensure t
-  :defer t)
+  :defer t
+  :bind
+  (:map project-prefix-map
+        ("/" . ghostel-project)
+        ("M-/ n" . ghostel-project-next)
+        ("M-/ p" . ghostel-project-previous)
+        ("M-/ RET" . ghostel-project-list-buffers)))
 
 (use-package vterm
   :ensure t

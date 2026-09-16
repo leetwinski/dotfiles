@@ -41,7 +41,8 @@
                              (project-find-dir "Dir")
                              (project-find-regexp "Regexp")
                              (project-magit-or-vc-dir "VC")
-                             (project-eshell "Eshell")))
+                             (project-eshell "Eshell")
+                             (ghostel-project "Ghostel")))
   :config
   (otpp-mode 1)
   :bind
@@ -461,20 +462,6 @@
 ;;   :demand t
 ;;   :config (compile-multi-embark-mode +1))
 
-;; (use-package puni
-;;   :ensure t
-;;   :defer t
-;;   :hook
-;;   (prog-mode . (lambda ()
-;;                  ;; exclude puni for lisp modes. use paredit instead
-;;                  (unless (seq-some #'derived-mode-p
-;;                                    '(lisp-mode
-;;                                      common-lisp-mode
-;;                                      emacs-lisp-mode
-;;                                      clojure-mode))
-;;                    (puni-mode +1)))))
-
-
 (use-package dumb-jump
   :ensure t
   :bind)
@@ -482,8 +469,9 @@
 (use-package puni
   :ensure t
   :defer t
-  :config (puni-global-mode t)
-  :hook (after-init . (lambda () puni-global-mode t))
+  :init (puni-global-mode t)
+  ;; :config (puni-global-mode t)
+  ;; :hook ( . (lambda () puni-global-mode t))
   ;; :init
   ;; (defun my/puni-mode-maybe ()
   ;;   "Enable `puni-mode' unless `paredit-mode' is already active."
@@ -494,22 +482,28 @@
   ;; :hook (after-change-major-mode . #'my/puni-mode-maybe)
   :bind
   (:map puni-mode-map
-        ;; ("C-M-f" . puni-forward-sexp)
-        ;; ("C-M-b" . puni-backward-sexp)
+        ("C-M-f" . puni-forward-sexp-or-up-list)
+        ("C-M-b" . puni-backward-sexp-or-up-list)
         ;; ("C-M-a" . puni-beginning-of-sexp)
         ;; ("C-M-e" . puni-end-of-sexp)
-        ("C-)"   . puni-slurp-forward)
-        ("C-}"   . puni-barf-forward)
-        ("C-("   . puni-slurp-backward)
-        ("C-{"   . puni-barf-backward)
+        ("M-<right>"    . puni-slurp-forward)
+        ("C-M-<right>"  . puni-barf-forward)
+        ("M-<left>"     . puni-slurp-backward)
+        ("C-M-<left>"   . puni-barf-backward)
+        ("M-<down>" . puni-splice-killing-forward)
+        ("M-<up>"   . puni-splice-killing-backward)
         ;; ("M-r"   . puni-raise)
-        ;; ("M-U"   . puni-splice)
+        ("M-U"   . puni-splice)
+        ("M-S"   . puni-split)
+        ("M-R"   . puni-raise)
+        ("M-C"   . puni-convolute)
+        ("M-H"   . puni-mark-sexp-around-point)
+        ("M-E"   . puni-change-inner)
         ;; ("C-k"   . puni-kill-line)
-
-        ("C-M-("   . puni-wrap-round)
-        ("C-M-{"   . puni-wrap-curly)
-        ("C-M-["   . puni-wrap-square)
-        ("C-M-<"   . puni-wrap-angle)
+        ("M-W ("   . puni-wrap-round)
+        ("M-W {"   . puni-wrap-curly)
+        ("M-W ["   . puni-wrap-square)
+        ("M-W <"   . puni-wrap-angle)
         ("C-M-t"   . puni-transpose)))
 
 (provide 'prog-all)
