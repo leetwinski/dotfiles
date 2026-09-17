@@ -7,6 +7,17 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
+(define-advice display-warning
+    (:around (orig-fun type message &rest args) route-elpa-lexbind-to-messages)
+  "Send \"missing lexical-binding cookie\" warnings for files under
+/elpa/ to *Messages* only, instead of popping up *Warnings*.
+Everything else (including your own elisp files) is unaffected."
+  (if (and (stringp message)
+           (string-match-p "lexical-binding" message)
+           (string-match-p "/elpa/" message))
+      (message "%s" message)
+    (apply orig-fun type message args)))
+
 (use-package exwm
   :ensure t
   :defer t
