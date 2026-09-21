@@ -469,7 +469,7 @@
 (use-package puni
   :ensure t
   :defer t
-  :init (puni-global-mode t)
+  ;; :init (puni-global-mode t)
   ;; :config (puni-global-mode t)
   ;; :hook ( . (lambda () puni-global-mode t))
   ;; :init
@@ -479,16 +479,19 @@
   ;;              (not (bound-and-true-p paredit-mode)))
   ;;     (puni-mode 1)))
   ;; ;; (add-hook 'after-change-major-mode-hook #'my/puni-mode-maybe)
-  ;; :hook (after-change-major-mode . #'my/puni-mode-maybe)
+  :config
+  (define-key puni-mode-map (kbd "C-M-a") nil)
+  (define-key puni-mode-map (kbd "C-M-e") nil)
+  :hook (prog-mode . (lambda () (puni-mode +1)))
   :bind
   (:map puni-mode-map
         ("C-M-f" . puni-forward-sexp-or-up-list)
         ("C-M-b" . puni-backward-sexp-or-up-list)
         ;; ("C-M-a" . puni-beginning-of-sexp)
         ;; ("C-M-e" . puni-end-of-sexp)
-        ("M-<right>"    . puni-slurp-forward)
+        ("C-<right>"    . puni-slurp-forward)
         ("C-M-<right>"  . puni-barf-forward)
-        ("M-<left>"     . puni-slurp-backward)
+        ("C-<left>"     . puni-slurp-backward)
         ("C-M-<left>"   . puni-barf-backward)
         ("M-<down>" . puni-splice-killing-forward)
         ("M-<up>"   . puni-splice-killing-backward)

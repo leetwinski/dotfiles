@@ -26,6 +26,7 @@
   ;; (subword-mode t)
   (eldoc-mode t)
   ;; (paredit-mode t)
+  (puni-mode t)
   ;; (rainbow-delimiters-mode-enable)
   )
 

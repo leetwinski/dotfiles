@@ -1,8 +1,18 @@
-(load "~/.sbclrc")
+(in-package #:cl)
 
+(load "~/.sbclrc")
+(push #p"/home/leet/dotfiles/.stumpwm.d/modules/clx-truetype/" asdf:*central-registry*)
 (setf *read-eval* t)
 
-(in-package :stumpwm-user)
+(ql:quickload :str)
+(ql:quickload :xembed)
+(ql:quickload :frugal-uuid)
+(ql:quickload :clx-truetype)
+
+(defpackage my-config
+  (:use #:cl #:stumpwm #:alexandria))
+
+(in-package #:my-config)
 
 (defparameter *transparency-mod* 0.85)
 (defparameter *modeline-transparency-mod* 0.77)
@@ -12,8 +22,7 @@
         for w = (xlib:window-id (stumpwm::mode-line-window l))
         do (run-shell-command (format nil
                                       "transset --id ~a --toggle ~a"
-                                      w *modeline-transparency-mod*)))
-  (message "hsasdas"))
+                                      w *modeline-transparency-mod*))))
 
 (defcommand toggle-modeline-transparency () ()
             (%toggle-modeline-transparency))
@@ -26,7 +35,6 @@
 
 ;; (set-prefix-key (kbd "F13"))
 
-(ql:quickload :alexandria)
 (use-package :alexandria)
 
 (stumpwm:grename "main")        ; rename default group 1
@@ -85,7 +93,7 @@
 
 
 ;; ---- power
-(ql:quickload :str)
+
 
 (defparameter *power-icons*
   (pairlis (list "balanced" "power-saver" "performance")
@@ -183,7 +191,7 @@
 (define-key *top-map* (kbd "XF86AudioMute") "pamixer-toggle-mute")
 (define-key *top-map* (kbd "XF86AudioMicMute") "pamixer-source-toggle-mute")
 
-;; (ql:quickload :py-configparser)
+
 ;; (load-module "desktop-entry")
 
 (load-module "stump-backlight")
@@ -266,7 +274,7 @@
 
 ;; (sync-all-frame-windows (current-group))
 
-;; (ql:quickload :clx-true type)
+
 ;; (load-module "ttf-fonts")
 ;; (set-font (make-instance 'xft:font :family "DejaVu Sans Mono" :size 20))
 
@@ -274,8 +282,6 @@
 
 (define-key *top-map* (kbd "s-ESC") "end-session")
 
-(push #p"/home/leet/.stumpwm.d/modules/clx-truetype/" asdf:*central-registry*)
-(ql:quickload :clx-truetype)
 (load-module "ttf-fonts")
 ;; (set-font (make-instance 'xft:font :family "FiraCode Nerd Font Mono" :subfamily "Regular" :size 36))
 
@@ -285,11 +291,11 @@
       (merge-pathnames "font-cache.sexp" (merge-pathnames ".fonts/" (user-homedir-pathname))))
 (setf *font-dirs*
       (remove-duplicates
-       (append *font-dirs*
+       (append xft:*font-dirs*
                (list (namestring (merge-pathnames ".nix-profile/share/fonts/" (user-homedir-pathname)))))))
 
-(in-package :stumpwm-user)
-
+;; (in-package :stumpwm-user)
+(in-package :my-config)
 (xft:cache-fonts)
 (set-font (make-instance 'xft:font :family "FiraCode Nerd Font Mono" :subfamily "Regular" :size 20))
 
@@ -301,7 +307,7 @@
 (toggle-mode-line (current-screen) (current-head))
 (toggle-mode-line (current-screen) (current-head))
 
-(ql:quickload :xembed)
+
 (load-module "stumptray")
 (setf stumptray:*tray-placeholder-pixels-per-space* 15)
 (stumptray:stumptray)
@@ -338,7 +344,7 @@
 (defcommand show-bg () () "show bg"
   (run-shell-command "feh --bg-fill ~/wallpapers/bg.jpg"))
 
-(ql:quickload :frugal-uuid)
+
 
 ;; (defcommand rand-bg () () "reload background"
 ;;   (let ((cmd (format
@@ -578,7 +584,7 @@
 ;; (define-key *root-map* (kbd ",") "rofi-global-window-pull")
 
 ;; --------------------------------------------
-(in-package :stumpwm)
+;; (in-package :stumpwm)
 
 (defparameter *asc-stride* 24
   "Sample every Nth pixel in each dimension — bigger = cheaper, less accurate.")

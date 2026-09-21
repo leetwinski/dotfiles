@@ -7,7 +7,7 @@
 
 (defvar my-modeline-bar-image-active
   (create-image "~/.emacs.d/custom_conf/my-modeline/piotr.png" 'png nil
-                :ascent 'center :width 20 :height 20 :mask 'heuristic))
+                :ascent 'center :width 18 :height 18 :mask 'heuristic))
 
 (defun my-modeline--percent ()
   (let* ((current-line (line-number-at-pos (point)))

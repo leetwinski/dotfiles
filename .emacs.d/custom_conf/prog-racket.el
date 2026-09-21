@@ -9,6 +9,7 @@
   :hook
   (racket-repl-mode . (lambda ()
                         ;; (paredit-mode 1)
+                        (puni-mode +1)
                         (eldoc-mode 1)
                         (racket-unicode-input-method-enable)))
 
@@ -17,6 +18,7 @@
                    (racket-xp-mode t)
                    (racket-unicode-input-method-enable)
                    ;; (paredit-mode t)
+                   (puni-mode +1)
                    (eglot-ensure)
                    (eldoc-mode t)))
 
@@ -26,6 +28,7 @@
                       (racket-unicode-input-method-enable)
                       ;; (paredit-mode t)
                       (eglot-ensure)
+                      (puni-mode +1)
                       (eldoc-mode t)))
   :bind
   (:map racket-repl-mode-map

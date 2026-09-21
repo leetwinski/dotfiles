@@ -11,6 +11,7 @@
   :ensure t
   :hook (janet-mode . (lambda ()
                         ;; (paredit-mode)
+                        (puni-mode +1)
                         (eldoc-mode +1))))
 
 (straight-use-package
@@ -20,7 +21,10 @@
 
 (use-package ajrepl
   :straight t
-  ;; :hook (ajrepl . (lambda () (paredit-mode)))
+  :hook (ajrepl . (lambda ()
+                    (puni-mode +1)
+                    ;; (paredit-mode)
+                    ))
   :bind
   ("M-RET" . comint-send-input)
   :config

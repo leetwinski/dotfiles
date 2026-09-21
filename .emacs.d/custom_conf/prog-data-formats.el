@@ -1,12 +1,12 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package json-mode
-  :ensure t
-  :defer t
-  :hook
-  (json-mode . (lambda ()
-                 (eldoc-mode 1)
-                 (eglot-ensure))))
+;; (use-package json-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook
+;;   (json-mode . (lambda ()
+;;                  (eldoc-mode 1)
+;;                  (eglot-ensure))))
 
 (use-package so-long
   :ensure t
@@ -49,16 +49,17 @@
   :ensure t
   :defer t)
 
-(use-package yaml-mode
+(use-package yaml-ts-mode
   :ensure t
   :mode "\\.ya?ml\\'"
   :hook
   (yaml-ts-mode . (lambda ()
                     (eldoc-mode 1)
                     (eglot-ensure)))
-  (yaml-mode . (lambda ()
-                 (eldoc-mode 1)
-                 (eglot-ensure))))
+  ;; (yaml-mode . (lambda ()
+  ;;                (eldoc-mode 1)
+  ;;                (eglot-ensure)))
+  )
 
 
 

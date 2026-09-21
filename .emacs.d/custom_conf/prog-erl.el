@@ -17,6 +17,7 @@
   :hook (lfe-mode . (lambda ()
                       (eldoc-mode 1)
                       (eglot-ensure)
+                      (puni-mode +1)
                       ;; (paredit-mode)
                       ;; (setq-local eldoc-echo-area-use-multiline-p t)
                       )))

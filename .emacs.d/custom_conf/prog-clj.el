@@ -5,6 +5,7 @@
   (eldoc-mode)
   ;; (subword-mode)
   ;; (paredit-mode)
+  (puni-mode +1)
   (rainbow-delimiters-mode-enable)
   (clj-refactor-mode 1)
   (cider-company-enable-fuzzy-completion)
