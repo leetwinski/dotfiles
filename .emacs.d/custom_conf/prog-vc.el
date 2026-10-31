@@ -35,4 +35,15 @@
   ;; (git-commit-setup . flyspell-mode)
   )
 
+(use-package difftastic
+  :defer t
+  :ensure t)
+
+(use-package difftastic-bindings
+  :ensure difftastic ;; or nil if you prefer manual installation
+  :after magit
+  ;; :hook (magit-mode . difftastic-bindings-mode)
+  :config (difftastic-bindings-mode)
+  )
+
 (provide 'prog-vc)

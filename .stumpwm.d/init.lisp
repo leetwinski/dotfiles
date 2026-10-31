@@ -541,6 +541,10 @@
 
 (add-hook *new-window-hook* #'move-albert-to-current-group)
 
+(defcommand dunst-close-all () ()
+            (run-shell-command "dunstctl close-all"))
+
+(define-key *root-map* (kbd "\\") "dunst-close-all")
 ;; (define-key *root-map* (kbd ";") "rofi-colon")
 
 ;; (defcommand rofi-run () ()
@@ -586,61 +590,96 @@
 ;; --------------------------------------------
 ;; (in-package :stumpwm)
 
-(defparameter *asc-stride* 24
-  "Sample every Nth pixel in each dimension — bigger = cheaper, less accurate.")
+;; (defparameter *asc-stride* 24
+;;   "Sample every Nth pixel in each dimension — bigger = cheaper, less accurate.")
 
-(defparameter *asc-darken* 0.55
-  "Multiply sampled RGB by this before using as bg, so it doesn't blow out.")
+;; (defparameter *asc-darken* 0.55
+;;   "Multiply sampled RGB by this before using as bg, so it doesn't blow out.")
 
-(defparameter *asc-smoothing* 0.25
-  "EMA factor: how much the new sample moves the color each tick (0-1).")
+;; (defparameter *asc-smoothing* 0.25
+;;   "EMA factor: how much the new sample moves the color each tick (0-1).")
 
-(defvar *asc-current* nil) ; (r g b) floats, smoothed state
+;; (defvar *asc-current* nil) ; (r g b) floats, smoothed state
 
-(defun asc-sample-average (&optional (screen (current-screen)))
-  (let* ((root (screen-root screen))
-         (width (xlib:drawable-width root))
-         (height (xlib:drawable-height root))
-         (image (xlib:get-image root :x 0 :y 0 :width width :height height
-                                      :format :z-pixmap))
-         (data (slot-value image 'xlib:pixarray))
-         (r 0) (g 0) (b 0) (n 0))
-    (loop for y from 0 below height by *asc-stride* do
-      (loop for x from 0 below width by *asc-stride* do
-        (let ((pixel (aref data y x)))
-          (incf r (ldb (byte 8 16) pixel))
-          (incf g (ldb (byte 8 8) pixel))
-          (incf b (ldb (byte 8 0) pixel))
-          (incf n))))
-    (values (/ r n) (/ g n) (/ b n))))
+;; (defun asc-sample-average (&optional (screen (current-screen)))
+;;   (let* ((root (screen-root screen))
+;;          (width (xlib:drawable-width root))
+;;          (height (xlib:drawable-height root))
+;;          (image (xlib:get-image root :x 0 :y 0 :width width :height height
+;;                                       :format :z-pixmap))
+;;          (data (slot-value image 'xlib:pixarray))
+;;          (r 0) (g 0) (b 0) (n 0))
+;;     (loop for y from 0 below height by *asc-stride* do
+;;       (loop for x from 0 below width by *asc-stride* do
+;;         (let ((pixel (aref data y x)))
+;;           (incf r (ldb (byte 8 16) pixel))
+;;           (incf g (ldb (byte 8 8) pixel))
+;;           (incf b (ldb (byte 8 0) pixel))
+;;           (incf n))))
+;;     (values (/ r n) (/ g n) (/ b n))))
 
-(defun asc-luminance (r g b)
-  (+ (* 0.299 r) (* 0.587 g) (* 0.114 b)))
+;; (defun asc-luminance (r g b)
+;;   (+ (* 0.299 r) (* 0.587 g) (* 0.114 b)))
 
-(defun asc-rgb->hex (r g b)
-  (format nil "#~2,'0x~2,'0x~2,'0x"
-          (round r) (round g) (round b)))
+;; (defun asc-rgb->hex (r g b)
+;;   (format nil "#~2,'0x~2,'0x~2,'0x"
+;;           (round r) (round g) (round b)))
 
-(defun asc-update ()
-  (dolist (screen *screen-list*)
-    (multiple-value-bind (r g b) (asc-sample-average screen)
-      (setf r (* r *asc-darken*) g (* g *asc-darken*) b (* b *asc-darken*))
-      (if *asc-current*
-          (destructuring-bind (old-r old-g old-b) *asc-current*
-            (setf r (+ old-r (* *asc-smoothing* (- r old-r)))
-                  g (+ old-g (* *asc-smoothing* (- g old-g)))
-                  b (+ old-b (* *asc-smoothing* (- b old-b)))))
-          nil)
-      (setf *asc-current* (list r g b))
-      (setf *mode-line-background-color* (asc-rgb->hex r g b))
-      (setf *mode-line-foreground-color*
-            (if (> (asc-luminance r g b) 130) "#000000" "#ffffff"))
-      ;; force the mode-line GC to pick up the new colors — see note below
-      ;; (when (fboundp 'update-mode-line-color-context)
-      ;;   (update-mode-line-color-context screen))
-      )))
+;; (defun asc-update ()
+;;   (dolist (screen *screen-list*)
+;;     (multiple-value-bind (r g b) (asc-sample-average screen)
+;;       (setf r (* r *asc-darken*) g (* g *asc-darken*) b (* b *asc-darken*))
+;;       (if *asc-current*
+;;           (destructuring-bind (old-r old-g old-b) *asc-current*
+;;             (setf r (+ old-r (* *asc-smoothing* (- r old-r)))
+;;                   g (+ old-g (* *asc-smoothing* (- g old-g)))
+;;                   b (+ old-b (* *asc-smoothing* (- b old-b)))))
+;;           nil)
+;;       (setf *asc-current* (list r g b))
+;;       (setf *mode-line-background-color* (asc-rgb->hex r g b))
+;;       (setf *mode-line-foreground-color*
+;;             (if (> (asc-luminance r g b) 130) "#000000" "#ffffff"))
+;;       ;; force the mode-line GC to pick up the new colors — see note below
+;;       ;; (when (fboundp 'update-mode-line-color-context)
+;;       ;;   (update-mode-line-color-context screen))
+;;       )))
 
 
 ;; (defvar *asc-timer* (run-with-timer 2 2 'asc-update))
-(defcommand upd-modeline-color () ()
-  (asc-update))
+;; (defcommand upd-modeline-color () ()
+;;   (asc-update))
+
+;; (defvar *side-popup-ratio* 0.3
+;;   "Fraction of the frame width given to the side popup.")
+
+;; (defun side-popup (cmd props)
+;;   (let* ((group (current-group))
+;;          (win   (first (stumpwm::find-matching-windows props nil nil))))
+;;     (cond
+;;       ;; Already visible in a split -> toggle it away
+;;       ((and win
+;;             (window-visible-p win)
+;;             (> (length (group-frames group)) 1))
+;;        (remove-split group (window-frame win)))
+;;       ;; Otherwise split, focus the new right frame, raise or run there
+;;       (t
+;;        (let ((n (stumpwm::split-frame group :column *side-popup-ratio*)))
+;;          (when n
+;;            (stumpwm::focus-frame group (stumpwm::frame-by-number group n))
+;;            (if win
+;;                (pull-window win (tile-group-current-frame group))
+;;                (progn (run-or-raise cmd props)
+;;                       (pull-window win (tile-group-current-frame group))))))))))
+
+;; (defmacro define-side-popup (name cmd props)
+;;   `(defcommand ,name () ()
+;;      (side-popup ,cmd ',props)))
+
+;; ;; Examples
+;; ;; (define-side-popup side-term "alacritty --class SideTerm" (:class "SideTerm"))
+;; ;; (define-side-popup side-pavu "pavucontrol"               (:class "Pavucontrol"))
+
+;; (define-side-popup side-slack "slack" (:class "Slack"))
+
+;; (define-key *root-map* (kbd "C-t") "side-term")
+;; (define-key *top-map*  (kbd "s-v") "side-pavu")

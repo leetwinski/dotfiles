@@ -104,7 +104,7 @@ let
       owner = "growler";
       repo = "k";
       rev = "master"; # pin a commit hash once you're happy with a version
-      hash = "sha256-fSRUfspi9WKskp2q+FW5gaYQlYzxMga5ItI4VLqbG08="; # nix will tell you the real one on first build
+      hash = "sha256-kb3V46+Ljm9qc3o6q73Rwrn39puJjKba8xokH9ENPyw="; # nix will tell you the real one on first build
     };
 
     buildPhase = ''
@@ -161,6 +161,7 @@ in
     # ??
     # llvmPackages.libcxxClang
     # clang-tools
+    powertop
     rofi
     dmenu
     pulseaudio
@@ -216,7 +217,7 @@ in
     # cmake
     kotlin
     # julia-lts
-    purescript
+    # purescript
     spago
     beam29Packages.erlang
     beam27Packages.lfe
@@ -230,8 +231,8 @@ in
     aspell
     aspellDicts.ru
     aspellDicts.en
-    aspellDicts.en-science
-    aspellDicts.en-computers
+    # aspellDicts.en-science
+    # aspellDicts.en-computers
     aspellDicts.es
 
     # maxima
@@ -295,7 +296,7 @@ in
     ghostty
 
     yarn
-
+    difftastic
     firefox
     # kdePackages.kwayland
     # kdePackages.wayqt
@@ -320,13 +321,12 @@ in
     kdePackages.kdecoration
     kdePackages.applet-window-buttons6
   ] ++ (with unstable; [
-    # vscode-langservers-extracted
-    typescript-language-server
     yaml-language-server
     bash-language-server
     jdt-language-server
     zls
     ocamlPackages.lsp
+    terraform-ls
     # cmake-language-server
     clojure-lsp
     kotlin-language-server
@@ -348,13 +348,14 @@ in
     ghostscript
     mupdf-headless
     poppler-utils
-  ]) ++ (with nixos; [# nixos.vscode-langservers-extracted
+  ]) ++ (with nixos; [
+    # nixos.vscode-langservers-extracted
     # nixos.openssl
     # nixos.aider-chat-full
     # nixos.gcc
-
+    purescript
+    typescript-language-server
     gcc
-
     arandr
     # zoom-us
     albert
@@ -419,6 +420,12 @@ in
   #   color-scheme = "prefer-dark";
   #   gtk-theme = "Adwaita-dark";
   # };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    package = unstable.zoxide;
+  };
 
   programs.eza = {
     enable = true;
@@ -525,7 +532,9 @@ in
     alias ew="emacsclient -c"
     alias ewq="emacsclient -c ."
     alias ewo="emacsclient -c"
-
+    alias enix="nix-shell && emacs . &"
+    # export CLAUDE_CONFIG_DIR="/home/leet/.config/claude_personal";
+    export CLAUDE_CONFIG_DIR="''${CLAUDE_CONFIG_DIR:-$HOME/.config/claude_personal}"
     function e() {
         emacsclient -c -nw "$@"
     }
