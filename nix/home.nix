@@ -104,7 +104,7 @@ let
       owner = "growler";
       repo = "k";
       rev = "master"; # pin a commit hash once you're happy with a version
-      hash = "sha256-kb3V46+Ljm9qc3o6q73Rwrn39puJjKba8xokH9ENPyw="; # nix will tell you the real one on first build
+      hash = "sha256-wmorW8C3RJ65O9/LCnncnV0liTDppXXqErDLgF6U2dU="; # nix will tell you the real one on first build
     };
 
     buildPhase = ''
@@ -220,7 +220,7 @@ in
     # purescript
     spago
     beam29Packages.erlang
-    beam27Packages.lfe
+    beam29Packages.lfe
     rebar3
     # gnumake
     janet
@@ -285,8 +285,6 @@ in
     # supercolliderPlugins.sc3-plugins
     processing
     pass
-    opencode
-    
     openssl
     dotenv-cli
     fd
@@ -325,6 +323,7 @@ in
     bash-language-server
     jdt-language-server
     zls
+    clang-tools
     ocamlPackages.lsp
     terraform-ls
     # cmake-language-server
@@ -346,7 +345,8 @@ in
     texliveFull
     ocamlPackages.earlybird
     ghostscript
-    mupdf-headless
+    # mupdf-headless
+    mupdf
     poppler-utils
   ]) ++ (with nixos; [
     # nixos.vscode-langservers-extracted
@@ -420,6 +420,14 @@ in
   #   color-scheme = "prefer-dark";
   #   gtk-theme = "Adwaita-dark";
   # };
+
+  programs.direnv = {
+    enable = true;
+    package = unstable.direnv;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+    nix-direnv.package = unstable.nix-direnv;
+  };
 
   programs.zoxide = {
     enable = true;

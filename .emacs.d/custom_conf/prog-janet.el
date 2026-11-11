@@ -31,4 +31,8 @@
   (add-hook 'janet-mode-hook
             #'ajrepl-interaction-mode))
 
+;; todo check it
+(use-package ajnc
+  :ensure t)
+
 (provide 'prog-janet)

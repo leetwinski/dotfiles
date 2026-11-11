@@ -24,4 +24,10 @@
   :ensure t
   :defer t)
 
+(use-package emureader
+  :ensure t)
+
+(use-package pdf-tools
+  :ensure t)
+
 (provide 'doc-md)

@@ -55,5 +55,14 @@
   ;; (setq agent-shell-notifications-provider 'agent-shell-notifications-knockknock)
   )
 
+(use-package agent-shell-consult
+  :ensure t
+  :after agent-shell
+  :bind (("M-g a" . agent-shell-consult)
+         (:map agent-shell-mode-map
+               ("C-z b" . agent-shell-consult)))
+  :custom (agent-shell-consult-session-agents
+           '(agent-shell-anthropic-make-claude-code-config
+             agent-shell-openai-make-codex-config)))
 
 (provide 'ai)

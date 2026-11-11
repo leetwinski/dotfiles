@@ -379,6 +379,11 @@
 (defcommand run-or-raise-ghostty () ()
   (run-or-raise "ghostty" '(:class "ghostty")))
 
+(defcommand run-or-raise-emacs () ()
+  (run-or-raise "emacsclient -c" '(:class "Emacs")))
+
+(define-key *root-map* (kbd "C-e") "run-or-raise-emacs")
+
 (define-key *root-map* (kbd "C-c") "run-or-raise-ghostty")
 
 (defcommand run-or-raise-vivaldi-stable () ()
